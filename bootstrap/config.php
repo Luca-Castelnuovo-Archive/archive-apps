@@ -10,7 +10,6 @@ function config($key, $fallback = null)
     static $config;
 
     if (is_null($config)) {
-        $configExternal = json_decode(file_get_contents(env('EXTERNAL_CONFIG')));
         $config = [
             'links' => [
                 'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
@@ -27,7 +26,6 @@ function config($key, $fallback = null)
                 'client_id' => env('GITHUB_CIENT_ID'),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
                 'redirect_url' => env('GITHUB_REDIRECT'),
-                'allowed_users' => $configExternal->allowed_users,
                 'session_expires' => 1800 // 30 min
             ],
             'cors' => [
@@ -47,10 +45,35 @@ function config($key, $fallback = null)
                 'secret' => env('APP_KEY')
             ],
             'jwt' => [
-                'iss' => env('APP_URL'),
-                'ttl' => 31536000, // 1 year
                 'algorithm' => 'HS256',
-                'secret' => env('APP_KEY')
+                'public_key' => env('JWT_PUBLIC_KEY'),
+                'private_key' => env('JWT_PRIVATE_KEY'),
+                'iss' => env('JWT_ISS'),
+                'invite' => [ // used to invite new users or grant additional privileges
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 604800, // 1 week
+                    'type' => 'invite'
+                ],
+                'email' => [
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 86400, // 1 day
+                    'type' => 'verify_email'
+                ],
+                'active' => [
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 604800, // 1 week
+                    'type' => 'invite'
+                ],
+                'active' => [
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 604800, // 1 week
+                    'type' => 'invite'
+                ],
+                'auth' => [
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 604800, // 1 week
+                    'type' => 'invite'
+                ],
             ],
             'smtp' => [
                 'host' => env('SMTP_HOST'),

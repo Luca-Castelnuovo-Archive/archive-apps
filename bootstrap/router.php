@@ -10,27 +10,45 @@ use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Zend\Diactoros\Response\RedirectResponse;
 
 $router = new Router('', 'App\Controllers');
-$router->define('code', '[0-9]+');
+$router->define('httpcode', '[0-9]+');
+$router->define('path', '[a-zA-Z]+');
 
 $router->get('/', 'GeneralController@index');
-$router->get('/docs', 'GeneralController@docs');
-$router->get('/sdk', 'GeneralController@sdk');
-$router->get('/template', 'GeneralController@template');
-$router->get('/error/{code}', 'GeneralController@error');
-$router->get('/dashboard', 'GeneralController@dashboard', SessionMiddleware::class);
+$router->get('/error/{httpcode}', 'GeneralController@error');
 
-$router->get('/auth/login', 'AuthController@login');
-$router->get('/auth/callback', 'AuthController@callback');
-$router->get('/auth/logout', 'AuthController@logout');
+$router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
+    $router->get('/logout', 'AuthController@logout');
 
-$router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class]], function (Router $router) {
-    $router->post('/template', 'TemplateController@create');
-    $router->put('/template/{id}', 'TemplateController@update');
-    $router->delete('/template/{id}', 'TemplateController@delete');
+    $router->get('/email/callback', 'EmailAuthController@callback');
 
-    $router->post('/template/{id}/key', 'TemplateController@createKey');
-    $router->delete('/template/{id}/key', 'TemplateController@resetKey');
+    $router->get('/google/request', 'GoogleAuthController@request');
+    $router->get('/google/callback', 'GoogleAuthController@callback');
+
+    $router->get('/github/request', 'GithubAuthController@request');
+    $router->get('/github/callback', 'GithubAuthController@callback');
+
+    $router->get('/actions/{path}', 'ActionsAuthController@views');
+    $router->post('/actions/activate', 'ActionsAuthController@activate');
+    $router->post('/actions/invite', 'ActionsAuthController@invite');
+    $router->post('/actions/reset', 'ActionsAuthController@reset');
+    $router->post('/actions/resetRequest', 'ActionsAuthController@resetRequest');
+    $router->post('/actions/verify', 'ActionsAuthController@verify');
 });
+
+$router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('/dashboard', 'UserController@dashboard');
+    $router->get('/settings', 'UserController@settingsView');
+    $router->put('/settings', 'UserController@settings');
+});
+
+$router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->post('/', 'AppController@create');
+    $router->put('/{id}', 'AppController@update');
+    $router->put('/{id}/toggle', 'AppController@toggleActive');
+    $router->delete('/{id}', 'AppController@delete');
+});
+
+
 
 $router->group(['middleware' => [CORSMiddleware::class, RateLimitMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
     $router->any('/submit', 'SubmissionController@submit');

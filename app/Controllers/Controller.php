@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SessionHelper;
 use DB;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -143,18 +144,12 @@ class Controller
     }
 
     /**
-     * Check if user owns template
+     * Check if user is admin
      *
-     * @param int $template_id
-     * @param string $user_id
-     * 
      * @return boolean
      */
-    protected function hasUserTemplate($template_id, $user_id)
+    protected function isUserAdmin()
     {
-        return DB::has('templates', [
-            'id' => $template_id,
-            'user_id' => $user_id
-        ]);
+        return SessionHelper::get('is_admin');
     }
 }

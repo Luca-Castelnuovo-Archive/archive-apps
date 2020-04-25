@@ -5,15 +5,14 @@ namespace App\Controllers;
 use DB;
 use Exception;
 use App\Helpers\SessionHelper;
-use App\Helpers\JWTHelper;
 use App\Validators\TemplateValidator;
 use Ramsey\Uuid\Uuid;
 use Zend\Diactoros\ServerRequest;
 
-class TemplateController extends Controller
+class AppController extends Controller
 {
     /**
-     * Create template
+     * Create App
      *
      * @param ServerRequest $request
      *
@@ -21,6 +20,14 @@ class TemplateController extends Controller
      */
     public function create(ServerRequest $request)
     {
+        if (!$this->isUserAdmin()) {
+            return $this->respondJsonError(
+                'user_not_admin',
+                'The user doesn\'t have privileges to access this resource',
+                403
+            );
+        }
+
         try {
             TemplateValidator::create($request->data);
         } catch (Exception $e) {
@@ -52,7 +59,7 @@ class TemplateController extends Controller
     }
 
     /**
-     * Update template
+     * Update App
      *
      * @param ServerRequest $request
      * @param int $id
@@ -61,10 +68,10 @@ class TemplateController extends Controller
      */
     public function update(ServerRequest $request, $id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->isUserAdmin()) {
             return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+                'user_not_admin',
+                'The user doesn\'t have privileges to access this resource',
                 403
             );
         }
@@ -120,7 +127,34 @@ class TemplateController extends Controller
     }
 
     /**
-     * Delete template
+     * Toggle App
+     *
+     * @param ServerRequest $request
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function toggleActive(ServerRequest $request, $id)
+    {
+        if (!$this->isUserAdmin()) {
+            return $this->respondJsonError(
+                'user_not_admin',
+                'The user doesn\'t have privileges to access this resource',
+                403
+            );
+        }
+
+        $app = DB::get('templates', ['active'], ['id' => $id]);
+
+        DB::update('templates', ['active' => !$app], ['id' => $id]);
+
+        return $this->respondJson([
+            'state' => !$app
+        ]);
+    }
+
+    /**
+     * Delete App
      *
      * @param int $id
      *
@@ -128,88 +162,17 @@ class TemplateController extends Controller
      */
     public function delete($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->isUserAdmin()) {
             return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+                'user_not_admin',
+                'The user doesn\'t have privileges to access this resource',
                 403
             );
         }
 
-        DB::delete('templates', [
+        DB::delete('app', [
             'id' => $id,
         ]);
-
-        DB::delete('history', [
-            'template_id' => $id,
-        ]);
-
-        return $this->respondJson();
-    }
-
-    /**
-     * Create access_key
-     *
-     * @param ServerRequest $request
-     * @param int $id
-     *
-     * @return JsonResponse
-     */
-    public function createKey(ServerRequest $request, $id)
-    {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
-                403
-            );
-        }
-
-        try {
-            TemplateValidator::createKey($request->data);
-        } catch (Exception $e) {
-            return $this->respondJsonError(
-                'invalid_input',
-                json_decode($e->getMessage()),
-                422
-            );
-        }
-
-        $uuid = DB::get('templates', 'uuid', [
-            'id' => $id
-        ]);
-
-        $key = JWTHelper::create('submission', [
-            'sub' => $uuid,
-            'allowed_origin' => $request->data->allowed_origin
-        ]);
-
-        return $this->respondJson([
-            'key' => $key
-        ]);
-    }
-
-    /**
-     * Reset all access_key
-     *
-     * @param int $id
-     *
-     * @return JsonResponse
-     */
-    public function resetKey($id)
-    {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
-                403
-            );
-        }
-
-        DB::update('templates', [
-            'uuid' => Uuid::uuid4()->toString(),
-            'updated_at' => date("Y-m-d H:i:s")
-        ], $id);
 
         return $this->respondJson();
     }

@@ -2,20 +2,20 @@
 {% set title = "Dashboard" %}
 
 {% block style %}
-    {% include 'dashboard/index.css' %}
+    {% include 'user/dashboard/index.css' %}
 {% endblock %}
 
 {% block content %}
     <h2>Templates</h2>
     <div class="row">
-        {% include 'dashboard/create_template.twig' %}
+        {% include 'user/dashboard/create_template.twig' %}
         
         {% for template in templates %}
-            {% include 'dashboard/base_template.twig' %}
+            {% include 'user/dashboard/base_template.twig' %}
         {% endfor %}
     </div>
 {% endblock %}
 
 {% block script %}
-    {% include 'dashboard/index.js' %}
+    {% include 'user/dashboard/index.js' %}
 {% endblock %}
