@@ -1,0 +1,45 @@
+{
+    "name": "lucacastelnuovo/auth",
+    "description": "Centralized auth server for issuing JWTs from multiple providers",
+    "require": {
+        "catfan/medoo": "^1.7",
+        "firebase/php-jwt": "^5.1",
+        "guzzlehttp/guzzle": "^6.5",
+        "league/oauth2-github": "^2.0",
+        "miladrahimi/phprouter": "^4.0",
+        "ramsey/uuid": "^4.0",
+        "respect/validation": "^2.0",
+        "robmorgan/phinx": "^0.12.0",
+        "twig/twig": "^3.0",
+        "vlucas/phpdotenv": "^4.1"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9"
+    },
+    "authors": [
+        {
+            "name": "Luca Castelnuovo",
+            "email": "ltcastelnuovo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "phinx": "vendor/bin/phinx",
+        "migrate": "composer phinx migrate",
+        "seed": "composer phinx seed:run -v"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

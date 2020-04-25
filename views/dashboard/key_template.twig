@@ -1,0 +1,38 @@
+<div id="template-{{ template.id }}-key" class="modal modal-fixed-footer template-edit">
+    <div class="modal-content">
+        <h4>Key Management</h4>
+        <ul class="collapsible popout">
+            <li class="active">
+                <div class="collapsible-header"><i class="material-icons">settings</i>Generate Key</div>
+                <div class="collapsible-body">
+                    <form class="template-key-create" data-id="{{ template.id }}">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="allowed_origin" name="allowed_origin" type="text" class="validate character-counter" data-length="256">
+                                <label for="allowed_origin">Allowed Origin</label>
+                                <span class="helper-text" data-error="Input too long">Origin from where form will be submitted</span>
+                            </div>
+                            <div class="input-field col s12">
+                                <button class="right btn blue accent-4 waves-effect waves-light">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+
+            <li>
+                <div class="collapsible-header"><i class="material-icons">tune</i>Revoke Keys</div>
+                <div class="collapsible-body">
+                    <form class="template-key-delete" data-id="{{ template.id }}">
+                        <div class="row">
+                            <button class="col s12 btn-large red accent-4 waves-effect waves-light">Revoke all keys</button>
+                        </div>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn blue accent-4 waves-effect waves-light modal-close" type="button">Close</button>
+    </div>
+</div>
