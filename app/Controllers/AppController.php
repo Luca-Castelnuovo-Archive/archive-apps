@@ -21,9 +21,10 @@ class AppController extends Controller
     public function create(ServerRequest $request)
     {
         if (!$this->isUserAdmin()) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'user_not_admin',
                 'The user doesn\'t have privileges to access this resource',
+                [],
                 403
             );
         }
@@ -31,9 +32,10 @@ class AppController extends Controller
         try {
             TemplateValidator::create($request->data);
         } catch (Exception $e) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'invalid_input',
                 json_decode($e->getMessage()),
+                [],
                 422
             );
         }
@@ -69,9 +71,10 @@ class AppController extends Controller
     public function update(ServerRequest $request, $id)
     {
         if (!$this->isUserAdmin()) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'user_not_admin',
                 'The user doesn\'t have privileges to access this resource',
+                [],
                 403
             );
         }
@@ -79,9 +82,10 @@ class AppController extends Controller
         try {
             TemplateValidator::update($request->data);
         } catch (Exception $e) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'invalid_input',
                 json_decode($e->getMessage()),
+                [],
                 422
             );
         }
@@ -137,9 +141,10 @@ class AppController extends Controller
     public function toggleActive(ServerRequest $request, $id)
     {
         if (!$this->isUserAdmin()) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'user_not_admin',
                 'The user doesn\'t have privileges to access this resource',
+                [],
                 403
             );
         }
@@ -163,9 +168,10 @@ class AppController extends Controller
     public function delete($id)
     {
         if (!$this->isUserAdmin()) {
-            return $this->respondJsonError(
+            return $this->respondJson(
                 'user_not_admin',
                 'The user doesn\'t have privileges to access this resource',
+                [],
                 403
             );
         }

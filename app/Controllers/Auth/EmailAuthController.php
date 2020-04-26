@@ -2,30 +2,18 @@
 
 namespace App\Controllers\Auth;
 
+use DB;
 use Exception;
 use App\Helpers\SessionHelper;
 use App\Helpers\StringHelper;
+use App\Helpers\CaptchaHelper;
+use App\Helpers\JWTHelper;
+use App\Helpers\MailHelper;
+use App\Validators\EmailAuthValidator;
 use Zend\Diactoros\ServerRequest;
-use League\OAuth2\Client\Provider\Github;
 
 class EmailAuthController extends AuthController
 {
-    private $provider;
-
-    /**
-     * Initialize the OAuth provider
-     * 
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->provider = new Github([
-            'clientId'     => config('auth.client_id'),
-            'clientSecret' => config('auth.client_secret'),
-            'redirectUri'  => config('auth.redirect_url'),
-        ]);
-    }
-
     /**
      * Request for email
      *
@@ -35,14 +23,62 @@ class EmailAuthController extends AuthController
      */
     public function request(ServerRequest $request)
     {
-        // check if user exists
+        try {
+            EmailAuthValidator::request($request->data);
+        } catch (Exception $e) {
+            return $this->respondJson(
+                false,
+                'Provided data was misformed',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
+
+        if (!CaptchaHelper::validate($request->data['h-captcha-response'])) {
+            return $this->respondJson(
+                false,
+                'Please complete captcha',
+                [],
+                422
+            );
+        }
+
+        if (!DB::has('users', ['email' => $request->data->email])) {
+            return $this->respondJson(
+                false,
+                'User account not found'
+            );
+        }
+
+
         // create magic login link
-        // if user exist send magic login link
-        // if not exist send email that account not found
 
-        // return nice message
+        $app_url = config('app.url');
+        $code = JWTHelper::create(
+            'invite',
+            [
+                'sub' => $request->data->email
+            ]
+        );
+        $url = "{$app_url}/auth/email/callback?code={$code}";
+        $mailSuccess = MailHelper::send(
+            'emailLogin',
+            $request->data->email,
+            'User',
+            $url
+        );
 
-        return $this->respondJson();
+        if (!$mailSuccess) {
+            return $this->respondJson(
+                false,
+                'Login link could not be sent'
+            );
+        }
+
+        return $this->respondJson(
+            true,
+            'Login link has been sent to your inbox'
+        );
     }
 
     /**

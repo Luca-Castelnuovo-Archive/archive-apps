@@ -11,6 +11,9 @@ function config($key, $fallback = null)
 
     if (is_null($config)) {
         $config = [
+            'app' => [
+                'url' => env('JWT_ISS'),
+            ],
             'analytics' => [
                 'enabled' => false,
                 'domainId' => '',
@@ -40,30 +43,20 @@ function config($key, $fallback = null)
                 'public_key' => env('JWT_PUBLIC_KEY'),
                 'private_key' => env('JWT_PRIVATE_KEY'),
                 'iss' => env('JWT_ISS'),
-                'login' => [ // used for email magiclink
+                'invite' => [
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 604800, // 1 week
+                    'type' => 'invite'
+                ],
+                'emailLogin' => [
                     'aud' => env('JWT_ISS'),
                     'exp' => 300, // 5 minutes
-                    'type' => 'login'
+                    'type' => 'emailLogin'
                 ],
-                'invite' => [ // used to invite new users or grant additional privileges
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 604800, // 1 week
-                    'type' => 'invite'
-                ],
-                'email' => [
+                'emailVerify' => [
                     'aud' => env('JWT_ISS'),
                     'exp' => 86400, // 1 day
-                    'type' => 'verify_email'
-                ],
-                'active' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 604800, // 1 week
-                    'type' => 'invite'
-                ],
-                'reset' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 604800, // 1 week
-                    'type' => 'reset'
+                    'type' => 'emailVerify'
                 ],
                 'auth' => [
                     'aud' => env('JWT_ISS'),

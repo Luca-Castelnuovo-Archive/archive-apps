@@ -33,23 +33,6 @@ class DB
     }
 
     /**
-     * Select data from database
-     *
-     * @param string $table
-     * @param array $columns
-     * @param array $where
-     * @param array $join
-     * 
-     * @return array|null
-     */
-    public static function join($table, $columns, $where, $join)
-    {
-        $db = self::connect();
-
-        return $db->select($table, $join, $columns, $where);
-    }
-
-    /**
      * Get only one record from table
      *
      * @param string $table
@@ -92,6 +75,8 @@ class DB
     public static function update($table, $data, $where)
     {
         $db = self::connect();
+
+        // TODO: auto set updated_at
 
         return $db->update($table, $data, $where);
     }

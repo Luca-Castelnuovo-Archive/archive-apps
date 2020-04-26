@@ -2,9 +2,7 @@
 
 namespace App\Helpers;
 
-use Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception as MailException;
+use GuzzleHttp\Client;
 
 class MailHelper
 {
@@ -14,48 +12,31 @@ class MailHelper
      * @param array $config
      * 
      * @return 
-     * @throws Exception 
      */
-    public static function send($config)
+    public static function send($type, $to, $name, $btn_url)
     {
-        $mail = new PHPMailer(true);
+        $guzzle = new Client();
 
-        try {
-            // Server Conf
-            $mail->isSMTP();
-            $mail->Host       = config('smtp.host');
-            $mail->SMTPAuth   = true;
-            $mail->Username   = config('smtp.username');
-            $mail->Password   = config('smtp.password');
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
-            $mail->isHTML(true);
+        $config = config('mail')[$type];
+        $access_token = config('mail.access_token');
 
-            // Template Conf
-            $mail->addAddress($config['email_to']);
-            $mail->Subject = $config['email_subject'];
-            $mail->Body = $config['email_content'];
+        $response = $guzzle->request('POST', config('mail.endpoint'), [
+            'headers' => [
+                'Authorization' => "Bearer {$access_token}",
+            ],
+            'json' => [
+                'email' => $to,
+                'name' => $name,
+                'btn_url' => $btn_url,
+                'subject' => $config->subject,
+                'preheader' => $config->preheader,
+                'message' => $config->message,
+                'btn_text' => $config->btn_text,
+            ],
+        ]);
 
-            $mail->setFrom(
-                config('smtp.username'),
-                $config['email_fromName'] ?: config('smtp.fromName')
-            );
+        $response = json_decode($response->getBody());
 
-            if ($config['email_replyTo']) {
-                $mail->addReplyTo($config['email_replyTo'], $config['email_replyTo']);
-            }
-
-            if ($config['email_cc']) {
-                $mail->addCC($config['email_cc']);
-            }
-
-            if ($config['email_bcc']) {
-                $mail->addBCC($config['email_bcc']);
-            }
-
-            $mail->send();
-        } catch (MailException $e) {
-            throw new Exception($mail->ErrorInfo);
-        }
+        return $response->success;
     }
 }

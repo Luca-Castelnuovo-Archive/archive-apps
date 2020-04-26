@@ -13,18 +13,21 @@ class JWTHelper
      *
      * @param string $type
      * @param array  $data
-     * @param int    $expires optional
+     * @param string    $aud optional
      *
      * @return string
      */
-    public static function create($type, $data, $expires = null)
+    public static function create($type, $data, $aud = null)
     {
-        $expires = $expires ?: config('jwt.ttl');
+        $config = config('jwt')[$type];
+        $aud = $aud ?: $config->aud;
+
         $head = [
             'iss' => config('jwt.iss'),
+            'aud' => $aud,
             'iat' => time(),
-            'exp' => time() + $expires,
-            'type' => $type
+            'exp' => time() + $config->exp,
+            'type' => $config->type
         ];
 
         $payload = array_merge($head, $data);
@@ -49,6 +52,8 @@ class JWTHelper
         if (!$token) {
             throw new Exception('Token not provided');
         }
+
+        // TODO: get config and validate aud, type
 
         try {
             $credentials = JWT::decode(

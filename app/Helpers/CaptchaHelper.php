@@ -11,19 +11,18 @@ class CaptchaHelper
      * Validates the captcha response.
      *
      * @param string $captcha_response
-     * @param string $captcha_secret
      *
      * @throws GuzzleException
      *
      * @return bool
      */
-    public static function validate($captcha_response, $captcha_secret)
+    public static function validate($captcha_response)
     {
         $guzzle_client = new Client();
 
-        $response = $guzzle_client->request('POST', config('links.captcha'), [
+        $response = $guzzle_client->request('POST', config('captcha.endpoint'), [
             'form_params' => [
-                'secret' => $captcha_secret,
+                'secret' => config('captcha.secret_key'),
                 'response' => $captcha_response,
             ],
         ]);

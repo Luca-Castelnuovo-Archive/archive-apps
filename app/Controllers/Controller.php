@@ -3,14 +3,11 @@
 namespace App\Controllers;
 
 use App\Helpers\SessionHelper;
-use DB;
 use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
-// use Zend\Diactoros\ServerRequest;
 
 class Controller
 {
@@ -22,55 +19,13 @@ class Controller
      * 
      * @return void
      */
-    public function __construct(/*ServerRequest $request*/)
+    public function __construct()
     {
-        // TODO: Pull data from router
-        // $this->request = $request
-
         // Start twig engine
         $loader = new FilesystemLoader('../views');
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));
         $this->twig->addGlobal('captcha', config('captcha'));
-    }
-
-    /**
-     * Get input data
-     * 
-     * @param string $variable
-     * @param mixed $fallback optional
-     * 
-     * @return mixed
-     */
-    protected function get($variable, $fallback = '')
-    {
-        return $this->request->data[$variable] ?: $fallback;
-    }
-
-    /**
-     * Get all input data
-     * 
-     * @return array
-     */
-    protected function getAll()
-    {
-        return $this->request->data;
-    }
-
-    /**
-     * Render template in string form
-     *
-     * @param string $template
-     * @param array $parameters
-     * 
-     * @return string
-     */
-    protected function renderFromText($template, $parameters = [])
-    {
-        $loader = new ArrayLoader(['base.html' => $template,]);
-        $twig = new Environment($loader);
-
-        return $twig->render('base.html', $parameters);
     }
 
     /**
@@ -109,38 +64,19 @@ class Controller
     /**
      * Shorthand JSON response function
      * 
-     * @param array $data
+     * @param bool $success
+     * @param string $message
+     * @param array $data optional
      * @param integer $code optional
      * 
      * @return JsonResponse
      */
-    protected function respondJson($data = [], $code = 200)
+    protected function respondJson($success, $message, $data = [], $code = 200)
     {
         return new JsonResponse([
-            'success' => true,
+            'success' => $success,
+            'message' => $message,
             'data' => $data
-        ], $code);
-    }
-
-    /**
-     * Shorthand JSON error response function
-     *
-     * @param string $title
-     * @param string $detail optional
-     * @param integer $code optional
-     * 
-     * @return JsonResponse
-     */
-    protected function respondJsonError($title, $detail = null, $code = 400)
-    {
-        return new JsonResponse([
-            'success' => false,
-            'errors' => [
-                'status' => $code,
-                'title' => $title,
-                'detail' => $detail
-
-            ]
         ], $code);
     }
 
