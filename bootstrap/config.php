@@ -11,22 +11,17 @@ function config($key, $fallback = null)
 
     if (is_null($config)) {
         $config = [
-            'links' => [
-                'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
-                'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/',
-                'sdk' => 'https://www.npmjs.com/package/mailjs-sdk',
-                'template' => 'https://beefree.io/editor/?template=empty'
-            ],
             'analytics' => [
-                'enabled' => true,
-                'domainId' => '751563b2-769f-441f-bfab-b3f2c099ccc8',
+                'enabled' => false,
+                'domainId' => '',
                 'options' => '{ "localhost": false, "detailed": true }'
             ],
-            'auth' => [
-                'client_id' => env('GITHUB_CIENT_ID'),
-                'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                'redirect_url' => env('GITHUB_REDIRECT'),
-                'session_expires' => 1800 // 30 min
+            'captcha' => [
+                'frontend_class' => 'h-captcha',
+                'frontend_endpoint' => 'https://hcaptcha.com/1/api.js',
+                'endpoint' => 'https://hcaptcha.com/siteverify',
+                'site_key' => env('CAPTCHA_SITE_KEY'),
+                'secret_key' => env('CAPTCHA_SECRET_KEY')
             ],
             'cors' => [
                 'allow_origins' => ['*'],
@@ -40,15 +35,16 @@ function config($key, $fallback = null)
                 'username' => env('DB_USERNAME'),
                 'password' => env('DB_PASSWORD')
             ],
-            'hmac' => [
-                'algorithm' => 'sha256',
-                'secret' => env('APP_KEY')
-            ],
             'jwt' => [
                 'algorithm' => 'HS256',
                 'public_key' => env('JWT_PUBLIC_KEY'),
                 'private_key' => env('JWT_PRIVATE_KEY'),
                 'iss' => env('JWT_ISS'),
+                'login' => [ // used for email magiclink
+                    'aud' => env('JWT_ISS'),
+                    'exp' => 300, // 5 minutes
+                    'type' => 'login'
+                ],
                 'invite' => [ // used to invite new users or grant additional privileges
                     'aud' => env('JWT_ISS'),
                     'exp' => 604800, // 1 week
@@ -64,10 +60,10 @@ function config($key, $fallback = null)
                     'exp' => 604800, // 1 week
                     'type' => 'invite'
                 ],
-                'active' => [
+                'reset' => [
                     'aud' => env('JWT_ISS'),
                     'exp' => 604800, // 1 week
-                    'type' => 'invite'
+                    'type' => 'reset'
                 ],
                 'auth' => [
                     'aud' => env('JWT_ISS'),
@@ -75,13 +71,23 @@ function config($key, $fallback = null)
                     'type' => 'invite'
                 ],
             ],
-            'smtp' => [
-                'host' => env('SMTP_HOST'),
-                'port' => env('SMTP_PORT'),
-                'username' => env('SMTP_USER'),
-                'password' => env('SMTP_PASSWORD'),
-                'fromName' => 'Luca Castelnuovo'
-            ]
+            'mail' => [
+                'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',
+                'access_token' => env('MAIL_KEY'),
+            ],
+            'oauth' => [
+                'session_expires' => 1800, // 30 min
+                'github' => [
+                    'client_id' => env('GITHUB_CIENT_ID'),
+                    'client_secret' => env('GITHUB_CLIENT_SECRET'),
+                    'redirect_url' => env('GITHUB_REDIRECT'),
+                ],
+                'google' => [
+                    'client_id' => env('GOOGLE_CIENT_ID'),
+                    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+                    'redirect_url' => env('GOOGLE_REDIRECT'),
+                ],
+            ],
         ];
     }
 

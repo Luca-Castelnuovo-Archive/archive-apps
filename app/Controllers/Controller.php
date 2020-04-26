@@ -31,7 +31,7 @@ class Controller
         $loader = new FilesystemLoader('../views');
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));
-        $this->twig->addGlobal('hcaptcha', config('hcaptcha'));
+        $this->twig->addGlobal('captcha', config('captcha'));
     }
 
     /**
