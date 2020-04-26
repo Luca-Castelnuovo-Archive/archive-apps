@@ -74,6 +74,24 @@ function config($key, $fallback = null)
             'mail' => [
                 'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',
                 'access_token' => env('MAIL_KEY'),
+                'invite' => [
+                    'subject' => '[auth] You have been invited',
+                    'preheader' => 'You have been invited to use auth.lucacastelnuovo.nl.',
+                    'message' => 'You have created an account on auth.lucacastelnuovo.nl. Use the button below to verify your account and get started:',
+                    'btn_text' => 'Set up account',
+                ],
+                'emailLogin' => [
+                    'subject' => '[auth] Login',
+                    'preheader' => 'Click link to log in to auth.lucacastelnuovo.nl.',
+                    'message' => 'You have requested a login link ofr auth.lucacastelnuovo.nl. Use the button below to log in and continue:',
+                    'btn_text' => 'Log in to app',
+                ],
+                'emailVerify' => [
+                    'subject' => '[auth] Verify your email',
+                    'preheader' => 'You have been invited to use auth.lucacastelnuovo.nl.',
+                    'message' => 'You have created an account on auth.lucacastelnuovo.nl. Use the button below to verify your account and get started:',
+                    'btn_text' => 'Verify Email',
+                ],
             ],
             'oauth' => [
                 'session_expires' => 1800, // 30 min

@@ -27,7 +27,7 @@ class EmailAuthController extends AuthController
     }
 
     /**
-     * Reequest for email
+     * Request for email
      *
      * @param ServerRequest $request
      * 
@@ -39,6 +39,25 @@ class EmailAuthController extends AuthController
         // create magic login link
         // if user exist send magic login link
         // if not exist send email that account not found
+
+        // return nice message
+
+        return $this->respondJson();
+    }
+
+    /**
+     * Verify user email
+     *
+     * @param ServerRequest $request
+     * 
+     * @return JsonResponse;
+     */
+    public function verify(ServerRequest $request)
+    {
+        // validate captcha
+        // validate token
+        // activate user
+        // send magic login link
 
         // return nice message
 

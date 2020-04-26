@@ -20,6 +20,7 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
     $router->get('/logout', 'AuthController@logout');
 
     $router->get('/email/request', 'EmailAuthController@request');
+    $router->get('/email/verify', 'EmailAuthController@verify');
     $router->get('/email/callback', 'EmailAuthController@callback');
 
     $router->get('/google/request', 'GoogleAuthController@request');
@@ -28,12 +29,8 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
     $router->get('/github/request', 'GithubAuthController@request');
     $router->get('/github/callback', 'GithubAuthController@callback');
 
-    $router->get('/actions/{path}', 'ActionsAuthController@views');
-    $router->post('/actions/activate', 'ActionsAuthController@activate');
-    $router->post('/actions/invite', 'ActionsAuthController@invite');
-    $router->post('/actions/reset', 'ActionsAuthController@reset');
-    $router->post('/actions/resetRequest', 'ActionsAuthController@resetRequest');
-    $router->post('/actions/verify', 'ActionsAuthController@verify');
+    $router->get('/invite', 'InviteAuthController@view');
+    $router->post('/invite', 'InviteAuthController@invite');
 });
 
 $router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], function (Router $router) {
