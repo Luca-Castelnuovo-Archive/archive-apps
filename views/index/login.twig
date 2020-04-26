@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-action blue accent-4 white-text">
+        <h3>Login</h3>
+    </div>
+    <div class="card-content">
+        {% if logged_in %}
+            <div class="row">
+                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large blue accent-4" href="/user/dashboard">
+                    Go to dashboard
+                </a>
+            </div>
+        {% else %}
+            <div class="row">
+                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large social github" href="/auth/github/request">
+                    <i class="fa fa-github"></i> Sign in with github
+                </a>
+            </div>
+            <div class="row">
+                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large social google" href="/auth/google/request">
+                    <i class="fa fa-google"></i> Sign in with google
+                </a>
+            </div>
+            <div class="row">
+                <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large social reddit modal-trigger" data-target="auth-signin-email">
+                    <i class="fa fa-envelope"></i> Sign in with email
+                </button>
+                {% include 'index/signin_email.twig' %}
+            </div>
+        {% endif %}
+    </div>
+</div>

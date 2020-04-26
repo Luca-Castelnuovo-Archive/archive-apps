@@ -19,6 +19,7 @@ $router->get('/error/{httpcode}', 'GeneralController@error');
 $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
     $router->get('/logout', 'AuthController@logout');
 
+    $router->get('/email/request', 'EmailAuthController@request');
     $router->get('/email/callback', 'EmailAuthController@callback');
 
     $router->get('/google/request', 'GoogleAuthController@request');

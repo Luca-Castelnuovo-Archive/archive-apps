@@ -20,9 +20,11 @@
 
             {% include 'partials/footer.twig' with analytics only %}
             
-            <script>
-                {% block script %}{% endblock %}
-            </script>
+            {% if block('script') is defined %}
+                <script>
+                    {{ block('script')|raw }}
+                </script>
+            {% endif %}
         </body>
 
     </html>

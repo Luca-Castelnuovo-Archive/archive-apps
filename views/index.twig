@@ -2,34 +2,36 @@
 {% set title = "Login" %}
 {% set navbarDisable = true %}
 
+{% block style %}
+    .modal {
+        max-width: 350px;
+    }
+{% endblock %}
+
 {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://terrymooreii.github.io/materialize-social/materialize-social.css">
+
 <div class="row">
-    <div class="col s12 m8 offset-m2 l4 offset-l4">
-        <div class="card">
-            <div class="card-action blue accent-4 white-text">
-                <h3>MailJS</h3>
-            </div>
-            <div class="card-content">
-                {% if message %}
-                    <div class="card-panel hoverable z-depth-2">
-                        <span class="flow-text">
-                            {{ message }}
-                        </span>
-                    </div>
-                {% endif %}
-                <div class="row center">
-                    {% if logged_in %}
-                        <a class="waves-effect waves-light btn-large blue accent-4" href="/dashboard">
-                            Go to dashboard
-                        </a>
-                    {% else %}
-                        <a class="waves-effect waves-light btn-large blue accent-4" href="/auth/login">
-                            Login with GitHub
-                        </a>
-                    {% endif %}
-                </div>
+    {% if message %}
+        <div class="col s12">
+            <div class="card-panel hoverable z-depth-2">
+                <span class="flow-text">
+                    {{ message }}
+                </span>
             </div>
         </div>
+    {% endif %}
+    <div class="col s12 l6">
+        {% include 'index/login.twig' %}
+    </div>
+
+    <div class="col s12 l6">
+        {% include 'index/register.twig' %}
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+    {% include 'index/index.js' %}
 {% endblock %}

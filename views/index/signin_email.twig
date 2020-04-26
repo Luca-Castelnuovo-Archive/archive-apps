@@ -1,0 +1,20 @@
+<form id="auth-signin-email" class="modal">
+    <div class="modal-content">
+        <h4>Signin with email</h4>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="email" name="email" type="email" class="validate" required>
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="Valid email is required"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                {% include 'partials/hcaptcha.twig' %}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn blue accent-4 waves-effect waves-light" type="submit">Send login link</button>
+    </div>
+</form>

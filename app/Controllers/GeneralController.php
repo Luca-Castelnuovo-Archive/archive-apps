@@ -19,13 +19,11 @@ class GeneralController extends Controller
     {
         $msg = $request->getQueryParams()['msg'] ?: '';
 
-        if ($msg) {
-            try {
-                $claims = JWTHelper::valid('message', $msg);
-                $msg = $claims->message;
-            } catch (Exception $e) {
-                $msg = '';
-            }
+        try {
+            $claims = JWTHelper::valid('message', $msg);
+            $msg = $claims->message;
+        } catch (Exception $e) {
+            $msg = '';
         }
 
         return $this->respond('index.twig', [

@@ -27,6 +27,25 @@ class EmailAuthController extends AuthController
     }
 
     /**
+     * Reequest for email
+     *
+     * @param ServerRequest $request
+     * 
+     * @return JsonResponse;
+     */
+    public function request(ServerRequest $request)
+    {
+        // check if user exists
+        // create magic login link
+        // if user exist send magic login link
+        // if not exist send email that account not found
+
+        // return nice message
+
+        return $this->respondJson();
+    }
+
+    /**
      * Callback for email
      *
      * @param ServerRequest $request
