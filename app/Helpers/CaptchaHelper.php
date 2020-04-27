@@ -2,8 +2,9 @@
 
 namespace App\Helpers;
 
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 class CaptchaHelper
 {
@@ -12,23 +13,26 @@ class CaptchaHelper
      *
      * @param string $captcha_response
      *
-     * @throws GuzzleException
-     *
-     * @return bool
+     * @throws Exception
      */
     public static function validate($captcha_response)
     {
-        $guzzle_client = new Client();
+        $guzzle = new Client();
 
-        $response = $guzzle_client->request('POST', config('captcha.endpoint'), [
-            'form_params' => [
-                'secret' => config('captcha.secret_key'),
-                'response' => $captcha_response,
-            ],
-        ]);
+        try {
+            $guzzle->post(config('captcha.endpoint'), [
+                'headers' => [
+                    'Origin' => config('app.url')
+                ],
+                'form_params' => [
+                    'secret' => config('captcha.secret_key'),
+                    'response' => $captcha_response,
+                ],
+            ]);
+        } catch (RequestException $e) {
+            $response = json_decode($e->getResponse()->getBody(true));
 
-        $response = json_decode($response->getBody());
-
-        return $response->success;
+            throw new Exception(json_encode($response->{'error-codes'}));
+        }
     }
 }

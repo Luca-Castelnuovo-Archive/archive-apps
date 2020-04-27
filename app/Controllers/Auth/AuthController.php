@@ -3,7 +3,7 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\Controller;
-use App\Helpers\SessionHelper;
+use App\Helpers\AuthHelper;
 use App\Helpers\JWTHelper;
 
 class AuthController extends Controller
@@ -18,13 +18,7 @@ class AuthController extends Controller
      */
     public function login($user_id, $admin = false)
     {
-        // Prevent session fixation
-        SessionHelper::destroy();
-
-        SessionHelper::set('user_id', $user_id);
-        SessionHelper::set('is_admin', $admin);
-        SessionHelper::set('last_activity', time());
-        SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
+        AuthHelper::login($user_id, $admin);
 
         return $this->redirect('/user/dashboard');
     }
@@ -38,8 +32,7 @@ class AuthController extends Controller
      */
     public function logout($message = 'You have been logged out!')
     {
-        // Prevent session fixation
-        SessionHelper::destroy();
+        AuthHelper::logout();
 
         if ($message) {
             $message = JWTHelper::create('message', [

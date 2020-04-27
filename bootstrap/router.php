@@ -19,8 +19,7 @@ $router->get('/error/{httpcode}', 'GeneralController@error');
 $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
     $router->get('/logout', 'AuthController@logout');
 
-    $router->get('/email/request', 'EmailAuthController@request');
-    $router->get('/email/verify', 'EmailAuthController@verify');
+    $router->post('/email/request', 'EmailAuthController@request', JSONMiddleware::class);
     $router->get('/email/callback', 'EmailAuthController@callback');
 
     $router->get('/google/request', 'GoogleAuthController@request');
@@ -30,7 +29,7 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
     $router->get('/github/callback', 'GithubAuthController@callback');
 
     $router->get('/invite', 'InviteAuthController@view');
-    $router->post('/invite', 'InviteAuthController@invite');
+    $router->post('/invite', 'InviteAuthController@invite', JSONMiddleware::class);
 });
 
 $router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], function (Router $router) {

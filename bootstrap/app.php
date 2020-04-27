@@ -8,4 +8,6 @@ require 'config.php';
 require 'database.php';
 require 'router.php';
 
+require "../vendor/larapack/dd/src/helper.php";
+
 return $router;

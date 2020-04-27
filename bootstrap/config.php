@@ -12,7 +12,7 @@ function config($key, $fallback = null)
     if (is_null($config)) {
         $config = [
             'app' => [
-                'url' => env('JWT_ISS'),
+                'url' => env('APP_URL'),
             ],
             'analytics' => [
                 'enabled' => false,
@@ -39,30 +39,39 @@ function config($key, $fallback = null)
                 'password' => env('DB_PASSWORD')
             ],
             'jwt' => [
-                'algorithm' => 'HS256',
-                'public_key' => env('JWT_PUBLIC_KEY'),
-                'private_key' => env('JWT_PRIVATE_KEY'),
-                'iss' => env('JWT_ISS'),
-                'invite' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 604800, // 1 week
-                    'type' => 'invite'
-                ],
-                'emailLogin' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 300, // 5 minutes
-                    'type' => 'emailLogin'
-                ],
-                'emailVerify' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 86400, // 1 day
-                    'type' => 'emailVerify'
-                ],
-                'auth' => [
-                    'aud' => env('JWT_ISS'),
-                    'exp' => 604800, // 1 week
-                    'type' => 'invite'
-                ],
+                'algorithm' => 'RS256',
+                // 'private_key' => env('JWT_PUBLIC_KEY'),
+                'private_key' => <<<EOD
+                -----BEGIN RSA PRIVATE KEY-----
+                MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
+                vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
+                5+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4ehde/zUxo6UvS7UrBQIDAQAB
+                AoGAb/MXV46XxCFRxNuB8LyAtmLDgi/xRnTAlMHjSACddwkyKem8//8eZtw9fzxz
+                bWZ/1/doQOuHBGYZU8aDzzj59FZ78dyzNFoF91hbvZKkg+6wGyd/LrGVEB+Xre0J
+                Nil0GReM2AHDNZUYRv+HYJPIOrB0CRczLQsgFJ8K6aAD6F0CQQDzbpjYdx10qgK1
+                cP59UHiHjPZYC0loEsk7s+hUmT3QHerAQJMZWC11Qrn2N+ybwwNblDKv+s5qgMQ5
+                5tNoQ9IfAkEAxkyffU6ythpg/H0Ixe1I2rd0GbF05biIzO/i77Det3n4YsJVlDck
+                ZkcvY3SK2iRIL4c9yY6hlIhs+K9wXTtGWwJBAO9Dskl48mO7woPR9uD22jDpNSwe
+                k90OMepTjzSvlhjbfuPN1IdhqvSJTDychRwn1kIJ7LQZgQ8fVz9OCFZ/6qMCQGOb
+                qaGwHmUK6xzpUbbacnYrIM6nLSkXgOAwv7XXCojvY614ILTK3iXiLBOxPu5Eu13k
+                eUz9sHyD6vkgZzjtxXECQAkp4Xerf5TGfQXGXhxIX52yH+N2LtujCdkQZjXAsGdm
+                B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
+                -----END RSA PRIVATE KEY-----
+                EOD,
+                // 'public_key' => env('JWT_PRIVATE_KEY'),
+                'public_key' => <<<EOD
+                -----BEGIN PUBLIC KEY-----
+                MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
+                4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
+                0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
+                ehde/zUxo6UvS7UrBQIDAQAB
+                -----END PUBLIC KEY-----
+                EOD,
+                'iss' => env('APP_URL'),
+                'invite' => 604800, // 1week
+                'emailLogin' => 300, // 5minutes
+                'emailVerify' => 86400, // 1day
+                'auth' => 604800, // 1week
             ],
             'mail' => [
                 'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',

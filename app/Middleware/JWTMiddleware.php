@@ -5,7 +5,6 @@ namespace App\Middleware;
 use DB;
 use Exception;
 use App\Helpers\JWTHelper;
-use App\Helpers\StringHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
@@ -27,38 +26,13 @@ class JWTMiddleware implements Middleware
 
         try {
             $credentials = JWTHelper::valid('submission', $access_token);
-        } catch (Exception $error) {
+        } catch (Exception $e) {
             return new JsonResponse([
                 'success' => false,
                 'errors' => [
                     'status' => 401,
                     'title' => 'JWT Error',
-                    'detail' => $error->getMessage()
-                ]
-            ], 401);
-        }
-
-        $origin_header = $request->getHeader('origin')[0];
-        // $referer_header = $request->getHeader('referer')[0];
-
-        // if (!StringHelper::beginsWith($referer_header, $origin_header)) {
-        //     return new JsonResponse([
-        //         'success' => false,
-        //         'errors' => [
-        //             'status' => 401,
-        //             'title' => 'invalid_referer_origin',
-        //             'detail' => "Refer doesn't match Origin header"
-        //         ]
-        //     ], 401);
-        // }
-
-        if ($origin_header !== $credentials->allowed_origin) {
-            return new JsonResponse([
-                'success' => false,
-                'errors' => [
-                    'status' => 401,
-                    'title' => 'invalid_origin',
-                    'detail' => "Provided origin doesn't match allowed origin"
+                    'detail' => $e->getMessage()
                 ]
             ], 401);
         }
@@ -75,7 +49,6 @@ class JWTMiddleware implements Middleware
         }
 
         $request->uuid = $credentials->sub;
-        $request->origin = $origin_header;
 
         return $next($request);
     }

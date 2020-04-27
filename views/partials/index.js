@@ -1,6 +1,6 @@
 // Utility Functions
 const delay = ms => new Promise(res => setTimeout(res, ms));
-const disableAll = () => document.querySelectorAll('button, input, textarea').forEach(el => {el.disabled = true;});
+const inputsDisabled = state => document.querySelectorAll('button, input, textarea').forEach(el => {el.disabled = state;});
 const reload = () => location.reload();
 const redirect = to => location.replace(to);
 const api = axios.create({
@@ -24,7 +24,7 @@ const formHandler = (form, endpoint, successCallback, errorCallback, captchaRequ
             return;
         }
     
-        disableAll();
+        inputsDisabled(true);
     
         api.post(endpoint, data).then(
             async success => successCallback(success),

@@ -4,11 +4,10 @@ namespace App\Controllers\Auth;
 
 use DB;
 use Exception;
-use App\Helpers\SessionHelper;
-use App\Helpers\StringHelper;
 use App\Helpers\CaptchaHelper;
 use App\Helpers\JWTHelper;
 use App\Helpers\MailHelper;
+use App\Helpers\StateHelper;
 use App\Validators\EmailAuthValidator;
 use Zend\Diactoros\ServerRequest;
 
@@ -28,50 +27,49 @@ class EmailAuthController extends AuthController
         } catch (Exception $e) {
             return $this->respondJson(
                 false,
-                'Provided data was misformed',
+                'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
             );
         }
 
-        if (!CaptchaHelper::validate($request->data['h-captcha-response'])) {
+        try {
+            CaptchaHelper::validate($request->data->{'h-captcha-response'});
+        } catch (Exception $e) {
             return $this->respondJson(
                 false,
                 'Please complete captcha',
-                [],
+                json_decode($e->getMessage()),
                 422
             );
         }
 
-        if (!DB::has('users', ['email' => $request->data->email])) {
-            return $this->respondJson(
-                false,
-                'User account not found'
-            );
-        }
-
-
-        // create magic login link
+        // if (!DB::has('users', ['email' => $request->data->email])) {
+        //     return $this->respondJson(
+        //         false,
+        //         'User account not found'
+        //     );
+        // }
 
         $app_url = config('app.url');
+        $state = StateHelper::set();
         $code = JWTHelper::create(
             'invite',
             [
-                'sub' => $request->data->email
+                'sub' => $request->data->email,
+                'state' => $state
             ]
         );
         $url = "{$app_url}/auth/email/callback?code={$code}";
-        $mailSuccess = MailHelper::send(
-            'emailLogin',
-            $request->data->email,
-            'User',
-            $url
-        );
 
-        if (!$mailSuccess) {
+        try {
+            MailHelper::send('emailLogin', $request->data->email, 'User', $url);
+        } catch (Exception $e) {
             return $this->respondJson(
                 false,
-                'Login link could not be sent'
+                'Login link could not be sent',
+                json_decode($e->getMessage()),
+                500
             );
         }
 
@@ -79,25 +77,6 @@ class EmailAuthController extends AuthController
             true,
             'Login link has been sent to your inbox'
         );
-    }
-
-    /**
-     * Verify user email
-     *
-     * @param ServerRequest $request
-     * 
-     * @return JsonResponse;
-     */
-    public function verify(ServerRequest $request)
-    {
-        // validate captcha
-        // validate token
-        // activate user
-        // send magic login link
-
-        // return nice message
-
-        return $this->respondJson();
     }
 
     /**
@@ -109,22 +88,33 @@ class EmailAuthController extends AuthController
      */
     public function callback(ServerRequest $request)
     {
-        $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (empty($state) || ($state !== SessionHelper::get('state'))) {
-            return $this->logout('Provided state is invalid!');
-        }
-
         try {
-            $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user_id = StringHelper::escape($this->provider->getResourceOwner($token)->getNickname());
-
-            return $this->login($user_id);
+            $jwt = JWTHelper::valid('invite', $code);
         } catch (Exception $e) {
-            return $this->logout("Error: {$e}");
+            return $this->logout($e->getMessage());
         }
 
-        return $this->redirect('/dashboard');
+        if (!StateHelper::valid($jwt->state)) {
+            return $this->logout('Please open link on the same device that requested the login');
+        }
+
+        // Debug
+        return $this->redirect("https://example.com/{$jwt->sub}");
+
+        $user = DB::get(
+            'users',
+            [
+                'id',
+                'admin',
+                'captcha_key',
+            ],
+            [
+                'email' => $jwt->sub,
+            ]
+        );
+
+        return $this->login($user->id, $user->admin);
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
 use App\Helpers\JWTHelper;
-use App\Helpers\SessionHelper;
+use App\Helpers\AuthHelper;
 use Zend\Diactoros\ServerRequest;
 
 class GeneralController extends Controller
@@ -28,7 +27,7 @@ class GeneralController extends Controller
 
         return $this->respond('index.twig', [
             'message' => $msg,
-            'logged_in' => SessionHelper::valid()
+            'logged_in' => AuthHelper::valid()
         ]);
     }
 

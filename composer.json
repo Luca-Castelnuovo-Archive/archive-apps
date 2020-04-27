@@ -5,6 +5,7 @@
         "catfan/medoo": "^1.7",
         "firebase/php-jwt": "^5.1",
         "guzzlehttp/guzzle": "^6.5",
+        "larapack/dd": "^1.1",
         "league/oauth2-github": "^2.0",
         "miladrahimi/phprouter": "^4.0",
         "ramsey/uuid": "^4.0",

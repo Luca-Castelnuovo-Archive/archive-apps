@@ -19,22 +19,21 @@ class JWTHelper
      */
     public static function create($type, $data, $aud = null)
     {
-        $config = config('jwt')[$type];
-        $aud = $aud ?: $config->aud;
+        $aud = $aud ?: config('jwt.iss');
 
         $head = [
             'iss' => config('jwt.iss'),
             'aud' => $aud,
             'iat' => time(),
-            'exp' => time() + $config->exp,
-            'type' => $config->type
+            'exp' => time() + config('jwt')[$type],
+            'type' => $type
         ];
 
         $payload = array_merge($head, $data);
 
         return JWT::encode(
             $payload,
-            config('jwt.secret'),
+            config('jwt.private_key'),
             config('jwt.algorithm')
         );
     }
@@ -53,12 +52,10 @@ class JWTHelper
             throw new Exception('Token not provided');
         }
 
-        // TODO: get config and validate aud, type
-
         try {
             $credentials = JWT::decode(
                 $token,
-                config('jwt.secret'),
+                config('jwt.public_key'),
                 [config('jwt.algorithm')]
             );
         } catch (ExpiredException $e) {
@@ -69,6 +66,10 @@ class JWTHelper
 
         if ($type !== $credentials->type) {
             throw new Exception('Token type not valid');
+        }
+
+        if (config('jwt.iss') !== $credentials->aud) {
+            throw new Exception('Token aud not valid');
         }
 
         return $credentials;
