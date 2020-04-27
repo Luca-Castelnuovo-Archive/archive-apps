@@ -66,7 +66,6 @@ class GoogleAuthController extends AuthController
         $google_id = StringHelper::escape($data->toArray()['sub']);
 
         // Debug
-        // TODO: get unique ID
         return $this->redirect("https://example.com/google/{$google_id}");
 
         $user = DB::get(

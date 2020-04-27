@@ -65,7 +65,6 @@ class GithubAuthController extends AuthController
         $github_id = StringHelper::escape($data->toArray()['id']);
 
         // Debug
-        // TODO: get unique ID
         return $this->redirect("https://example.com/github/{$github_id}");
 
         $user = DB::get(
