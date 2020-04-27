@@ -100,12 +100,6 @@ function config($key, $fallback = null)
                     'message' => 'You have requested a login link ofr auth.lucacastelnuovo.nl. Use the button below to log in and continue:',
                     'btn_text' => 'Log in to app',
                 ],
-                'emailVerify' => [
-                    'subject' => '[auth] Verify your email',
-                    'preheader' => 'You have been invited to use auth.lucacastelnuovo.nl.',
-                    'message' => 'You have created an account on auth.lucacastelnuovo.nl. Use the button below to verify your account and get started:',
-                    'btn_text' => 'Verify Email',
-                ],
             ],
         ];
     }

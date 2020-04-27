@@ -7,13 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Invite Form
     const inviteCode = new URLSearchParams(window.location.search).get('invite');
-    const authRegisterInvite = document.querySelector('form#auth-register-invite');
     if (inviteCode) {
         document.querySelector('input#invite_code').value = inviteCode;
-        M.Modal.getInstance(authRegisterInvite).open();
+        M.Modal.getInstance(document.querySelector('form#auth-register-invite')).open();
     }
-    formHandler(authRegisterInvite, '/auth/invite', true);
+    formHandler(document.querySelector('form#auth-register-invite'), '/auth/invite', true);
 
     // License Form
-    // formHandler(document.querySelector('form#auth-register-license'), '/auth/license', true);
+    const licenseCode = new URLSearchParams(window.location.search).get('license');
+    if (licenseCode) {
+        document.querySelector('input#license_code').value = licenseCode;
+        M.Modal.getInstance(document.querySelector('form#auth-register-license')).open();
+    }
+    formHandler(document.querySelector('form#auth-register-license'), '/auth/license', true);
 });

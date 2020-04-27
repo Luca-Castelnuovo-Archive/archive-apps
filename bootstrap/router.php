@@ -18,7 +18,11 @@ $router->get('/error/{httpcode}', 'GeneralController@error');
 
 $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
     $router->get('/logout', 'AuthController@logout');
-    $router->post('/invite', 'InviteAuthController@invite', JSONMiddleware::class);
+
+    $router->post('/invite', 'RegisterAuthController@invite', JSONMiddleware::class);
+    $router->post('/license', 'RegisterAuthController@license', JSONMiddleware::class);
+    $router->get('/register', 'RegisterAuthController@registerView');
+    $router->post('/register', 'RegisterAuthController@register', JSONMiddleware::class);
 
     $router->post('/email/request', 'EmailAuthController@request', JSONMiddleware::class);
     $router->get('/email/callback', 'EmailAuthController@callback');

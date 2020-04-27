@@ -29,13 +29,18 @@ const formHandler = (form, endpoint, captchaRequired = false) => {
     
         inputsDisabled(true);
     
-        api.post(endpoint, data).then(response => {
+        api.post(endpoint, data).then(async response => {
             if (response.data.success) {
                 M.Modal.getInstance(form).close();
             }
 
-            M.toast({html: response.data.message});
+            M.toast({html: response.data.message, displayLength: 8000});
             inputsDisabled(false);
+
+            if (response.data.data.redirect) {
+                await delay(750);
+                redirect(response.data.data.redirect);
+            }
         });
     });    
 }
