@@ -37,7 +37,7 @@ class AuthController extends Controller
         if ($message) {
             $message = JWTHelper::create('message', [
                 'message' => $message
-            ], 5);
+            ]);
 
             return $this->redirect("/?msg={$message}");
         }

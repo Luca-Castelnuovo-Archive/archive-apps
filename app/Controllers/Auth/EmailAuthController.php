@@ -101,7 +101,7 @@ class EmailAuthController extends AuthController
         }
 
         // Debug
-        return $this->redirect("https://example.com/{$jwt->sub}");
+        return $this->redirect("https://example.com/email/{$jwt->sub}");
 
         $user = DB::get(
             'users',

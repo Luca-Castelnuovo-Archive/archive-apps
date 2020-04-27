@@ -19,8 +19,8 @@ class GeneralController extends Controller
         $msg = $request->getQueryParams()['msg'] ?: '';
 
         try {
-            $claims = JWTHelper::valid('message', $msg);
-            $msg = $claims->message;
+            $jwt = JWTHelper::valid('message', $msg);
+            $msg = $jwt->message;
         } catch (Exception $e) {
             $msg = '';
         }

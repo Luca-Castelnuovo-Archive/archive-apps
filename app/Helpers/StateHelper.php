@@ -7,11 +7,13 @@ class StateHelper
     /**
      * Set state
      * 
+     * @param string $custom optional
+     * 
      * @return string
      */
-    public static function set()
+    public static function set($custom = '')
     {
-        $state = StringHelper::random();
+        $state = $custom ?: StringHelper::random();
 
         return SessionHelper::set('state', $state);
     }

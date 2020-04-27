@@ -2,11 +2,12 @@
 
 namespace App\Controllers\Auth;
 
+use DB;
 use Exception;
-use App\Helpers\SessionHelper;
+use App\Helpers\StateHelper;
 use App\Helpers\StringHelper;
 use Zend\Diactoros\ServerRequest;
-use League\OAuth2\Client\Provider\Github;
+use League\OAuth2\Client\Provider\Google;
 
 class GoogleAuthController extends AuthController
 {
@@ -19,10 +20,10 @@ class GoogleAuthController extends AuthController
      */
     public function __construct()
     {
-        $this->provider = new Github([
-            'clientId'     => config('auth.client_id'),
-            'clientSecret' => config('auth.client_secret'),
-            'redirectUri'  => config('auth.redirect_url'),
+        $this->provider = new Google([
+            'clientId'     => config('auth.google.client_id'),
+            'clientSecret' => config('auth.google.client_secret'),
+            'redirectUri' => config('app.url') . '/auth/google/callback'
         ]);
     }
 
@@ -34,7 +35,7 @@ class GoogleAuthController extends AuthController
     public function request()
     {
         $authUrl = $this->provider->getAuthorizationUrl();
-        SessionHelper::set('state', $this->provider->getState());
+        StateHelper::set($this->provider->getState());
 
         return $this->redirect($authUrl);
     }
@@ -51,19 +52,39 @@ class GoogleAuthController extends AuthController
         $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (empty($state) || ($state !== SessionHelper::get('state'))) {
-            return $this->logout('Provided state is invalid!');
+        if (!StateHelper::valid($state)) {
+            return $this->logout('State is invalid');
         }
 
         try {
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user_id = StringHelper::escape($this->provider->getResourceOwner($token)->getNickname());
-
-            return $this->login($user_id);
+            $data = $this->provider->getResourceOwner($token);
         } catch (Exception $e) {
             return $this->logout("Error: {$e}");
         }
 
-        return $this->redirect('/dashboard');
+        $google_id = StringHelper::escape($data->toArray()['sub']);
+
+        // Debug
+        // TODO: get unique ID
+        return $this->redirect("https://example.com/google/{$google_id}");
+
+        $user = DB::get(
+            'users',
+            [
+                'id',
+                'admin',
+                'captcha_key',
+            ],
+            [
+                'google_id' => $google_id,
+            ]
+        );
+
+        if (!$user) {
+            return $this->logout('Account not found');
+        }
+
+        return $this->login($user->id, $user->admin);
     }
 }

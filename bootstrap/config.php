@@ -11,13 +11,24 @@ function config($key, $fallback = null)
 
     if (is_null($config)) {
         $config = [
-            'app' => [
-                'url' => env('APP_URL'),
+            'auth' => [
+                'session_expires' => 1800, // 30 min
+                'github' => [
+                    'client_id' => env('GITHUB_CLIENT_ID'),
+                    'client_secret' => env('GITHUB_CLIENT_SECRET'),
+                ],
+                'google' => [
+                    'client_id' => env('GOOGLE_CLIENT_ID'),
+                    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+                ],
             ],
             'analytics' => [
                 'enabled' => false,
                 'domainId' => '',
                 'options' => '{ "localhost": false, "detailed": true }'
+            ],
+            'app' => [
+                'url' => env('APP_URL'),
             ],
             'captcha' => [
                 'frontend_class' => 'h-captcha',
@@ -68,6 +79,7 @@ function config($key, $fallback = null)
                 -----END PUBLIC KEY-----
                 EOD,
                 'iss' => env('APP_URL'),
+                'message' => 5, // 5seconds
                 'invite' => 604800, // 1week
                 'emailLogin' => 300, // 5minutes
                 'emailVerify' => 86400, // 1day
@@ -93,19 +105,6 @@ function config($key, $fallback = null)
                     'preheader' => 'You have been invited to use auth.lucacastelnuovo.nl.',
                     'message' => 'You have created an account on auth.lucacastelnuovo.nl. Use the button below to verify your account and get started:',
                     'btn_text' => 'Verify Email',
-                ],
-            ],
-            'oauth' => [
-                'session_expires' => 1800, // 30 min
-                'github' => [
-                    'client_id' => env('GITHUB_CIENT_ID'),
-                    'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                    'redirect_url' => env('GITHUB_REDIRECT'),
-                ],
-                'google' => [
-                    'client_id' => env('GOOGLE_CIENT_ID'),
-                    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-                    'redirect_url' => env('GOOGLE_REDIRECT'),
                 ],
             ],
         ];
