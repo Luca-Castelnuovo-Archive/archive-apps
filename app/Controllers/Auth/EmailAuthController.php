@@ -44,12 +44,14 @@ class EmailAuthController extends AuthController
             );
         }
 
-        // if (!DB::has('users', ['email' => $request->data->email])) {
-        //     return $this->respondJson(
-        //         false,
-        //         'User account not found'
-        //     );
-        // }
+        if (!DB::has('users', ['email' => $request->data->email])) {
+            return $this->respondJson(
+                false,
+                'Email not found',
+                [],
+                400
+            );
+        }
 
         $app_url = config('app.url');
         $state = StateHelper::set();
@@ -100,21 +102,6 @@ class EmailAuthController extends AuthController
             return $this->logout('Please open link on the same device that requested the login');
         }
 
-        // Debug
-        return $this->redirect("https://example.com/email/{$jwt->sub}");
-
-        $user = DB::get(
-            'users',
-            [
-                'id',
-                'admin',
-                'captcha_key',
-            ],
-            [
-                'email' => $jwt->sub,
-            ]
-        );
-
-        return $this->login($user->id, $user->admin);
+        return $this->login(['email' => $jwt->sub]);
     }
 }

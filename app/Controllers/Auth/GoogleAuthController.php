@@ -65,25 +65,6 @@ class GoogleAuthController extends AuthController
 
         $google_id = StringHelper::escape($data->toArray()['sub']);
 
-        // Debug
-        return $this->redirect("https://example.com/google/{$google_id}");
-
-        $user = DB::get(
-            'users',
-            [
-                'id',
-                'admin',
-                'captcha_key',
-            ],
-            [
-                'google_id' => $google_id,
-            ]
-        );
-
-        if (!$user) {
-            return $this->logout('Account not found');
-        }
-
-        return $this->login($user->id, $user->admin);
+        return $this->login(['google_id' => $google_id]);
     }
 }

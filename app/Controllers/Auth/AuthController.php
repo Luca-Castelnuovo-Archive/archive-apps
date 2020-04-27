@@ -2,23 +2,32 @@
 
 namespace App\Controllers\Auth;
 
+use DB;
 use App\Controllers\Controller;
-use App\Helpers\AuthHelper;
 use App\Helpers\JWTHelper;
+use App\Helpers\SessionHelper;
 
 class AuthController extends Controller
 {
     /**
      * Create session
      * 
-     * @param string $user_id
-     * @param bool $admin
+     * @param array $user_id
      *
      * @return RedirectResponse
      */
-    public function login($user_id, $admin = false)
+    public function login($user_where)
     {
-        AuthHelper::login($user_id, $admin);
+        $user = DB::get('users', ['id', 'active [Bool]',], $user_where);
+
+        if (!$user['active']) {
+            return $this->logout('Your account has been deactivated! Contact the administrator');
+        }
+
+        SessionHelper::destroy();
+        SessionHelper::set('id', $user['id']);
+        SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
+        SessionHelper::set('last_activity', time());
 
         return $this->redirect('/user/dashboard');
     }
@@ -32,7 +41,7 @@ class AuthController extends Controller
      */
     public function logout($message = 'You have been logged out!')
     {
-        AuthHelper::logout();
+        SessionHelper::destroy();
 
         if ($message) {
             $message = JWTHelper::create('message', [

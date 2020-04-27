@@ -7,26 +7,11 @@ use Zend\Diactoros\ServerRequest;
 class InviteAuthController extends AuthController
 {
     /**
-     * Handle views
-     *
-     * @param ServerRequest $request
-     * @param string $path
-     * 
-     * @return HtmlResponse
-     */
-    public function views(ServerRequest $request)
-    {
-        return $this->respond("auth/", [
-            'code' => $request->getQueryParams()['code']
-        ]);
-    }
-
-    /**
      * Invite user (existing or new)
      *
      * @return RedirectResponse
      */
-    public function invite()
+    public function invite(ServerRequest $request)
     {
         // validate captcha
         // validate invite code

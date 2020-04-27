@@ -11,14 +11,14 @@
             </div>
         {% else %}
             <div class="row">
-                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large social github" href="/auth/github/request">
+                <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large social github" onClick="redirect('/auth/github/request')">
                     <i class="fa fa-github"></i> Sign in with github
-                </a>
+                </button>
             </div>
             <div class="row">
-                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large social google" href="/auth/google/request">
+                <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large social google" onClick="redirect('/auth/google/request')">
                     <i class="fa fa-google"></i> Sign in with google
-                </a>
+                </button>
             </div>
             <div class="row">
                 <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large social email modal-trigger" data-target="auth-signin-email">

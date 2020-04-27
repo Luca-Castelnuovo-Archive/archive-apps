@@ -64,25 +64,6 @@ class GithubAuthController extends AuthController
 
         $github_id = StringHelper::escape($data->toArray()['id']);
 
-        // Debug
-        return $this->redirect("https://example.com/github/{$github_id}");
-
-        $user = DB::get(
-            'users',
-            [
-                'id',
-                'admin',
-                'captcha_key',
-            ],
-            [
-                'github_id' => $github_id,
-            ]
-        );
-
-        if (!$user) {
-            return $this->logout('Account not found');
-        }
-
-        return $this->login($user->id, $user->admin);
+        return $this->login(['github_id' => $github_id]);
     }
 }

@@ -42,6 +42,7 @@ class CreateUsersTable extends AbstractMigration
             ->addColumn('github_id',    'string',   ['limit' => 64, 'null' => true])
             ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addIndex(['email', 'google_id', 'github_id'], ['unique' => true])
             ->create();
     }
 }
