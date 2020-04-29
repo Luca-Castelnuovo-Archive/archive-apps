@@ -54,18 +54,17 @@ class EmailAuthController extends AuthController
         }
 
         $app_url = config('app.url');
-        $state = StateHelper::set();
         $code = JWTHelper::create(
             'invite',
             [
                 'sub' => $request->data->email,
-                'state' => $state
+                'state' => StateHelper::set()
             ]
         );
         $url = "{$app_url}/auth/email/callback?code={$code}";
 
         try {
-            MailHelper::send('emailLogin', $request->data->email, 'User', $url);
+            MailHelper::send('emailLogin', $request->data->email, $request->data->email, $url);
         } catch (Exception $e) {
             return $this->respondJson(
                 false,

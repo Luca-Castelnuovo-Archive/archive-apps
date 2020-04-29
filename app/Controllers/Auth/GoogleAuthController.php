@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Auth;
 
-use DB;
 use Exception;
 use App\Helpers\StateHelper;
 use App\Helpers\StringHelper;

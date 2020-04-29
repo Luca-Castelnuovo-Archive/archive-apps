@@ -20,6 +20,10 @@ class AuthController extends Controller
     {
         $user = DB::get('users', ['id', 'active [Bool]',], $user_where);
 
+        if (!$user) {
+            return $this->logout('Account not found!');
+        }
+
         if (!$user['active']) {
             return $this->logout('Your account has been deactivated! Contact the administrator');
         }

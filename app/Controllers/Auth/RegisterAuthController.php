@@ -41,6 +41,8 @@ class RegisterAuthController extends AuthController
 
         // validate invite code from db
 
+        // enable access for register route
+
         return $this->respondJson(
             true,
             'Invite code valid',
@@ -93,6 +95,8 @@ class RegisterAuthController extends AuthController
      */
     public function registerView()
     {
+        // validate access
+
         $this->respond('register.twig');
     }
 
@@ -104,6 +108,8 @@ class RegisterAuthController extends AuthController
      */
     public function register(ServerRequest $request)
     {
+        // validate access
+
         // handle registration
 
         // register new user
