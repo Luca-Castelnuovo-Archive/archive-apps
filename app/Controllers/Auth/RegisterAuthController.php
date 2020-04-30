@@ -9,6 +9,7 @@ use App\Helpers\JWTHelper;
 use App\Helpers\StateHelper;
 use App\Validators\RegisterAuthValidator;
 use Zend\Diactoros\ServerRequest;
+use Ramsey\Uuid\Uuid;
 
 class RegisterAuthController extends AuthController
 {
@@ -139,10 +140,7 @@ class RegisterAuthController extends AuthController
             return $this->logout('State is invalid');
         }
 
-        return $this->respond('register.twig', [
-            'code' => $code,
-            'roles' => $jwt->roles
-        ]);
+        return $this->respond('register.twig', ['code' => $code]);
     }
 
     /**
@@ -170,24 +168,53 @@ class RegisterAuthController extends AuthController
             return $this->logout($e->getMessage());
         }
 
-        if (!StateHelper::valid($jwt->state)) {
+        switch ($request->data->type) {
+            case 'github':
+                $existing_user = DB::get('users', 'id', ['github_id' => $request->data->github_id]);
+                $existing_user_message = 'Github account already registered to an account, please use another github account';
+                break;
+
+            case 'google':
+                $existing_user = DB::get('users', 'id', ['google_id' => $request->data->google_id]);
+                $existing_user_message = 'Google account already registered to an account, please use another google account';
+                break;
+
+            case 'email':
+                $existing_user = DB::get('users', 'id', ['email' => $request->data->email]);
+                $existing_user_message = 'Email already registered to an account, please use another email';
+                break;
+        }
+
+        if ($existing_user) {
             return $this->respondJson(
                 false,
-                'State is invalid',
-                ['redirect' => '/']
+                $existing_user_message
             );
         }
 
-        // check if user already exists
+        // if (!StateHelper::valid($jwt->state)) {
+        //     return $this->respondJson(
+        //         false,
+        //         'State is invalid',
+        //         ['redirect' => '/']
+        //     );
+        // }
 
-        // set roles from $jwt->roles
+        // DB::create('users', [
+        //     'id' => Uuid::uuid4()->toString(),
+        //     'roles' => $jwt->roles,
+        //     'email' => $request->data->email ?: null,
+        //     'google_id' => $request->data->google_id ?: null,
+        //     'github_id' => $request->data->github_id ?: null
+        // ]);
 
-        // register new user
+        // MAYBE: send welcome mail, if email present
 
         return $this->respondJson(
             true,
             'Account Created',
-            ['redirect' => '/']
+            $request->data
+            // ['redirect' => '/']
         );
     }
 }

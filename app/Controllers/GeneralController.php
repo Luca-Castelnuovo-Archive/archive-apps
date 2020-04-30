@@ -34,7 +34,7 @@ class GeneralController extends Controller
     /**
      * Error screen
      * 
-     * @param string $code
+     * @param string $httpcode
      *
      * @return HtmlResponse
      */

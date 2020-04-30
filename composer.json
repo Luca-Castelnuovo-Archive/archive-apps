@@ -8,6 +8,7 @@
         "league/oauth2-github": "^2.0",
         "league/oauth2-google": "^3.0",
         "miladrahimi/phprouter": "^4.0",
+        "ramsey/uuid": "^4.0",
         "respect/validation": "^2.0",
         "robmorgan/phinx": "^0.12.0",
         "twig/twig": "^3.0",

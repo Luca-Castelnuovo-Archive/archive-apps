@@ -3,11 +3,99 @@
 {% set navbarDisable = true %}
 
 {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="row">
-    <div class="col s12">
-        <h3>Please complete within an hour, otherwise this page will expire</h3>
-        <span style="width:100%; word-wrap:break-word;">{{ code }}</span>
-        <h5>{{roles}}</h5>
-    </div>
+    <form class="col s12">
+        <input id="code" name="code" type="hidden" required value="{{ code }}">
+        <input id="type" name="type" type="hidden" required value="">
+
+        <h1>Welcome to Auth</h1>
+        <h5>Choose your prefered login method to quickly create your account</h5>
+
+        <div class="row">
+            <div class="input-field col s12 m6 xl4 mr-7">
+                <input id="input-github_id" name="github_id" type="hidden" value="">
+                <button id="request-google" type="button" class="col s12 btn-large social github waves-effect waves-light">
+                    <i class="fa fa-github"></i> Register with google
+                </button>
+            </div>
+
+            <div class="input-field col s12 m6 xl4 mr-7">
+                <input id="input-google_id" name="google_id" type="hidden" value="">
+                <button id="request-github" type="button" class="col s12 btn-large social google waves-effect waves-light">
+                    <i class="fa fa-google"></i> Register with google
+                </button>
+            </div>
+
+            <div class="input-field col s12 m6 xl4 mr-7">
+                <input id="input-email" name="email" type="hidden" value="">
+                <button type="button" class="col s12 btn-large social email waves-effect waves-light modal-trigger" data-target="modal-email">
+                    <i class="fa fa-envelope"></i> Register with email
+                </button>
+
+                <div id="modal-email" class="modal">
+                    <div class="modal-content">
+                        <div class="row mb-0">
+                            <div class="input-field col s12 mb-0">
+                                <input id="source-email" type="email" class="validate">
+                                <label for="source-email">Email</label>
+                                <span class="helper-text" data-error="Valid email is required"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="submit-email" class="btn blue accent-4 waves-effect waves-light" type="button">Use this email</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        M.Modal.init(document.querySelectorAll('.modal'), {});
+        
+        const form = document.querySelector('form');
+        const type = document.querySelector('input#type');
+
+        form.addEventListener('submit', e => e.preventDefault())
+
+        document.querySelector('button#request-google').addEventListener('click', () => {
+            //const source = document.querySelector('input#source-email');
+            const source = ''; // TODO: js popup open signin with github and place sub inside #github_id.value
+            const input = document.querySelector('input#input-google');
+
+            input.value = source.value;
+            type.value = "google";
+
+            formSubmit(form, '/auth/register');
+        });
+
+        document.querySelector('button#request-github').addEventListener('click', () => {
+            //const source = document.querySelector('input#source-email');
+            const source = ''; // TODO: js popup open signin with google and place sub inside #google_id.value
+            const input = document.querySelector('input#input-github');
+
+            input.value = source.value;
+            type.value = "github";
+
+            formSubmit(form, '/auth/register');
+        });
+
+        document.querySelector('button#submit-email').addEventListener('click', () => {
+            const source = document.querySelector('input#source-email');
+            const input = document.querySelector('input#input-email');
+
+            input.value = source.value;
+            type.value = "email";
+
+            formSubmit(form, '/auth/register');
+        });
+
+    });
+</script>
 {% endblock %}

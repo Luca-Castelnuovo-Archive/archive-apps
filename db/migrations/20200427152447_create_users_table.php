@@ -37,12 +37,11 @@ class CreateUsersTable extends AbstractMigration
             ->addColumn('active',       'boolean',  ['default' => true])
             ->addColumn('admin',        'boolean',  ['default' => false])
             ->addColumn('roles',        'string',   ['default' => '[]'])
-            ->addColumn('email',        'string',   ['limit' => 128, 'null' => true])
-            ->addColumn('google_id',    'string',   ['limit' => 64, 'null' => true])
-            ->addColumn('github_id',    'string',   ['limit' => 64, 'null' => true])
+            ->addColumn('email',        'string',   ['null' => true])
+            ->addColumn('google_id',    'string',   ['null' => true])
+            ->addColumn('github_id',    'string',   ['null' => true])
             ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addIndex(['email', 'google_id', 'github_id'], ['unique' => true])
             ->create();
     }
 }

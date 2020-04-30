@@ -16,7 +16,7 @@ class EmailAuthValidator extends ValidatorBase
     public static function request($data)
     {
         $v = v::attribute('h-captcha-response', v::stringType())
-            ->attribute('email', v::email());
+            ->attribute('email', v::email()->length(1, 255));
 
         ValidatorBase::validate($v, $data);
     }

@@ -62,7 +62,7 @@ class GoogleAuthController extends AuthController
             return $this->logout("Error: {$e}");
         }
 
-        $google_id = StringHelper::escape($data->toArray()['sub']);
+        $google_id = StringHelper::escape($data->toArray()['email']);
 
         return $this->login(['google_id' => $google_id]);
     }
