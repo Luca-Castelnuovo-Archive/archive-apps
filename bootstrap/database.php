@@ -75,8 +75,7 @@ class DB
     public static function update($table, $data, $where)
     {
         $db = self::connect();
-
-        // TODO: auto set updated_at
+        $data = array_merge($data, ['updated_at' => date('Y-m-d H:i:s')]);
 
         return $db->update($table, $data, $where);
     }

@@ -25,7 +25,7 @@ class JWTMiddleware implements Middleware
         $access_token = str_replace('Bearer ', '', $authorization_header);
 
         try {
-            $credentials = JWTHelper::valid('submission', $access_token);
+            $jwt = JWTHelper::valid('submission', $access_token);
         } catch (Exception $e) {
             return new JsonResponse([
                 'success' => false,
@@ -37,7 +37,7 @@ class JWTMiddleware implements Middleware
             ], 401);
         }
 
-        if (!DB::has('templates', ['uuid' =>  $credentials->sub])) {
+        if (!DB::has('templates', ['uuid' =>  $jwt->sub])) {
             return new JsonResponse([
                 'success' => false,
                 'errors' => [
@@ -48,7 +48,7 @@ class JWTMiddleware implements Middleware
             ], 404);
         }
 
-        $request->uuid = $credentials->sub;
+        $request->uuid = $jwt->sub;
 
         return $next($request);
     }

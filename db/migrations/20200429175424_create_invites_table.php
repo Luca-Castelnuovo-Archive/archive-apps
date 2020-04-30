@@ -31,6 +31,13 @@ class CreateInvitesTable extends AbstractMigration
      */
     public function change()
     {
-
+        $invites = $this->table('invites');
+        $invites
+            ->addColumn('code',         'string',   ['limit' => 128])
+            ->addColumn('roles',        'string',   ['default' => '[]'])
+            ->addColumn('expires_at',   'datetime')
+            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addIndex(['code'], ['unique' => true])
+            ->create();
     }
 }

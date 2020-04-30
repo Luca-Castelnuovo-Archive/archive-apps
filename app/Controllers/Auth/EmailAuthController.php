@@ -54,14 +54,14 @@ class EmailAuthController extends AuthController
         }
 
         $app_url = config('app.url');
-        $code = JWTHelper::create(
-            'invite',
+        $jwt = JWTHelper::create(
+            'emailLogin',
             [
                 'sub' => $request->data->email,
                 'state' => StateHelper::set()
             ]
         );
-        $url = "{$app_url}/auth/email/callback?code={$code}";
+        $url = "{$app_url}/auth/email/callback?code={$jwt}";
 
         try {
             MailHelper::send('emailLogin', $request->data->email, $request->data->email, $url);
@@ -92,7 +92,7 @@ class EmailAuthController extends AuthController
         $code = $request->getQueryParams()['code'];
 
         try {
-            $jwt = JWTHelper::valid('invite', $code);
+            $jwt = JWTHelper::valid('emailLogin', $code);
         } catch (Exception $e) {
             return $this->logout($e->getMessage());
         }

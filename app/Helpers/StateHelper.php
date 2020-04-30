@@ -22,17 +22,22 @@ class StateHelper
      * Validate $provided_state
      *
      * @param string $provided_state
+     * @param bool $unset_state optional
      * 
      * @return bool
      */
-    public static function valid($provided_state)
+    public static function valid($provided_state, $unset_state = true)
     {
-        if ($provided_state !== SessionHelper::get('state')) {
+        $known_state = SessionHelper::get('state');
+
+        if ($unset_state) {
+            SessionHelper::unset('state');
+        }
+
+        if (!$provided_state) {
             return false;
         }
 
-        SessionHelper::unset('state');
-
-        return true;
+        return $provided_state === $known_state;
     }
 }

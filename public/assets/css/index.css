@@ -1,0 +1,76 @@
+.modal {
+  max-width: 350px;
+}
+.mb-0 {
+  margin-bottom: 0;
+}
+.mt-0 {
+  margin-top: 0;
+}
+.btn-large.social > :first-child,
+.btn.social > :first-child,
+.col.social > :first-child {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.btn-large.social,
+.btn.social,
+.col.social {
+  padding: 0 2rem 0 0;
+}
+.btn-large.social i,
+.btn.social i,
+.col.social i {
+  padding: 0 1rem;
+  margin-right: 1rem;
+}
+.btn-large.social-icon,
+.btn.social-icon,
+.col.social-icon {
+  padding: 0;
+}
+.btn-large.social-icon i,
+.btn.social-icon i,
+.col.social-icon i {
+  padding: 0 1rem;
+  margin-right: 0;
+}
+.btn-large.social-icon {
+  padding: 0 1rem;
+}
+.col.social {
+  width: 100%;
+  text-align: left;
+}
+.col.social i.fa-fw {
+  width: 3.2rem;
+}
+.github {
+  background-color: #444 !important;
+  color: #fff !important;
+}
+.github i {
+  color: #fff !important;
+}
+.github:hover {
+  background-color: #5e5e5e !important;
+}
+.google {
+  background-color: #dd4b39 !important;
+  color: #fff !important;
+}
+.google i {
+  color: #fff !important;
+}
+.google:hover {
+  background-color: #e47365 !important;
+}
+.email {
+  background-color: #eff7ff !important;
+  color: #000 !important;
+}
+.email i {
+  color: #000 !important;
+}
+.email:hover {
+  background-color: #fff !important;
+}

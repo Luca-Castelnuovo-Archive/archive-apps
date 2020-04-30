@@ -35,4 +35,18 @@ class RegisterAuthValidator extends ValidatorBase
 
         ValidatorBase::validate($v, $data);
     }
+
+    /**
+     * Validate json submission
+     *
+     * @param object $data
+     *
+     * @return void
+     */
+    public static function register($data) // TODO: build validation
+    {
+        $v = v::attribute('code', v::stringType());
+
+        ValidatorBase::validate($v, $data);
+    }
 }

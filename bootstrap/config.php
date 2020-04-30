@@ -79,11 +79,10 @@ function config($key, $fallback = null)
                 -----END PUBLIC KEY-----
                 EOD,
                 'iss' => env('APP_URL'),
-                'message' => 5, // 5seconds
-                'invite' => 604800, // 1week
+                'message' => 15, // 15seconds
                 'emailLogin' => 300, // 5minutes
-                'emailVerify' => 86400, // 1day
-                'auth' => 604800, // 1week
+                'register' => 3600, // 1hour
+                'invite' => 604800, // 1week
             ],
             'mail' => [
                 'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',

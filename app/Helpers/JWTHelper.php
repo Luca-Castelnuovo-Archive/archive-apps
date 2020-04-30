@@ -13,7 +13,7 @@ class JWTHelper
      *
      * @param string $type
      * @param array  $data
-     * @param string    $aud optional
+     * @param string $aud optional
      *
      * @return string
      */

@@ -1,2 +1,13 @@
-show user roles,
-set email, or google, or github
+{% extends "base.twig" %}
+{% set title = "Register" %}
+{% set navbarDisable = true %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <h3>Please complete within an hour, otherwise this page will expire</h3>
+        <span style="width:100%; word-wrap:break-word;">{{ code }}</span>
+        <h5>{{roles}}</h5>
+    </div>
+</div>
+{% endblock %}

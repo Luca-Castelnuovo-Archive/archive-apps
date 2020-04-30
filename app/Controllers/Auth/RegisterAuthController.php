@@ -5,6 +5,8 @@ namespace App\Controllers\Auth;
 use DB;
 use Exception;
 use App\Helpers\CaptchaHelper;
+use App\Helpers\JWTHelper;
+use App\Helpers\StateHelper;
 use App\Validators\RegisterAuthValidator;
 use Zend\Diactoros\ServerRequest;
 
@@ -39,14 +41,36 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        // validate invite code from db
+        $invite = DB::get('invites', [
+            'roles',
+            'expires_at',
+            'roles'
+        ], ['code' => $request->data->invite_code]);
+        // TODO: DB::delete('invites', ['code' => $request->data->invite_code]);
 
-        // enable access for register route
+        if (!$invite) {
+            return $this->respondJson(
+                false,
+                'Invite code not found'
+            );
+        }
+
+        if ($invite['expires_at'] < date('Y-m-d H:i:s')) {
+            return $this->respondJson(
+                false,
+                'Invite code has expired'
+            );
+        }
+
+        $jwt = JWTHelper::create('register', [
+            'roles' => $invite['roles'],
+            'state' => StateHelper::set()
+        ]);
 
         return $this->respondJson(
             true,
             'Invite code valid',
-            ['redirect' => '/auth/register']
+            ['redirect' => "/auth/register?code={$jwt}"]
         );
     }
 
@@ -80,24 +104,45 @@ class RegisterAuthController extends AuthController
         }
 
         // validate invite code with gumroad
+        $roles = [];
+
+        $jwt = JWTHelper::create('register', [
+            'roles' => $roles,
+            'state' => StateHelper::set()
+        ]);
 
         return $this->respondJson(
             true,
-            'License code valid',
-            ['redirect' => '/auth/register']
+            'Invite code valid',
+            ['redirect' => "/auth/register?code={$jwt}"]
         );
     }
 
     /**
      * View register form
+     * 
+     * @param ServerRequest $request
      *
      * @return HtmlResponse
      */
-    public function registerView()
+    public function registerView(ServerRequest $request)
     {
-        // validate access
+        $code = $request->getQueryParams()['code'];
 
-        $this->respond('register.twig');
+        try {
+            $jwt = JWTHelper::valid('register', $code);
+        } catch (Exception $e) {
+            return $this->logout($e->getMessage());
+        }
+
+        if (!StateHelper::valid($jwt->state, false)) {
+            return $this->logout('State is invalid');
+        }
+
+        return $this->respond('register.twig', [
+            'code' => $code,
+            'roles' => $jwt->roles
+        ]);
     }
 
     /**
@@ -108,11 +153,41 @@ class RegisterAuthController extends AuthController
      */
     public function register(ServerRequest $request)
     {
-        // validate access
+        try {
+            RegisterAuthValidator::register($request->data);
+        } catch (Exception $e) {
+            return $this->respondJson(
+                false,
+                'Provided data was malformed',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
 
-        // handle registration
+        try {
+            $jwt = JWTHelper::valid('register', $request->data->code);
+        } catch (Exception $e) {
+            return $this->logout($e->getMessage());
+        }
+
+        if (!StateHelper::valid($jwt->state)) {
+            return $this->respondJson(
+                false,
+                'State is invalid',
+                ['redirect' => '/']
+            );
+        }
+
+        // check if user already exists
+
+        // set roles from $jwt->roles
 
         // register new user
-        // set roles from jwt
+
+        return $this->respondJson(
+            true,
+            'Account Created',
+            ['redirect' => '/']
+        );
     }
 }

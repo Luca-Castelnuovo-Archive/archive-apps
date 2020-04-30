@@ -13,3 +13,6 @@ RewriteRule ^ %1 [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
+
+# Content-Security-Policy TODO: test csp
+# Header set Content-Security-Policy "default-src 'none'; script-src 'self' https://hcaptcha.com/1/api.js https://analytics.lucacastelnuovo.nl/tracker.js; style-src 'self' https://fonts.googleapis.com/icon; connect-src 'self'"
