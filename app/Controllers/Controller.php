@@ -11,7 +11,6 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class Controller
 {
-    // private $request;
     private $twig;
 
     /**
@@ -21,7 +20,6 @@ class Controller
      */
     public function __construct()
     {
-        // Start twig engine
         $loader = new FilesystemLoader('../views');
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));

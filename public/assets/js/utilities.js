@@ -1,4 +1,3 @@
-// Utility Functions
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const inputsDisabled = state => document.querySelectorAll('button, input, textarea').forEach(el => {el.disabled = state;});
 const reload = () => location.reload();

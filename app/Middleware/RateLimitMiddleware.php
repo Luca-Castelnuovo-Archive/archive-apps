@@ -18,7 +18,7 @@ class RateLimitMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        // 1 request / 1 second / 1 ip
+        // TODO: 1 request / 1 second / 1 ip
 
         $ratelimit_exceeded = false;
         if ($ratelimit_exceeded) {
