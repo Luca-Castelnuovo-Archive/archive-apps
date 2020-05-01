@@ -73,6 +73,17 @@ class UserController extends Controller
             'user_id' => SessionHelper::get('id')
         ]);
 
+        $apps = DB::select(
+            'apps',
+            [
+                'gumroad_id',
+                'name'
+            ],
+            [
+                "ORDER" => ["name" => "ASC"]
+            ]
+        );
+
         $result = [];
 
         foreach ($licenses as $license) {
@@ -86,7 +97,8 @@ class UserController extends Controller
 
         return $this->respond('user/settings.twig', [
             'settings' => $settings,
-            'licenses' => $licenses
+            'licenses' => $licenses,
+            'apps' => $apps
         ]);
     }
 

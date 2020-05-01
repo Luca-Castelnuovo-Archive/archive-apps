@@ -1,5 +1,6 @@
 .modal {
   max-width: 350px;
+  overflow-y: unset;
 }
 .mb-0 {
   margin-bottom: 0;

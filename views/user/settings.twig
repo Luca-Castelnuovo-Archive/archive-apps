@@ -5,65 +5,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="row">
-    <h3>Logins:</h3>
-    <div class="row">
-        <p>
-            <button class="btn-large social github waves-effect waves-light" onClick="{{ settings.github ? "loginUnlink('github')" : "loginPopup('github')" }}">
-                <i class="fa fa-github"></i> {{ settings.github ? 'Unlink Github' : 'Link Github' }}
-            </button>
+    {% include 'user/settings_login.twig' %}
 
-            <span class="flow-text"> Status: {{ settings.github ? 'linked (' ~ settings.github ~ ')' : 'unlinked' }}</span>
-        </p>
-        <p>
-            <button class="btn-large social google waves-effect waves-light" onClick="{{ settings.google ? "loginUnlink('google')" : "loginPopup('google')" }}">
-                <i class="fa fa-google"></i> {{ settings.google ? 'Unlink Google' : 'Link Google' }}
-            </button>
-
-            <span class="flow-text"> Status: {{ settings.google ? 'linked (' ~ settings.google ~ ')' : 'unlinked' }}</span>
-        </p>
-        <p>
-            <button class="btn-large social email waves-effect waves-light" onClick="{{ settings.email ? "loginUnlink('email')" : "M.Modal.getInstance(document.querySelector('.modal')).open()" }}">
-                <i class="fa fa-envelope"></i> {{ settings.email ? 'Unlink Email' : 'Link Email' }}
-            </button>
-
-            <span class="flow-text"> Status: {{ settings.email ? 'linked (' ~ settings.email ~ ')' : 'unlinked' }}</span>
-        </p>
-        
-        <div class="modal">
-            <div class="modal-content">
-                <h4>Signin with email</h4>
-                <div class="row mb-0">
-                    <div class="input-field col s12 mb-0">
-                        <input id="email" name="email" type="email" class="validate" required>
-                        <label for="email">Email</label>
-                        <span class="helper-text" data-error="Valid email is required"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn blue accent-4 waves-effect waves-light" onClick="loginEmail()">Add this email</button>
-            </div>
-        </div>
-
-    </div>
-
-    <h3>Licenses:</h3>
-    <div class="row">
-        {% for license in licenses %}
-        <div class="col s12 m6">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">{{ license.name }}</span>
-                    <p>License Key: <span class="flow-text">{{ license.license }}</span></p>
-                    </p>Added On: <span class="flow-text">{{ license.created_at }}</span></p>
-                </div>
-                <div class="card-action">
-                    <button class="btn waves-effect waves-light" onClick="removeLicense('{{ license.license }}')">Remove license</button>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    {% include 'user/settings_license.twig' %}
 
     <h3>Delete Account:</h3>
     <div class="row">

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {});
+    M.FormSelect.init(document.querySelectorAll('select'), {});
 });
 
 const loginPopup = type => {
@@ -23,6 +24,13 @@ const loginUnlink = type => {
     if (confirm("Do you want to unlink this login option?")) {
         apiUse('delete', '/user/login', {data: {type}});
     }
+}
+
+const addLicense = () => {
+    const license = document.querySelector('input[name="license"]').value;
+    const gumroad_id = document.querySelector('select[name="gumroad_id"]').value;
+
+    apiUse('post', '/license', {license, gumroad_id});
 }
 
 const removeLicense = license => {

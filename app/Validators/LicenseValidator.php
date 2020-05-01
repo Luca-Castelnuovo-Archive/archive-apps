@@ -15,7 +15,8 @@ class LicenseValidator extends ValidatorBase
      */
     public static function create($data)
     {
-        $v = v::attribute('license', v::alnum('-'));
+        $v = v::attribute('license', v::alnum('-'))
+            ->attribute('gumroad_id', v::alnum());
 
         ValidatorBase::validate($v, $data);
     }
