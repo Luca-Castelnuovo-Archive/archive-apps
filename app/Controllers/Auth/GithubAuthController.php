@@ -78,7 +78,7 @@ class GithubAuthController extends AuthController
         }
 
         if ($popup) {
-            return $this->respond('popup.twig', ['id' => $id]);
+            return $this->respond('auth/popup.twig', ['id' => $id]);
         }
 
         return $this->login(['github' => $id]);

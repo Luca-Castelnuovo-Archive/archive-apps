@@ -123,7 +123,7 @@ class RegisterAuthController extends AuthController
             return $this->logout('State is invalid');
         }
 
-        return $this->respond('register.twig', ['code' => $code]);
+        return $this->respond('auth/register.twig', ['code' => $code]);
     }
 
     /**
