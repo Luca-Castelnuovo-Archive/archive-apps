@@ -168,52 +168,45 @@ class RegisterAuthController extends AuthController
             return $this->logout($e->getMessage());
         }
 
-        switch ($request->data->type) {
-            case 'github':
-                $existing_user = DB::get('users', 'id', ['github_id' => $request->data->github_id]);
-                $existing_user_message = 'Github account already registered to an account, please use another github account';
-                break;
+        $type = $request->data->type;
+        $type_query = [$type => $request->data->{$type}];
 
-            case 'google':
-                $existing_user = DB::get('users', 'id', ['google_id' => $request->data->google_id]);
-                $existing_user_message = 'Google account already registered to an account, please use another google account';
-                break;
-
-            case 'email':
-                $existing_user = DB::get('users', 'id', ['email' => $request->data->email]);
-                $existing_user_message = 'Email already registered to an account, please use another email';
-                break;
-        }
-
-        if ($existing_user) {
+        if (!$request->data->{$type}) {
             return $this->respondJson(
                 false,
-                $existing_user_message
+                'Provided data was malformed',
+                [],
+                422
             );
         }
 
-        // if (!StateHelper::valid($jwt->state)) {
+        // if (DB::has('users', $type_query)) {
         //     return $this->respondJson(
         //         false,
-        //         'State is invalid',
-        //         ['redirect' => '/']
+        //         "This {$type} account is already used, please use another"
         //     );
         // }
 
-        // DB::create('users', [
-        //     'id' => Uuid::uuid4()->toString(),
-        //     'roles' => $jwt->roles,
-        //     'email' => $request->data->email ?: null,
-        //     'google_id' => $request->data->google_id ?: null,
-        //     'github_id' => $request->data->github_id ?: null
-        // ]);
+        if (!StateHelper::valid($jwt->state, false)) { // todo: remove false
+            return $this->respondJson(
+                false,
+                'State is invalid',
+                ['redirect' => '/']
+            );
+        }
+
+        $create_query = array_merge([
+            'id' => Uuid::uuid4()->toString(),
+            'roles' => $jwt->roles
+        ], $type_query);
+        // DB::create('users', $create_query);
 
         // MAYBE: send welcome mail, if email present
 
         return $this->respondJson(
             true,
             'Account Created',
-            $request->data
+            $create_query
             // ['redirect' => '/']
         );
     }

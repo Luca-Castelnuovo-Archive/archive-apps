@@ -12,7 +12,7 @@ class AuthController extends Controller
     /**
      * Create session
      * 
-     * @param array $user_id
+     * @param array $user_where
      *
      * @return RedirectResponse
      */

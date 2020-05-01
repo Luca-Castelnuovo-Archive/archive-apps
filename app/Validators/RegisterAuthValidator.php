@@ -47,9 +47,9 @@ class RegisterAuthValidator extends ValidatorBase
     {
         $v = v::attribute('code', v::stringType())
             ->attribute('type', v::oneOf(v::equals('github'), v::equals('google'), v::equals('email')))
-            ->attribute('github_id', v::stringType()->length(null, 255))
-            ->attribute('google_id', v::stringType()->length(null, 255))
-            ->attribute('email', v::email()->length(null, 255));
+            ->attribute('github', v::optional(v::stringType()->length(1, 255)))
+            ->attribute('google', v::optional(v::stringType()->length(1, 255)))
+            ->attribute('email', v::optional(v::email()->length(1, 255)));
 
         ValidatorBase::validate($v, $data);
     }

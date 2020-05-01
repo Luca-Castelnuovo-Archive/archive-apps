@@ -10,30 +10,43 @@ use League\OAuth2\Client\Provider\Github;
 
 class GithubAuthController extends AuthController
 {
-    private $provider;
-
     /**
      * Initialize the OAuth provider
      * 
-     * @return void
+     * @param bool $popup
+     * 
+     * @return Github
      */
-    public function __construct()
+    private function provider($popup = false)
     {
-        $this->provider = new Github([
+        $queryString = $popup ? '?popup=1' : '';
+
+        return new Github([
             'clientId'     => config('auth.github.client_id'),
             'clientSecret' => config('auth.github.client_secret'),
+            'redirectUri' => config('app.url') . '/auth/github/callback' . $queryString
         ]);
     }
 
     /**
      * Redirect to OAuth
      *
+     * @param ServerRequest $request
+     * 
      * @return RedirectResponse
      */
-    public function request()
+    public function request(ServerRequest $request)
     {
-        $authUrl = $this->provider->getAuthorizationUrl();
-        StateHelper::set($this->provider->getState());
+        $popup = $request->getQueryParams()['popup'];
+        $provider = $this->provider($popup);
+
+        $authUrl = $provider->getAuthorizationUrl();
+
+        // State isn't checked when in popup mode because
+        // the /auth/register is only available by an already checked state
+        if (!$popup) {
+            StateHelper::set($provider->getState());
+        }
 
         return $this->redirect($authUrl);
     }
@@ -47,22 +60,27 @@ class GithubAuthController extends AuthController
      */
     public function callback(ServerRequest $request)
     {
+        $popup = $request->getQueryParams()['popup'];
         $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (!StateHelper::valid($state)) {
+        if (!$popup && !StateHelper::valid($state)) {
             return $this->logout('State is invalid!');
         }
 
         try {
-            $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $data = $this->provider->getResourceOwner($token);
+            $provider = $this->provider($popup);
+            $token = $provider->getAccessToken('authorization_code', ['code' => $code]);
+            $data = $provider->getResourceOwner($token);
+            $id = StringHelper::escape($data->toArray()['id']);
         } catch (Exception $e) {
             return $this->logout("Error: {$e}");
         }
 
-        $github_id = StringHelper::escape($data->toArray()['id']);
+        if ($popup) {
+            return $this->respond('popup.twig', ['id' => $id]);
+        }
 
-        return $this->login(['github_id' => $github_id]);
+        return $this->login(['github' => $id]);
     }
 }

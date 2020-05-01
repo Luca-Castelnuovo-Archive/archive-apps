@@ -25,8 +25,8 @@ class UsersSeeder extends AbstractSeed
                 'admin'         => $faker->boolean,
                 'roles'         => '["mailjs.lucacastelnuovo.nl"]',
                 'email'         => $faker->email,
-                'google_id'     => $faker->ean13,
-                'github_id'     => $faker->ean13,
+                'google'        => $faker->ean13,
+                'github'        => $faker->ean13,
                 'updated_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];
