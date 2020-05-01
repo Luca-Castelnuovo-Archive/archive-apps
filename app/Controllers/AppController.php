@@ -43,7 +43,7 @@ class AppController extends Controller
         DB::create(
             'templates',
             [
-                'user_id' => SessionHelper::get('user_id'),
+                'user_id' => SessionHelper::get('id'),
                 'name' => $request->data->name,
                 'uuid' => Uuid::uuid4()->toString(),
                 'captcha_key' => $request->data->captcha_key,

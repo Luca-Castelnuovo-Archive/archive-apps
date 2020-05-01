@@ -30,11 +30,7 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        $invite = DB::get('invites', [
-            'roles',
-            'expires_at',
-            'roles'
-        ], ['code' => $request->data->invite_code]);
+        $invite = DB::get('invites', ['expires_at'], ['code' => $request->data->invite_code]);
 
         if (!$invite) {
             return $this->respondJson(
@@ -53,7 +49,6 @@ class RegisterAuthController extends AuthController
         DB::delete('invites', ['code' => $request->data->invite_code]);
 
         $jwt = JWTHelper::create('register', [
-            'roles' => $invite['roles'],
             'state' => StateHelper::set()
         ]);
 
@@ -88,12 +83,7 @@ class RegisterAuthController extends AuthController
             'License code not found'
         );
 
-        $roles = [];
-
-        $jwt = JWTHelper::create('register', [
-            'roles' => $roles,
-            'state' => StateHelper::set()
-        ]);
+        $jwt = JWTHelper::create('register', ['state' => StateHelper::set()]);
 
         return $this->respondJson(
             true,
@@ -180,7 +170,6 @@ class RegisterAuthController extends AuthController
 
         DB::create('users', [
             'id' => Uuid::uuid4()->toString(),
-            'roles' => $jwt->roles,
             $type => $request->data->{$type}
         ]);
 

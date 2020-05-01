@@ -2,8 +2,27 @@
 {% set title = "Dashboard" %}
 
 {% block content %}
-    <h2>Templates</h2>
+    <h2>Apps</h2>
     <div class="row">
-        {% include 'user/dashboard/create_template.twig' %}
+        {% for app in apps %}
+            {% include 'user/dashboard/app.twig' %}
+        {% endfor %}
     </div>
+
+    <script src="https://gumroad.com/js/gumroad.js"></script>
+    <script>      
+        window.addEventListener('message', e => {
+            try {
+                const data = JSON.parse(e.data);
+
+                if (data.post_message_name === "sale") {
+                    console.log('license_key', data.license_key);
+                    
+                    // post license key to endpoint
+                    // POST: user/license
+                    // reload page
+                }
+            } catch {/* not an valid purchase*/}
+        }, false);
+    </script>
 {% endblock %}

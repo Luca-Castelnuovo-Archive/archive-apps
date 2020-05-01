@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         SessionHelper::destroy();
         SessionHelper::set('id', $user['id']);
-        SessionHelper::set('is_admin', $user['admin']);
+        SessionHelper::set('admin', $user['admin']);
         SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
         SessionHelper::set('last_activity', time());
 

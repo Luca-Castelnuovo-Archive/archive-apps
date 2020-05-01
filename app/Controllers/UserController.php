@@ -23,53 +23,35 @@ class UserController extends Controller
      */
     public function dashboard()
     {
-        $templates = DB::select(
-            'templates',
+        $apps = DB::select(
+            'apps',
             [
                 'id',
+                'gumroad_id',
                 'name',
-                'captcha_key',
-                'email_to',
-                'email_replyTo',
-                'email_cc',
-                'email_bcc',
-                'email_fromName',
-                'email_subject',
-                'email_content',
-                'updated_at',
-                'created_at'
+                'url'
             ],
             [
-                'user_id' => SessionHelper::get('user_id'),
-                "ORDER" => ["id" => "ASC"]
+                "ORDER" => ["name" => "ASC"]
             ]
         );
 
         $result = [];
 
-        foreach ($templates as $template) {
-            $history = DB::select(
-                'history',
-                [
-                    'template_params[JSON]',
-                    'user_ip',
-                    'origin',
-                    'created_at'
-                ],
-                [
-                    'template_id' => $template['id'],
-                    "ORDER" => ["id" => "ASC"]
-                ]
-            );
+        foreach ($apps as $app) {
+            $license = DB::get('licenses', 'license', [
+                'app_id' => $app['id'],
+                'user_id' => SessionHelper::get('id')
+            ]);
 
-            $result[$template['id']] = $template;
-            $result[$template['id']]['history'] = $history;
+            $result[$app['id']] = $app;
+            $result[$app['id']]['licensed'] = (bool) $license;
         }
 
-        $templates = array_values($result);
+        $apps = array_values($result);
 
         return $this->respond('user/dashboard.twig', [
-            'templates' => $templates
+            'apps' => $apps
         ]);
     }
 

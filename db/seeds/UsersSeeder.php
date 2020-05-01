@@ -23,7 +23,6 @@ class UsersSeeder extends AbstractSeed
                 'id'            => $faker->uuid,
                 'active'        => $faker->boolean,
                 'admin'         => $faker->boolean,
-                'roles'         => '["mailjs.lucacastelnuovo.nl"]',
                 'email'         => $faker->email,
                 'google'        => $faker->ean13,
                 'github'        => $faker->ean13,

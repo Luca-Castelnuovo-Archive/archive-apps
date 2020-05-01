@@ -21,7 +21,6 @@ class InvitesSeeder extends AbstractSeed
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
                 'code'          => $faker->md5,
-                'roles'         => '["mailjs.lucacastelnuovo.nl"]',
                 'expires_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];

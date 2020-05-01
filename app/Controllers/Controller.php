@@ -85,6 +85,6 @@ class Controller
      */
     protected function isUserAdmin()
     {
-        return SessionHelper::get('is_admin');
+        return SessionHelper::get('admin');
     }
 }
