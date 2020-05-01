@@ -37,11 +37,6 @@ function config($key, $fallback = null)
                 'site_key' => env('CAPTCHA_SITE_KEY'),
                 'secret_key' => env('CAPTCHA_SECRET_KEY')
             ],
-            'cors' => [
-                'allow_origins' => ['*'],
-                'allow_headers' => ['Authorization', 'Content-Type'],
-                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
-            ],
             'database' => [
                 'host' => env('DB_HOST'),
                 'port' => env('DB_PORT'),

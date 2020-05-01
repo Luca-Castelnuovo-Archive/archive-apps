@@ -20,7 +20,7 @@ class JSONMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        if (in_array($request->getMethod(), ['POST', 'PUT'])) {
+        if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])) {
             if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
                 return new JsonResponse([
                     'success' => false,

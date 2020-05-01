@@ -6,7 +6,6 @@ use DB;
 use Exception;
 use App\Helpers\MailHelper;
 use App\Helpers\SessionHelper;
-use App\Helpers\CaptchaHelper;
 use Zend\Diactoros\ServerRequest;
 
 class AdminController extends Controller
@@ -46,7 +45,7 @@ class AdminController extends Controller
     {
         // update user
 
-        return $this->respondJson();
+        // return $this->respondJson();
     }
 
     /**
@@ -77,6 +76,6 @@ class AdminController extends Controller
     {
         // update user
 
-        return $this->respondJson();
+        // return $this->respondJson();
     }
 }

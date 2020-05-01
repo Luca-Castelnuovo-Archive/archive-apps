@@ -4,7 +4,7 @@ namespace App\Validators;
 
 use Respect\Validation\Validator as v;
 
-class EmailAuthValidator extends ValidatorBase
+class CaptchaValidator extends ValidatorBase
 {
     /**
      * Validate json submission
@@ -13,9 +13,9 @@ class EmailAuthValidator extends ValidatorBase
      *
      * @return void
      */
-    public static function request($data)
+    public static function submit($data)
     {
-        $v = v::attribute('email', v::email()->length(1, 255));
+        $v = v::attribute(config('captcha.frontend_class') . '-response', v::stringType());
 
         ValidatorBase::validate($v, $data);
     }

@@ -1,10 +1,8 @@
 <?php
 
-use App\Middleware\CORSMiddleware;
+use App\Middleware\CaptchaMiddleware;
 use App\Middleware\JSONMiddleware;
-use App\Middleware\JWTMiddleware;
 use App\Middleware\SessionMiddleware;
-use App\Middleware\RateLimitMiddleware;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -19,12 +17,12 @@ $router->get('/error/{httpcode}', 'GeneralController@error');
 $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
     $router->get('/logout', 'AuthController@logout');
 
-    $router->post('/invite', 'RegisterAuthController@invite', JSONMiddleware::class);
-    $router->post('/license', 'RegisterAuthController@license', JSONMiddleware::class);
+    $router->post('/invite', 'RegisterAuthController@invite', [JSONMiddleware::class, CaptchaMiddleware::class]);
+    $router->post('/license', 'RegisterAuthController@license', [JSONMiddleware::class, CaptchaMiddleware::class]);
     $router->get('/register', 'RegisterAuthController@registerView');
     $router->post('/register', 'RegisterAuthController@register', JSONMiddleware::class);
 
-    $router->post('/email/request', 'EmailAuthController@request', JSONMiddleware::class);
+    $router->post('/email/request', 'EmailAuthController@request', [JSONMiddleware::class, CaptchaMiddleware::class]);
     $router->get('/email/callback', 'EmailAuthController@callback');
     $router->get('/google/request', 'GoogleAuthController@request');
     $router->get('/google/callback', 'GoogleAuthController@callback');
@@ -44,13 +42,6 @@ $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], f
     $router->put('/{id}/toggle', 'AppController@toggleActive');
     $router->delete('/{id}', 'AppController@delete');
 });
-
-
-
-$router->group(['middleware' => [CORSMiddleware::class, RateLimitMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
-    $router->any('/submit', 'SubmissionController@submit');
-});
-
 
 try {
     $router->dispatch();

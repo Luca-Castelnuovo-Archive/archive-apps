@@ -18,7 +18,7 @@ class AuthController extends Controller
      */
     public function login($user_where)
     {
-        $user = DB::get('users', ['id', 'active [Bool]',], $user_where);
+        $user = DB::get('users', ['id', 'active [Bool]', 'admin [Bool]'], $user_where);
 
         if (!$user) {
             return $this->logout('Account not found!');
@@ -30,6 +30,7 @@ class AuthController extends Controller
 
         SessionHelper::destroy();
         SessionHelper::set('id', $user['id']);
+        SessionHelper::set('is_admin', $user['admin']);
         SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
         SessionHelper::set('last_activity', time());
 

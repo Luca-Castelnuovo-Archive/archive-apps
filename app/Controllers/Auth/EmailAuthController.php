@@ -4,7 +4,6 @@ namespace App\Controllers\Auth;
 
 use DB;
 use Exception;
-use App\Helpers\CaptchaHelper;
 use App\Helpers\JWTHelper;
 use App\Helpers\MailHelper;
 use App\Helpers\StateHelper;
@@ -28,17 +27,6 @@ class EmailAuthController extends AuthController
             return $this->respondJson(
                 false,
                 'Provided data was malformed',
-                json_decode($e->getMessage()),
-                422
-            );
-        }
-
-        try {
-            CaptchaHelper::validate($request->data->{'h-captcha-response'});
-        } catch (Exception $e) {
-            return $this->respondJson(
-                false,
-                'Please complete captcha',
                 json_decode($e->getMessage()),
                 422
             );
