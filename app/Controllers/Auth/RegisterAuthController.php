@@ -47,7 +47,6 @@ class RegisterAuthController extends AuthController
             'expires_at',
             'roles'
         ], ['code' => $request->data->invite_code]);
-        // TODO: DB::delete('invites', ['code' => $request->data->invite_code]);
 
         if (!$invite) {
             return $this->respondJson(
@@ -62,6 +61,8 @@ class RegisterAuthController extends AuthController
                 'Invite code has expired'
             );
         }
+
+        DB::delete('invites', ['code' => $request->data->invite_code]);
 
         $jwt = JWTHelper::create('register', [
             'roles' => $invite['roles'],
@@ -104,7 +105,12 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        // validate invite code with gumroad
+        // TODO: validate invite code with gumroad
+        return $this->respondJson(
+            false,
+            'License code not found'
+        );
+
         $roles = [];
 
         $jwt = JWTHelper::create('register', [
@@ -114,7 +120,7 @@ class RegisterAuthController extends AuthController
 
         return $this->respondJson(
             true,
-            'Invite code valid',
+            'License code valid',
             ['redirect' => "/auth/register?code={$jwt}"]
         );
     }
@@ -180,14 +186,14 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        // if (DB::has('users', $type_query)) {
-        //     return $this->respondJson(
-        //         false,
-        //         "This {$type} account is already used, please use another"
-        //     );
-        // }
+        if (DB::has('users', $type_query)) {
+            return $this->respondJson(
+                false,
+                "This {$type} account is already used, please use another"
+            );
+        }
 
-        if (!StateHelper::valid($jwt->state, false)) { // todo: remove false
+        if (!StateHelper::valid($jwt->state)) {
             return $this->respondJson(
                 false,
                 'State is invalid',
@@ -199,15 +205,14 @@ class RegisterAuthController extends AuthController
             'id' => Uuid::uuid4()->toString(),
             'roles' => $jwt->roles
         ], $type_query);
-        // DB::create('users', $create_query);
+        DB::create('users', $create_query);
 
         // MAYBE: send welcome mail, if email present
 
         return $this->respondJson(
             true,
             'Account Created',
-            $create_query
-            // ['redirect' => '/']
+            ['redirect' => '/']
         );
     }
 }
