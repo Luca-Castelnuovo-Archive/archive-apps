@@ -168,16 +168,10 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        try {
-            $jwt = JWTHelper::valid('register', $request->data->code);
-        } catch (Exception $e) {
-            return $this->logout($e->getMessage());
-        }
-
         $type = $request->data->type;
-        $type_query = [$type => $request->data->{$type}];
+        $data =  $request->data->{$type};
 
-        if (!$request->data->{$type}) {
+        if (!$data) {
             return $this->respondJson(
                 false,
                 'Provided data was malformed',
@@ -186,7 +180,13 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        if (DB::has('users', $type_query)) {
+        try {
+            $jwt = JWTHelper::valid('register', $request->data->code);
+        } catch (Exception $e) {
+            return $this->logout($e->getMessage());
+        }
+
+        if (DB::has('users', [$type => $request->data->{$type}])) {
             return $this->respondJson(
                 false,
                 "This {$type} account is already used, please use another"
@@ -201,18 +201,17 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        $create_query = array_merge([
+        DB::create('users', [
             'id' => Uuid::uuid4()->toString(),
-            'roles' => $jwt->roles
-        ], $type_query);
-        DB::create('users', $create_query);
+            'roles' => $jwt->roles,
+            $type => $request->data->{$type}
+        ]);
 
-        // MAYBE: send welcome mail, if email present
-
+        $jwt = JWTHelper::create('message', ['message' => 'You can now login']);
         return $this->respondJson(
             true,
             'Account Created',
-            ['redirect' => '/']
+            ['redirect' => "/?msg={$jwt}"]
         );
     }
 }
