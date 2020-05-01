@@ -39,6 +39,11 @@ $router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], 
     $router->delete('/account', 'UserController@removeAccount');
 });
 
+$router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->post('/', 'LicenseController@create', JSONMiddleware::class);
+    $router->delete('/', 'LicenseController@remove', JSONMiddleware::class);
+});
+
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
     $router->post('/', 'AppController@create');
     $router->put('/{id}', 'AppController@update');

@@ -6,7 +6,7 @@
         <div class="card-action">
             <div class="row">
                 <div class="col s12">
-                    <a class="btn-large waves-effect waves-light {{ app.licensed ? 'blue accent-4' : '' }}" style="width: 100%" target="_blank" href="{{ app.licensed ? '/app/launch/' ~ app.id : 'https://gum.co/' ~ app.gumroad_id }}">
+                    <a class="btn-large waves-effect waves-light {{ app.active ? '' : 'disabled' }} {{ app.licensed ? 'blue accent-4' : '' }}" style="width: 100%" target="_blank" href="{{ app.licensed ? '/app/launch/' ~ app.id : 'https://gum.co/' ~ app.gumroad_id }}">
                         {{ app.licensed ? 'Launch' : 'Buy license' }}
                     </a>
                 </div>

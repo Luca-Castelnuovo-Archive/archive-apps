@@ -35,6 +35,7 @@ class CreateAppsTable extends AbstractMigration
         $users
             ->addColumn('id',           'uuid',     ['default' => 'UUID()'])
             ->addColumn('gumroad_id',   'string')
+            ->addColumn('active',       'boolean',  ['default' => true])
             ->addColumn('name',         'string')
             ->addColumn('url',          'string')
             ->create();

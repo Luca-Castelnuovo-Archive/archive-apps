@@ -22,6 +22,7 @@ class UserController extends Controller
             [
                 'id',
                 'gumroad_id',
+                'active',
                 'name',
                 'url'
             ],
@@ -54,7 +55,7 @@ class UserController extends Controller
      *
      * @param ServerRequest $request
      * 
-     * @return JsonResponse
+     * @return HtmlResponse
      */
     public function settingsView(ServerRequest $request)
     {
@@ -64,13 +65,24 @@ class UserController extends Controller
             'email'
         ], ['id' => SessionHelper::get('id')]);
 
-        $licenses = DB::get('licenses', [
+        $licenses = DB::select('licenses', [
             'app_id',
             'license',
             'created_at'
         ], [
             'user_id' => SessionHelper::get('id')
         ]);
+
+        $result = [];
+
+        foreach ($licenses as $license) {
+            $app = DB::get('apps', 'name', ['id' => $license['app_id']]);
+
+            $result[$license['license']] = $license;
+            $result[$license['license']]['name'] = $app;
+        }
+
+        $licenses = array_values($result);
 
         return $this->respond('user/settings.twig', [
             'settings' => $settings,
@@ -202,7 +214,7 @@ class UserController extends Controller
     /**
      * Remove account
      * 
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function removeAccount()
     {
