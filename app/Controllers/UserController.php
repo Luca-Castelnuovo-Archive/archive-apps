@@ -3,19 +3,13 @@
 namespace App\Controllers;
 
 use DB;
+use Exception;
 use App\Helpers\SessionHelper;
+use App\Validators\UserValidator;
 use Zend\Diactoros\ServerRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Update User
-     * 
-     * Link Github Account
-     * Link Google Account
-     *
-     */
-
     /**
      * Dashboard screen
      *
@@ -64,24 +58,168 @@ class UserController extends Controller
      */
     public function settingsView(ServerRequest $request)
     {
-        // show settings
-        $settings = [];
+        $settings = DB::get('users', [
+            'github',
+            'google',
+            'email'
+        ], ['id' => SessionHelper::get('id')]);
+
+        $licenses = DB::get('licenses', [
+            'app_id',
+            'license',
+            'created_at'
+        ], [
+            'user_id' => SessionHelper::get('id')
+        ]);
+
         return $this->respond('user/settings.twig', [
-            'settings' => $settings
+            'settings' => $settings,
+            'licenses' => $licenses
         ]);
     }
 
     /**
-     * Update settings
+     * Add login option
      *
      * @param ServerRequest $request
      * 
      * @return JsonResponse
      */
-    public function settings(ServerRequest $request)
+    public function addLogin(ServerRequest $request)
     {
-        // update settings
+        try {
+            UserValidator::addLogin($request->data);
+        } catch (Exception $e) {
+            return $this->respondJson(
+                false,
+                'Provided data was malformed',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
 
-        return $this->respondJson($request->data);
+        $type = $request->data->type;
+        $data = $request->data->id;
+
+        if (DB::get('users', $type, ['id' => SessionHelper::get('id')])) {
+            return $this->respondJson(
+                false,
+                "Please unlink {$type} before relinking it",
+                [],
+                400
+            );
+        }
+
+        if (DB::has('users', [$type => $data])) {
+            return $this->respondJson(
+                false,
+                "This {$type} account is already used, please use another",
+                [],
+                400
+            );
+        }
+
+        DB::update('users', [$type => $data], ['id' => SessionHelper::get('id')]);
+
+        return $this->respondJson(
+            true,
+            'Login option added',
+            ['redirect' => '/user/settings']
+        );
+    }
+
+    /**
+     * Remove login option
+     *
+     * @param ServerRequest $request
+     * 
+     * @return JsonResponse
+     */
+    public function removeLogin(ServerRequest $request)
+    {
+        try {
+            UserValidator::removeLogin($request->data);
+        } catch (Exception $e) {
+            return $this->respondJson(
+                false,
+                'Provided data was malformed',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
+
+        $type = $request->data->type;
+        $settings = DB::get('users', [
+            'github',
+            'google',
+            'email'
+        ], ['id' => SessionHelper::get('id')]);
+
+        switch ($type) {
+            case 'github':
+                if (!$settings['google'] && !$settings['email']) {
+                    return $this->respondJson(
+                        false,
+                        'You have to have at least one login option',
+                        [],
+                        400
+                    );
+                }
+                break;
+
+            case 'google':
+                if (!$settings['github'] && !$settings['email']) {
+                    return $this->respondJson(
+                        false,
+                        'You have to have at least one login option',
+                        [],
+                        400
+                    );
+                }
+                break;
+
+            case 'email':
+                if (!$settings['google'] && !$settings['github']) {
+                    return $this->respondJson(
+                        false,
+                        'You have to have at least one login option',
+                        [],
+                        400
+                    );
+                }
+                break;
+        }
+
+        DB::update('users', [$type => null], ['id' => SessionHelper::get('id')]);
+
+        return $this->respondJson(
+            true,
+            'Login option removed',
+            ['redirect' => '/user/settings']
+        );
+    }
+
+    /**
+     * Remove account
+     * 
+     * @return RedirectResponse
+     */
+    public function removeAccount()
+    {
+        // TODO: activate function
+        return $this->respondJson(
+            false,
+            'Access Denied',
+            [],
+            400
+        );
+
+        DB::delete('users', ['id' => SessionHelper::get('id')]);
+
+        return $this->respondJson(
+            true,
+            'Account Deleted',
+            ['redirect' => '/auth/logout']
+        );
     }
 }

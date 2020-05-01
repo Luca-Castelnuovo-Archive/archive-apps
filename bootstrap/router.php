@@ -33,7 +33,10 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
 $router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], function (Router $router) {
     $router->get('/dashboard', 'UserController@dashboard');
     $router->get('/settings', 'UserController@settingsView');
-    $router->put('/settings', 'UserController@settings');
+
+    $router->post('/login', 'UserController@addLogin', JSONMiddleware::class);
+    $router->delete('/login', 'UserController@removeLogin', JSONMiddleware::class);
+    $router->delete('/account', 'UserController@removeAccount');
 });
 
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {

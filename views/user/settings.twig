@@ -1,0 +1,78 @@
+{% extends "base.twig" %}
+{% set title = "Settings" %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<h2>Settings</h2>
+<div class="row">
+    <h5>Login Options:</h5>
+    <div class="row">
+        <p>
+            <button class="btn-large social github waves-effect waves-light" onClick="{{ settings.github ? "loginUnlink('github')" : "loginPopup('github')" }}">
+                <i class="fa fa-github"></i> Github
+            </button>
+
+            <span class="flow-text"> Status: {{ settings.github ? 'linked (' ~ settings.github ~ ')' : 'unlinked' }}</span>
+        </p>
+        <p>
+            <button class="btn-large social google waves-effect waves-light" onClick="{{ settings.google ? "loginUnlink('google')" : "loginPopup('google')" }}">
+                <i class="fa fa-google"></i> Google
+            </button>
+
+            <span class="flow-text"> Status: {{ settings.google ? 'linked (' ~ settings.google ~ ')' : 'unlinked' }}</span>
+        </p>
+        <p>
+            <button class="btn-large social email waves-effect waves-light" onClick="{{ settings.email ? "loginUnlink('email')" : "loginEmailModal()" }}">
+                <i class="fa fa-envelope"></i> Email
+            </button>
+
+            <span class="flow-text"> Status: {{ settings.email ? 'linked (' ~ settings.email ~ ')' : 'unlinked' }}</span>
+        </p>
+    </div>
+    <hr />
+    <h5>Licenses:</h5>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h5>List licenses - option to delete from account, option to add to account</h5>
+    <h5>Delete account - add warning that gumroad subscriptions are not revoked</h5>
+</div>
+
+<script>
+const loginPopup = type => {
+    const popupWindow = window.open(`/auth/${type}/request?popup=1`, '', 'height=720,width=480');
+    popupWindow.window.focus();
+
+    window.popupCallback = id => {
+        loginLink(type, id);
+    }
+}
+
+const loginEmailModal = () => {
+    // open modal
+}
+
+const loginEmail = () => {
+    // get email from modal input
+
+    loginLink('email', '123@gmail.com')
+}
+
+const loginLink = (type, id) => {      
+    apiUse('post', '/user/login', {type, id});
+}
+
+const loginUnlink = type => {
+    apiUse('delete', '/user/login', {data: {type}});
+}
+
+const deleteAccount = () => {
+    apiUse('delete', '/user/account');
+}
+</script>
+{% endblock %}

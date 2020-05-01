@@ -30,11 +30,8 @@ class SessionMiddleware implements Middleware
 
             return new JsonResponse([
                 'success' => false,
-                'errors' => [
-                    'status' => 403,
-                    'title' => 'invalid_session',
-                    'detail' => 'Session expired or IP mismatch'
-                ]
+                'message' => 'Session expired or IP mismatch',
+                'data' => ['redirect' => '/']
             ], 403);
         }
 

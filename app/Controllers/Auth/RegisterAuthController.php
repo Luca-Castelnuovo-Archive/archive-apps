@@ -35,14 +35,18 @@ class RegisterAuthController extends AuthController
         if (!$invite) {
             return $this->respondJson(
                 false,
-                'Invite code not found'
+                'Invite code not found',
+                [],
+                400
             );
         }
 
         if ($invite['expires_at'] < date('Y-m-d H:i:s')) {
             return $this->respondJson(
                 false,
-                'Invite code has expired'
+                'Invite code has expired',
+                [],
+                400
             );
         }
 
@@ -153,10 +157,12 @@ class RegisterAuthController extends AuthController
             return $this->logout($e->getMessage());
         }
 
-        if (DB::has('users', [$type => $request->data->{$type}])) {
+        if (DB::has('users', [$type => $data])) {
             return $this->respondJson(
                 false,
-                "This {$type} account is already used, please use another"
+                "This {$type} account is already used, please use another",
+                [],
+                400
             );
         }
 
@@ -164,13 +170,14 @@ class RegisterAuthController extends AuthController
             return $this->respondJson(
                 false,
                 'State is invalid',
-                ['redirect' => '/']
+                ['redirect' => '/'],
+                400
             );
         }
 
         DB::create('users', [
             'id' => Uuid::uuid4()->toString(),
-            $type => $request->data->{$type}
+            $type => $data
         ]);
 
         $jwt = JWTHelper::create('message', ['message' => 'You can now login']);
