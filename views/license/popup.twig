@@ -1,0 +1,33 @@
+{% extends "base.twig" %}
+{% set title = "Buy License" %}
+{% set navbarDisable = true %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12">
+        <div class="gumroad-product-embed" data-gumroad-product-id="{{ gumroad_id }}" data-gumroad-params="offer_code=basefree">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://gumroad.com/js/gumroad-embed.js"></script>
+<script>
+    window.addEventListener('message', event => {
+        try {
+            const data = JSON.parse(event.data);
+
+            if (data.post_message_name === "sale") {
+                window.opener.popupCallback({
+                    license: data.license_key,
+                    gumroad_id: data.permalink
+                });
+                
+                window.close();
+            }
+        } catch (error) {/* not an valid purchase*/}
+    }, false);
+</script>
+{% endblock %}

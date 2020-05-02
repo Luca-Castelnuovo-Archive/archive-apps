@@ -12,6 +12,18 @@ use Zend\Diactoros\ServerRequest;
 class LicenseController extends Controller
 {
     /**
+     * Open popup to buy license
+     *
+     * @param string $gumroad_id
+     * 
+     * @return HtmlResponse
+     */
+    public function popup($gumroad_id)
+    {
+        return $this->respond('license/popup.twig', ['gumroad_id' => $gumroad_id]);
+    }
+
+    /**
      * Add license to user
      * 
      * @param ServerRequest $request
@@ -115,7 +127,7 @@ class LicenseController extends Controller
         return $this->respondJson(
             true,
             'License removed',
-            ['redirect' => '/user/dashboard']
+            ['redirect' => '/user/settings']
         );
     }
 }

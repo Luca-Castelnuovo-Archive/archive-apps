@@ -40,6 +40,7 @@ $router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], 
 });
 
 $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('/{gumroad_id}', 'LicenseController@popup');
     $router->post('', 'LicenseController@create', JSONMiddleware::class);
     $router->delete('', 'LicenseController@remove', JSONMiddleware::class);
 });

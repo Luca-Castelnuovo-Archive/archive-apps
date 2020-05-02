@@ -11,6 +11,10 @@
 .mr-7 {
   margin: 7px 0;
 }
+.full-width {
+  max-width: 100%;
+  width: 100%;
+}
 .input-field input:focus,
 .input-field textarea:focus {
   border-bottom: 1px solid #2962ff !important;

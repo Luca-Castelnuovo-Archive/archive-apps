@@ -1,7 +1,7 @@
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const inputsDisabled = state => document.querySelectorAll('button, input, textarea').forEach(el => {el.disabled = state;});
-const reload = () => location.reload();
-const redirect = to => location.assign(to);
+const reload = () => window.location.reload();
+const redirect = to => window.location.assign(to);
 
 const api = axios.create({
     baseURL: '/',
