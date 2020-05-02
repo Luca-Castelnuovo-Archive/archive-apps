@@ -39,18 +39,22 @@ class EmailAuthController extends AuthController
             );
         }
 
-        $app_url = config('app.url');
-        $jwt = JWTHelper::create(
-            'emailLogin',
-            [
-                'sub' => $request->data->email,
-                'state' => StateHelper::set()
-            ]
-        );
-        $url = "{$app_url}/auth/email/callback?code={$jwt}";
-
         try {
-            MailHelper::send('emailLogin', $request->data->email, $request->data->email, $url);
+            $app_url = config('app.url');
+            $jwt = JWTHelper::create(
+                'emailLogin',
+                [
+                    'sub' => $request->data->email,
+                    'state' => StateHelper::set()
+                ]
+            );
+
+            MailHelper::send(
+                'emailLogin',
+                $request->data->email,
+                $request->data->email,
+                "{$app_url}/auth/email/callback?code={$jwt}"
+            );
         } catch (Exception $e) {
             return $this->respondJson(
                 'Login link could not be sent',

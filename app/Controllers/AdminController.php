@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use DB;
+use Exception;
 use App\Helpers\MailHelper;
-use App\Helpers\SessionHelper;
+use App\Helpers\StringHelper;
+use App\Validators\AdminValidator;
 use Zend\Diactoros\ServerRequest;
 
 class AdminController extends Controller
@@ -57,10 +59,49 @@ class AdminController extends Controller
      */
     public function invite(ServerRequest $request)
     {
-        // validator
+        if (!$this->isUserAdmin()) {
+            return $this->respondJson(
+                'Access Denied',
+                [],
+                403
+            );
+        }
 
-        // TODO: create invite token
-        // send email
+        try {
+            AdminValidator::invite($request->data);
+        } catch (Exception $e) {
+            return $this->respondJson(
+                'Provided data was malformed',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
+
+        $code = StringHelper::random();
+
+        DB::create(
+            'invites',
+            [
+                'code' => $code,
+                'expires_at' => date("Y-m-d H:i:s", (strtotime(date('Y-m-d H:i:s')) + config('jwt.invite')))
+            ]
+        );
+
+        try {
+            $app_url = config('app.url');
+            MailHelper::send(
+                'invite',
+                $request->data->email,
+                $request->data->email,
+                "{$app_url}/?invite={$code}"
+            );
+        } catch (Exception $e) {
+            return $this->respondJson(
+                'Invite link could not be sent',
+                json_decode($e->getMessage()),
+                500
+            );
+        }
 
         return $this->respondJson(
             'Invite Sent',
@@ -77,7 +118,15 @@ class AdminController extends Controller
      */
     public function userToggle($id)
     {
-        $user = DB::get('users', ['active'], ['id' => SessionHelper::get('id')]);
+        if (!$this->isUserAdmin()) {
+            return $this->respondJson(
+                'Access Denied',
+                [],
+                403
+            );
+        }
+
+        $user = DB::get('users', ['active'], ['id' => $id]);
 
         if (!$user) {
             return $this->respondJson(

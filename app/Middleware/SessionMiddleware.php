@@ -25,7 +25,7 @@ class SessionMiddleware implements Middleware
             SessionHelper::destroy();
 
             if ($request->isJSON) {
-                // TODO: reset session;
+                SessionHelper::destroy();
 
                 return new JsonResponse([
                     'success' => false,

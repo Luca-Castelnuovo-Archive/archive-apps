@@ -12,7 +12,7 @@ function config($key, $fallback = null)
     if (is_null($config)) {
         $config = [
             'auth' => [
-                'session_expires' => 1800, // 30 min
+                'session_expires' => 1800, // 30min
                 'github' => [
                     'client_id' => env('GITHUB_CLIENT_ID'),
                     'client_secret' => env('GITHUB_CLIENT_SECRET'),
@@ -46,7 +46,7 @@ function config($key, $fallback = null)
             ],
             'jwt' => [
                 'algorithm' => 'RS256',
-                // 'private_key' => env('JWT_PUBLIC_KEY'),
+                // 'private_key' => env('JWT_PUBLIC_KEY'), // TODO: import from .env like in wiskundesite
                 'private_key' => <<<EOD
                 -----BEGIN RSA PRIVATE KEY-----
                 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
@@ -85,7 +85,7 @@ function config($key, $fallback = null)
                 'invite' => [
                     'subject' => '[apps.lucacastelnuovo.nl] You have been invited',
                     'preheader' => 'You have been invited to use apps.lucacastelnuovo.nl.',
-                    'message' => 'You have created an account on apps.lucacastelnuovo.nl. Use the button below to verify your account and get started:',
+                    'message' => 'You have been invited to use apps.lucacastelnuovo.nl. Use the button below to set up your account and get started',
                     'btn_text' => 'Set up account',
                 ],
                 'emailLogin' => [

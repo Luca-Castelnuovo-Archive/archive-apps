@@ -37,14 +37,6 @@ class AppController extends Controller
             );
         }
 
-        if (DB::has('apps', ['gumroad_id' => $request->data->gumroad_id])) {
-            return $this->respondJson(
-                'Gumroad ID already used',
-                [],
-                400
-            );
-        }
-
         DB::create(
             'apps',
             [

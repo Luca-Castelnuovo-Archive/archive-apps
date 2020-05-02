@@ -179,16 +179,9 @@ class SettingsController extends Controller
      */
     public function removeAccount()
     {
-        // TODO: activate function
-        return $this->respondJson(
-            'Access Denied',
-            [],
-            400
-        );
-
         DB::delete('users', ['id' => SessionHelper::get('id')]);
 
-        // TODO: reset session;
+        SessionHelper::destroy();
 
         return $this->respondJson(
             'Account Deleted',
