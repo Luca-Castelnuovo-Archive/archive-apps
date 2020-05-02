@@ -1,12 +1,12 @@
 {% extends "partials/base.twig" %}
 {% set title = "Buy License" %}
 {% set navbarDisable = false %}
-{% set navbarDisableBtns = true %}
+{% set navbarPopup = true %}
 
 {% block content %}
 <div class="row">
     <div class="col s12">
-        <div class="gumroad-product-embed" data-gumroad-product-id="{{ gumroad_id }}" data-gumroad-params="offer_code=basefree">
+        <div class="gumroad-product-embed" data-gumroad-product-id="{{ gumroad_id }}" data-gumroad-params="offer_code={{ offer_code }}">
             <div class="progress">
                 <div class="indeterminate"></div>
             </div>

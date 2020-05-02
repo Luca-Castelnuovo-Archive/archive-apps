@@ -15,12 +15,16 @@ class LicenseController extends Controller
      * Open popup to buy license
      *
      * @param string $gumroad_id
+     * @param string $offer_code
      * 
      * @return HtmlResponse
      */
-    public function popup($gumroad_id)
+    public function popup($gumroad_id, $offer_code)
     {
-        return $this->respond('license/popup.twig', ['gumroad_id' => $gumroad_id]);
+        return $this->respond('license/popup.twig', [
+            'gumroad_id' => $gumroad_id,
+            'offer_code' => $offer_code
+        ]);
     }
 
     /**

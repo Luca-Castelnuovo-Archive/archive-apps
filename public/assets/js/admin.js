@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const toggleApp = identifier => {
-    const app = apps.filter(app => app.id == identifier)[0];
+    const app = window.apps.filter(app => app.id == identifier)[0];
     
     apiUse('put', `/app/${identifier}`, {
         gumroad_id: null,
@@ -14,7 +14,7 @@ const toggleApp = identifier => {
 }
 
 const editApp = identifier => {
-    const app = apps.filter(app => app.id == identifier)[0];
+    const app = window.apps.filter(app => app.id == identifier)[0];
 
     const id = document.querySelector('input#app-edit-id');
     const gumroad_id = document.querySelector('input#app-edit-gumroad_id');

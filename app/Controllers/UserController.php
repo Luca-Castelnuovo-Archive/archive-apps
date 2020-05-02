@@ -4,16 +4,21 @@ namespace App\Controllers;
 
 use DB;
 use App\Helpers\SessionHelper;
+use Zend\Diactoros\ServerRequest;
 
 class UserController extends Controller
 {
     /**
      * Dashboard screen
      *
+     * @param ServerRequest $request
+     * 
      * @return HtmlResponse
      */
-    public function dashboard()
+    public function dashboard(ServerRequest $request)
     {
+        $offer_code = $request->getQueryParams()['offer_code'] ?: 'free';
+
         $apps = DB::select(
             'apps',
             [
@@ -43,7 +48,8 @@ class UserController extends Controller
         $apps = array_values($result);
 
         return $this->respond('dashboard.twig', [
-            'apps' => $apps
+            'apps' => $apps,
+            'offer_code' => $offer_code
         ]);
     }
 }

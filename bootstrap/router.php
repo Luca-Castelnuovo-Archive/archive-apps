@@ -42,7 +42,7 @@ $router->group(['prefix' => '/settings', 'middleware' => SessionMiddleware::clas
 });
 
 $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class], function (Router $router) {
-    $router->get('/{gumroad_id}', 'LicenseController@popup');
+    $router->get('/{gumroad_id}/{offer_code}', 'LicenseController@popup');
     $router->post('', 'LicenseController@create', JSONMiddleware::class);
     $router->delete('', 'LicenseController@remove', JSONMiddleware::class);
 });
