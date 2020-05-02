@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use DB;
-use Exception;
 use App\Helpers\MailHelper;
 use App\Helpers\SessionHelper;
 use Zend\Diactoros\ServerRequest;
@@ -11,71 +10,85 @@ use Zend\Diactoros\ServerRequest;
 class AdminController extends Controller
 {
     /**
-     * Create Invite
-     * Update User
-     * Enable/Disable User
-     * Enable/Disable admin priv
-     */
-
-    /**
-     * List users
+     * List apps and users
      *
      * @return HtmlResponse
      */
-    public function users()
+    public function view()
     {
-        // list all users
+        if (!$this->isUserAdmin()) {
+            return $this->redirect('/dashboard');
+        }
 
-        $users = [];
+        $apps = DB::select('apps', [
+            'id',
+            'gumroad_id',
+            'active',
+            'name',
+            'url',
+            'updated_at',
+            'created_at'
+        ], '*');
 
-        return $this->respond('admin/users.twig', [
+        $users = DB::select('users', [
+            'id',
+            'active',
+            'admin',
+            'email',
+            'google',
+            'github',
+            'updated_at',
+            'created_at'
+        ], '*');
+
+        return $this->respond('admin.twig', [
+            'apps' => $apps,
             'users' => $users
         ]);
     }
 
     /**
+     * Invite user
+     *
+     * @param ServerRequest $request
+     * @param string $id
+     * 
+     * @return JsonResponse
+     */
+    public function invite(ServerRequest $request)
+    {
+        // validator
+
+        // create invite token
+        // send email
+
+        // return $this->respondJson();
+    }
+
+    /**
      * Update user
      *
-     * @param ServerRequest $request
      * @param string $id
      * 
      * @return JsonResponse
      */
-    public function user(ServerRequest $request, $id)
+    public function userToggle($id)
     {
-        // update user
+        $user = DB::get('users', ['active'], ['id' => SessionHelper::get('id')]);
 
-        // return $this->respondJson();
-    }
+        if (!$user) {
+            return $this->respondJson(
+                'User not found',
+                [],
+                400
+            );
+        }
 
-    /**
-     * List apps
-     *
-     * @return HtmlResponse
-     */
-    public function apps()
-    {
-        // list all users
+        // Update DB - active, inactive
 
-        $apps = [];
-
-        return $this->respond('admin/apps.twig', [
-            'apps' => $apps
-        ]);
-    }
-
-    /**
-     * Update app
-     *
-     * @param ServerRequest $request
-     * @param string $id
-     * 
-     * @return JsonResponse
-     */
-    public function app(ServerRequest $request, $id)
-    {
-        // update user
-
-        // return $this->respondJson();
+        return $this->respondJson(
+            'User Updated',
+            ['reload' => true]
+        );
     }
 }

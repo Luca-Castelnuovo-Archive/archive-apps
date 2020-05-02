@@ -1,0 +1,14 @@
+<tr>
+    <td>{{ app.id }}</td>
+    <td>{{ app.gumroad_id }}</td>
+    <td>{{ app.name }}</td>
+    <td><a href="{{ app.url }}" target="_blank">{{ app.url }}</a></td>
+    <td>{{ app.updated_at }}</td>
+    <td>{{ app.created_at }}</td>
+    <td>
+        <button class="btn waves-effect waves-light {{ app.active ? 'green' : 'red' }}" onClick="toggleApp('{{ app.id }}')">{{ app.active ? 'Enabled' : 'Disabled' }}</button>
+    </td>
+    <td>
+        <button class="btn waves-effect waves-light blue accent-4" onClick="editApp('{{ app.id}}')">Edit</button>
+    </td>
+</tr>

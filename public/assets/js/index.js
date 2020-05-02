@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {dismissible: true});
 
+    const formHandler = (form, endpoint, captchaRequired = false) => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            formSubmit(form, endpoint, captchaRequired)
+        });    
+    }
+
     const emailCode = new URLSearchParams(window.location.search).get('email');
     if (emailCode) {
         document.querySelector('input#email').value = emailCode;

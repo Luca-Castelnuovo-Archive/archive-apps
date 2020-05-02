@@ -1,13 +1,13 @@
 <nav>
     <div class="nav-wrapper blue accent-4">
-        <a href="{{ navbarDisableBtns ? '#' : '/dashboard' }}" class="brand-logo" style="padding-left: 15px">Apps - {{ title }}</a>
+        <a href="{{ navbarDisableBtns ? '#' : '/dashboard' }}" class="brand-logo" style="padding-left: 15px">{{ title }}</a>
         {% if not navbarDisableBtns %}
             <a href="#" data-target="sidenav" class="right sidenav-trigger">
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
                 <li>
-                    <a href="/app">Apps (admin only)</a>
+                    <a href="/admin">Admin</a>
                 </li>
                 <li>
                     <a href="/dashboard">Dashboard</a>

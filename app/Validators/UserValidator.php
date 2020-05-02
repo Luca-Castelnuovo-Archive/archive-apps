@@ -16,7 +16,9 @@ class UserValidator extends ValidatorBase
     public static function addLogin($data)
     {
         $v = v::attribute('type', v::oneOf(v::equals('github'), v::equals('google'), v::equals('email')))
-            ->attribute('id', v::stringType());
+            ->attribute('id', v::oneOf(v::email(), v::number()));
+
+        // TODO: only allow valid email or numbers
 
         ValidatorBase::validate($v, $data);
     }

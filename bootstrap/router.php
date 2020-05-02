@@ -48,11 +48,19 @@ $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class
 });
 
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
-    $router->get('', 'AppController@view');
     $router->post('', 'AppController@create', JSONMiddleware::class);
     $router->put('/{id}', 'AppController@update', JSONMiddleware::class);
-    $router->put('/{id}/toggle', 'AppController@toggleActive');
     $router->delete('/{id}', 'AppController@delete');
+});
+
+$router->group(['prefix' => '/launch', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('/{id}', 'LaunchController@launch');
+});
+
+$router->group(['prefix' => '/admin', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('', 'AdminController@view');
+    $router->post('/invite', 'AdminController@invite', JSONMiddleware::class);
+    $router->put('/user/{id}', 'AdminController@userToggle');
 });
 
 try {

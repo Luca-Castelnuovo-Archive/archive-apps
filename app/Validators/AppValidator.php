@@ -31,10 +31,10 @@ class AppValidator extends ValidatorBase
      */
     public static function update($data)
     {
-        // TODO: make optional
-        $v = v::attribute('gumroad_id', v::alnum())
-            ->attribute('name', v::alnum('.', '-', ' '))
-            ->attribute('url', v::url());
+        $v = v::attribute('gumroad_id', v::optional(v::alnum()))
+            ->attribute('name', v::optional(v::stringType()))
+            ->attribute('url', v::optional(v::url()))
+            ->attribute('active', v::optional(v::boolVal()));
 
         ValidatorBase::validate($v, $data);
     }

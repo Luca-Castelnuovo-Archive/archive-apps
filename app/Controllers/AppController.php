@@ -11,28 +11,6 @@ use Zend\Diactoros\ServerRequest;
 class AppController extends Controller
 {
     /**
-     * List all apps
-     *
-     * @return HtmlResponse
-     */
-    public function view()
-    {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
-        $apps = [];
-
-        return $this->respond('apps.twig', [
-            'apps' => $apps
-        ]);
-    }
-
-    /**
      * Create App
      *
      * @param ServerRequest $request
@@ -53,7 +31,7 @@ class AppController extends Controller
             AppValidator::create($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                'invalid_input',
+                'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
             );
@@ -105,7 +83,7 @@ class AppController extends Controller
             AppValidator::update($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                'invalid_input',
+                'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
             );
@@ -116,7 +94,8 @@ class AppController extends Controller
             [
                 'gumroad_id',
                 'name',
-                'url'
+                'url',
+                'active'
             ],
             [
                 'id' => $id
@@ -136,7 +115,8 @@ class AppController extends Controller
             [
                 'gumroad_id' => $request->data->gumroad_id ?: $app['gumroad_id'],
                 'name' => $request->data->name ?: $app['name'],
-                'url' => $request->data->url ?: $app['url']
+                'url' => $request->data->url ?: $app['url'],
+                'active' => isset($request->data->active) ? $request->data->active : $app['active']
             ],
             [
                 'id' => $id
@@ -147,41 +127,6 @@ class AppController extends Controller
             'App Updated',
             ['reload' => true]
         );
-    }
-
-    /**
-     * Toggle App
-     *
-     * @param ServerRequest $request
-     * @param string $id
-     *
-     * @return JsonResponse
-     */
-    public function toggleActive(ServerRequest $request, $id)
-    {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
-        $app = DB::get('apps', ['active [bool]'], ['id' => $id]);
-        var_dump($app);
-        exit;
-
-        if (!$app) {
-            return $this->respondJson(
-                'App not found',
-                [],
-                404
-            );
-        }
-
-        DB::update('templates', ['active' => !$app['active']], ['id' => $id]);
-
-        return $this->respondJson('App Deactivated/Activated');
     }
 
     /**
@@ -206,7 +151,7 @@ class AppController extends Controller
         ]);
 
         return $this->respondJson(
-            'App deleted',
+            'App Deleted',
             ['reload' => true]
         );
     }

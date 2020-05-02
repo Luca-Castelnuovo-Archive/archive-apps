@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function() {
+    M.Sidenav.init(document.querySelectorAll('.sidenav'), {edge: 'right'});
+});
+
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const inputsDisabled = state => document.querySelectorAll('button, input, textarea').forEach(el => {el.disabled = state;});
 const reload = () => window.location.reload();
@@ -42,15 +46,7 @@ const formDataToJSON = data => {
     return object
 }
 
-const formHandler = (form, endpoint, captchaRequired = false) => {
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        formSubmit(form, endpoint, captchaRequired)
-    });    
-}
-
-const formSubmit = (form, endpoint, captchaRequired = false) => {
+const formSubmit = (form, endpoint, captchaRequired = false, method = 'post') => {
     const data = formDataToJSON(new FormData(form));
     
     if (captchaRequired && !data['h-captcha-response']) {
@@ -60,5 +56,5 @@ const formSubmit = (form, endpoint, captchaRequired = false) => {
 
     inputsDisabled(true);
 
-    apiUse('post', endpoint, data, form);
+    apiUse(method, endpoint, data, form);
 }

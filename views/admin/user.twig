@@ -1,0 +1,11 @@
+<tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.github }}</td>
+    <td>{{ user.google }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.updated_at }}</td>
+    <td>{{ user.created_at }}</td>
+    <td>
+        <button class="btn waves-effect waves-light {{ user.active ? 'green' : 'red' }}" onClick="toggleUser('{{ user.id }}')">{{ user.active ? 'Enabled' : 'Disabled' }}</button>
+    </td>
+</tr>
