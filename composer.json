@@ -1,6 +1,6 @@
 {
-    "name": "lucacastelnuovo/auth",
-    "description": "Centralized auth server for issuing JWTs from multiple providers",
+    "name": "lucacastelnuovo/apps-manager",
+    "description": "Centralized auth server for managing access to my apps",
     "require": {
         "catfan/medoo": "^1.7",
         "firebase/php-jwt": "^5.1",

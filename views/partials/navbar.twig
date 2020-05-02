@@ -1,20 +1,22 @@
 <nav>
     <div class="nav-wrapper blue accent-4">
-        <a href="/user/dashboard" class="brand-logo" style="padding-left: 15px">Auth - {{ title }}</a>
-        <a href="#" data-target="sidenav" class="right sidenav-trigger">
-            <i class="material-icons">menu</i>
-        </a>
-        <ul class="right hide-on-med-and-down">
-            <li>
-                <a href="/user/dashboard">Dashboard</a>
-            </li>
-            <li>
-                <a href="/user/settings">Settings</a>
-            </li>
-            <li>
-                <a href="/auth/logout">Logout</a>
-            </li>
-        </ul>
+        <a href="{{ navbarDisableBtns ? '#' : '/user/dashboard' }}" class="brand-logo" style="padding-left: 15px">Apps - {{ title }}</a>
+        {% if not navbarDisableBtns %}
+            <a href="#" data-target="sidenav" class="right sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href="/user/dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/user/settings">Settings</a>
+                </li>
+                <li>
+                    <a href="/auth/logout">Logout</a>
+                </li>
+            </ul>
+        {% endif %}
     </div>
 
     <ul class="sidenav" id="sidenav">
