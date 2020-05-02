@@ -49,8 +49,8 @@ $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class
 
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
     $router->get('', 'AppController@view');
-    $router->post('', 'AppController@create');
-    $router->put('/{id}', 'AppController@update');
+    $router->post('', 'AppController@create', JSONMiddleware::class);
+    $router->put('/{id}', 'AppController@update', JSONMiddleware::class);
     $router->put('/{id}/toggle', 'AppController@toggleActive');
     $router->delete('/{id}', 'AppController@delete');
 });
