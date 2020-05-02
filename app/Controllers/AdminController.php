@@ -136,7 +136,7 @@ class AdminController extends Controller
             );
         }
 
-        // TODO: Update DB - active, inactive
+        DB::update('users', ['active' => !$user['active']], ['id' => $id]);
 
         return $this->respondJson(
             'User Updated',
