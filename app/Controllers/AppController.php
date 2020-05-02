@@ -17,12 +17,21 @@ class AppController extends Controller
      */
     public function view()
     {
+        if (!$this->isUserAdmin()) {
+            return $this->respondJson(
+                'Access Denied',
+                [],
+                403
+            );
+        }
+
         $apps = [];
 
         return $this->respond('apps.twig', [
             'apps' => $apps
         ]);
     }
+
     /**
      * Create App
      *
@@ -34,8 +43,7 @@ class AppController extends Controller
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
-                'user_not_admin',
-                'The user doesn\'t have privileges to access this resource',
+                'Access Denied',
                 [],
                 403
             );
@@ -47,8 +55,15 @@ class AppController extends Controller
             return $this->respondJson(
                 'invalid_input',
                 json_decode($e->getMessage()),
-                [],
                 422
+            );
+        }
+
+        if (DB::has('apps', ['gumroad_id' => $request->data->gumroad_id])) {
+            return $this->respondJson(
+                'Gumroad ID already used',
+                [],
+                400
             );
         }
 
@@ -63,7 +78,6 @@ class AppController extends Controller
         );
 
         return $this->respondJson(
-            true,
             'App Created',
             ['reload' => true]
         );
@@ -81,8 +95,7 @@ class AppController extends Controller
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
-                'user_not_admin',
-                'The user doesn\'t have privileges to access this resource',
+                'Access Denied',
                 [],
                 403
             );
@@ -94,7 +107,6 @@ class AppController extends Controller
             return $this->respondJson(
                 'invalid_input',
                 json_decode($e->getMessage()),
-                [],
                 422
             );
         }
@@ -111,6 +123,14 @@ class AppController extends Controller
             ]
         );
 
+        if (!$app) {
+            return $this->respondJson(
+                'App not found',
+                [],
+                404
+            );
+        }
+
         DB::update(
             'apps',
             [
@@ -124,7 +144,6 @@ class AppController extends Controller
         );
 
         return $this->respondJson(
-            true,
             'App Updated',
             ['reload' => true]
         );
@@ -142,23 +161,27 @@ class AppController extends Controller
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
-                'user_not_admin',
-                'The user doesn\'t have privileges to access this resource',
+                'Access Denied',
                 [],
                 403
             );
         }
 
-        $active = DB::get('apps', 'active [bool]', ['id' => $id]);
-        var_dump($active);
+        $app = DB::get('apps', ['active [bool]'], ['id' => $id]);
+        var_dump($app);
         exit;
 
-        DB::update('templates', ['active' => !$active], ['id' => $id]);
+        if (!$app) {
+            return $this->respondJson(
+                'App not found',
+                [],
+                404
+            );
+        }
 
-        return $this->respondJson(
-            true,
-            'App Deactivated/Activated'
-        );
+        DB::update('templates', ['active' => !$app['active']], ['id' => $id]);
+
+        return $this->respondJson('App Deactivated/Activated');
     }
 
     /**
@@ -172,8 +195,7 @@ class AppController extends Controller
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
-                'user_not_admin',
-                'The user doesn\'t have privileges to access this resource',
+                'Access Denied',
                 [],
                 403
             );
@@ -184,7 +206,6 @@ class AppController extends Controller
         ]);
 
         return $this->respondJson(
-            true,
             'App deleted',
             ['reload' => true]
         );

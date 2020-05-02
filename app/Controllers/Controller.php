@@ -62,17 +62,16 @@ class Controller
     /**
      * Shorthand JSON response function
      * 
-     * @param bool $success
      * @param string $message
      * @param array $data optional
      * @param integer $code optional
      * 
      * @return JsonResponse
      */
-    protected function respondJson($success, $message, $data = [], $code = 200)
+    protected function respondJson($message, $data = [], $code = 200)
     {
         return new JsonResponse([
-            'success' => $success,
+            'success' => $code === 200,
             'message' => $message,
             'data' => $data
         ], $code);

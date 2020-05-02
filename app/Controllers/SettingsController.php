@@ -53,7 +53,7 @@ class SettingsController extends Controller
 
         $licenses = array_values($result);
 
-        return $this->respond('user/settings.twig', [
+        return $this->respond('settings.twig', [
             'settings' => $settings,
             'licenses' => $licenses,
             'apps' => $apps
@@ -73,7 +73,6 @@ class SettingsController extends Controller
             UserValidator::addLogin($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -85,7 +84,6 @@ class SettingsController extends Controller
 
         if (DB::get('users', $type, ['id' => SessionHelper::get('id')])) {
             return $this->respondJson(
-                false,
                 "Please unlink {$type} before relinking it",
                 [],
                 400
@@ -94,7 +92,6 @@ class SettingsController extends Controller
 
         if (DB::has('users', [$type => $data])) {
             return $this->respondJson(
-                false,
                 "This {$type} account is already used, please use another",
                 [],
                 400
@@ -104,7 +101,6 @@ class SettingsController extends Controller
         DB::update('users', [$type => $data], ['id' => SessionHelper::get('id')]);
 
         return $this->respondJson(
-            true,
             'Login Added',
             ['reload' => true]
         );
@@ -123,7 +119,6 @@ class SettingsController extends Controller
             UserValidator::removeLogin($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -141,7 +136,6 @@ class SettingsController extends Controller
             case 'github':
                 if (!$settings['google'] && !$settings['email']) {
                     return $this->respondJson(
-                        false,
                         'You have to have at least one login option',
                         [],
                         400
@@ -152,7 +146,6 @@ class SettingsController extends Controller
             case 'google':
                 if (!$settings['github'] && !$settings['email']) {
                     return $this->respondJson(
-                        false,
                         'You have to have at least one login option',
                         [],
                         400
@@ -163,7 +156,6 @@ class SettingsController extends Controller
             case 'email':
                 if (!$settings['google'] && !$settings['github']) {
                     return $this->respondJson(
-                        false,
                         'You have to have at least one login option',
                         [],
                         400
@@ -175,7 +167,6 @@ class SettingsController extends Controller
         DB::update('users', [$type => null], ['id' => SessionHelper::get('id')]);
 
         return $this->respondJson(
-            true,
             'Login Removed',
             ['reload' => true]
         );
@@ -190,7 +181,6 @@ class SettingsController extends Controller
     {
         // TODO: activate function
         return $this->respondJson(
-            false,
             'Access Denied',
             [],
             400
@@ -199,8 +189,8 @@ class SettingsController extends Controller
         DB::delete('users', ['id' => SessionHelper::get('id')]);
 
         // TODO: reset session;
+
         return $this->respondJson(
-            true,
             'Account Deleted',
             ['redirect' => '/auth/logout']
         );

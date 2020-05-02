@@ -36,7 +36,6 @@ class LicenseController extends Controller
             LicenseValidator::create($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -49,7 +48,6 @@ class LicenseController extends Controller
         $app_id = DB::select('apps', 'id', ['gumroad_id' => $gumroad_id])[0];
         if (!$app_id) {
             return $this->respondJson(
-                false,
                 'License Invalid', // app not found
                 [],
                 400
@@ -61,7 +59,6 @@ class LicenseController extends Controller
             'user_id' => SessionHelper::get('id')
         ])) {
             return $this->respondJson(
-                false,
                 'App already licensed',
                 [],
                 400
@@ -70,7 +67,6 @@ class LicenseController extends Controller
 
         if (DB::has('licenses', ['license' => $license])) {
             return $this->respondJson(
-                false,
                 'License already used on another account',
                 [],
                 400
@@ -79,7 +75,6 @@ class LicenseController extends Controller
 
         if (!LicenseHelper::validate($gumroad_id, $license)) {
             return $this->respondJson(
-                false,
                 'License Invalid',
                 [],
                 400
@@ -93,7 +88,6 @@ class LicenseController extends Controller
         ]);
 
         return $this->respondJson(
-            true,
             'License Added',
             ['reload' => true]
         );
@@ -112,7 +106,6 @@ class LicenseController extends Controller
             LicenseValidator::remove($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -125,7 +118,6 @@ class LicenseController extends Controller
         ]);
 
         return $this->respondJson(
-            true,
             'License Removed',
             ['reload' => true]
         );

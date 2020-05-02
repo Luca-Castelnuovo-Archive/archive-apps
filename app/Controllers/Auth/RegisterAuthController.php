@@ -23,7 +23,6 @@ class RegisterAuthController extends AuthController
             RegisterAuthValidator::invite($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -34,7 +33,6 @@ class RegisterAuthController extends AuthController
 
         if (!$invite) {
             return $this->respondJson(
-                false,
                 'Invite code not found',
                 [],
                 400
@@ -43,7 +41,6 @@ class RegisterAuthController extends AuthController
 
         if ($invite['expires_at'] < date('Y-m-d H:i:s')) {
             return $this->respondJson(
-                false,
                 'Invite code has expired',
                 [],
                 400
@@ -57,7 +54,6 @@ class RegisterAuthController extends AuthController
         ]);
 
         return $this->respondJson(
-            true,
             'Invite code valid',
             ['redirect' => "/auth/register?code={$jwt}"]
         );
@@ -74,7 +70,6 @@ class RegisterAuthController extends AuthController
             RegisterAuthValidator::license($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -83,14 +78,14 @@ class RegisterAuthController extends AuthController
 
         // TODO: validate invite code with gumroad
         return $this->respondJson(
-            false,
-            'License code not found'
+            'License code not found',
+            [],
+            400
         );
 
         $jwt = JWTHelper::create('register', ['state' => StateHelper::set()]);
 
         return $this->respondJson(
-            true,
             'License code valid',
             ['redirect' => "/auth/register?code={$jwt}"]
         );
@@ -133,7 +128,6 @@ class RegisterAuthController extends AuthController
             RegisterAuthValidator::register($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -145,7 +139,6 @@ class RegisterAuthController extends AuthController
 
         if (!$data) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 [],
                 422
@@ -160,7 +153,6 @@ class RegisterAuthController extends AuthController
 
         if (DB::has('users', [$type => $data])) {
             return $this->respondJson(
-                false,
                 "This {$type} account is already used, please use another",
                 [],
                 400
@@ -169,7 +161,6 @@ class RegisterAuthController extends AuthController
 
         if (!StateHelper::valid($jwt->state)) {
             return $this->respondJson(
-                false,
                 'State is invalid',
                 ['redirect' => '/'],
                 400
@@ -183,7 +174,6 @@ class RegisterAuthController extends AuthController
 
         $jwt = JWTHelper::create('message', ['message' => 'You can now login']);
         return $this->respondJson(
-            true,
             'Account Created',
             ['redirect' => "/?msg={$jwt}"]
         );

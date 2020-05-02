@@ -42,7 +42,7 @@ class UserController extends Controller
 
         $apps = array_values($result);
 
-        return $this->respond('user/dashboard.twig', [
+        return $this->respond('dashboard.twig', [
             'apps' => $apps
         ]);
     }

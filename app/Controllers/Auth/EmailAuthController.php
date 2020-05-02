@@ -25,7 +25,6 @@ class EmailAuthController extends AuthController
             EmailAuthValidator::request($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Provided data was malformed',
                 json_decode($e->getMessage()),
                 422
@@ -34,7 +33,6 @@ class EmailAuthController extends AuthController
 
         if (!DB::has('users', ['email' => $request->data->email])) {
             return $this->respondJson(
-                false,
                 'Email not found',
                 [],
                 400
@@ -55,17 +53,13 @@ class EmailAuthController extends AuthController
             MailHelper::send('emailLogin', $request->data->email, $request->data->email, $url);
         } catch (Exception $e) {
             return $this->respondJson(
-                false,
                 'Login link could not be sent',
                 json_decode($e->getMessage()),
                 500
             );
         }
 
-        return $this->respondJson(
-            true,
-            'Login link has been sent to your inbox'
-        );
+        return $this->respondJson('Login link has been sent to your inbox');
     }
 
     /**
