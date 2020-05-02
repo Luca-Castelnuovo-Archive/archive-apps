@@ -2,8 +2,7 @@
 {% set title = "Admin" %}
 
 {% block content %}
-<h2>Apps - create</h2>
-<p>The delete btn is inside edit</p>
+<h2>Apps <button class="btn blue accent-4 waves-effect waves-light modal-trigger" data-target="app">Create</button></h2>
 <div class="row">
     <table class="highlight responsive-table">
         <thead>
@@ -28,7 +27,7 @@
 
     <form id="app" class="modal">
         <div class="modal-content">
-            <h4>Update App</h4>
+            <h4>App</h4>
             <div class="row mb-0">
                 <div class="input-field col s12 mb-0">
                     <input id="app-edit-gumroad_id" name="gumroad_id" type="text" class="validate" required value="">
@@ -60,7 +59,7 @@
     </form>
 </div>
 
-<h2>Users <button class="btn blue accent-4 waves-effect waves-light modal-trigger" data-target="modal-license">Send Invite</button></h2>
+<h2>Users <button class="btn blue accent-4 waves-effect waves-light modal-trigger" data-target="invite">Send Invite</button></h2>
 <div class="row">
     <table class="highlight responsive-table">
         <thead>
@@ -82,12 +81,23 @@
         </tbody>
     </table>
 
-    {# modal for invite #}
+    <form id="invite" class="modal">
+        <div class="modal-content">
+            <h4>Invite User</h4>
+            <div class="row mb-0">
+                <div class="input-field col s12 mb-0">
+                    <input id="email" name="email" type="email" class="validate" required>
+                    <label for="email">Email</label>
+                    <span class="helper-text" data-error="Valid email is required"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn blue accent-4 waves-effect waves-light" type="submit">Send invite</button>
+        </div>
+    </form>
 </div>
 
 <script src="/assets/js/admin.js"></script>
-<script>
-    window.apps = JSON.parse('{{ apps|json_encode()|raw }}');
-    window.users = JSON.parse('{{ users|json_encode()|raw }}');
-</script>
+<script>window.apps = JSON.parse('{{ apps|json_encode()|raw }}');</script>
 {% endblock %}

@@ -59,10 +59,13 @@ class AdminController extends Controller
     {
         // validator
 
-        // create invite token
+        // TODO: create invite token
         // send email
 
-        // return $this->respondJson();
+        return $this->respondJson(
+            'Invite Sent',
+            ['reload' => true]
+        );
     }
 
     /**
@@ -84,7 +87,7 @@ class AdminController extends Controller
             );
         }
 
-        // Update DB - active, inactive
+        // TODO: Update DB - active, inactive
 
         return $this->respondJson(
             'User Updated',

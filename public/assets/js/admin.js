@@ -2,10 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {});
 });
 
-const createApp = () => {
-    M.Modal.getInstance(document.querySelector('.modal#app')).open()
-}
-
 const toggleApp = identifier => {
     const app = apps.filter(app => app.id == identifier)[0];
     
@@ -45,7 +41,7 @@ appForm.addEventListener('submit', e => {
         return formSubmit(appForm, `/app/${identifier}`, false, 'put');
     }
     
-    return formSubmit(appForm, '/app');
+    formSubmit(appForm, '/app');
 });
 
 const deleteApp = () => {
@@ -60,8 +56,9 @@ const toggleUser = identifier => {
     apiUse('put', `/admin/user/${identifier}`);
 }
 
-const inviteUser = () => {
-    // const email = ''; // from input
-    // console.log(email);
-    // apiUse('post', '/admin/invite', {email});
-}
+const inviteForm = document.querySelector('form#invite');
+inviteForm.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    formSubmit(inviteForm, '/admin/invite');
+});
