@@ -124,7 +124,8 @@ class RegisterAuthController extends AuthController
      * Register new user
      *
      * @param ServerRequest $request
-     * @return void
+     * 
+     * @return RedirectResponse|JsonResponse
      */
     public function register(ServerRequest $request)
     {

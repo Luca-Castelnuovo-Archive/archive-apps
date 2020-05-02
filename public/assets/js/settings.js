@@ -17,12 +17,12 @@ const loginEmail = () => {
 }
 
 const loginLink = (type, id) => {
-    apiUse('post', '/user/login', {type, id});
+    apiUse('post', '/settings/login', {type, id});
 }
 
 const loginUnlink = type => {
     if (confirm("Do you want to unlink this login option?")) {
-        apiUse('delete', '/user/login', {data: {type}});
+        apiUse('delete', '/settings/login', {data: {type}});
     }
 }
 
@@ -42,7 +42,7 @@ const removeLicense = license => {
 const removeAccount = () => {
     if (prompt("Type 'DELETE MY ACCOUNT' to confirm", '') == 'DELETE MY ACCOUNT') {
         if (confirm("Do you want to delete your account?")) {
-            apiUse('delete', '/user/account');
+            apiUse('delete', '/settings/account');
         }
     }
 }

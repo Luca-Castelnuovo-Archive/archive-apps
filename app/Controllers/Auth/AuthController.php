@@ -34,7 +34,7 @@ class AuthController extends Controller
         SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
         SessionHelper::set('last_activity', time());
 
-        return $this->redirect('/user/dashboard');
+        return $this->redirect('/dashboard');
     }
 
     /**

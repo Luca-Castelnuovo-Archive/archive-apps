@@ -35,6 +35,7 @@ class CreateInvitesTable extends AbstractMigration
         $invites
             ->addColumn('code',         'string')
             ->addColumn('expires_at',   'datetime')
+            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }

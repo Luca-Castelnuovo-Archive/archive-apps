@@ -4,13 +4,25 @@ namespace App\Controllers;
 
 use DB;
 use Exception;
-use App\Helpers\SessionHelper;
-use App\Validators\TemplateValidator;
+use App\Validators\AppValidator;
 use Ramsey\Uuid\Uuid;
 use Zend\Diactoros\ServerRequest;
 
 class AppController extends Controller
 {
+    /**
+     * List all apps
+     *
+     * @return HtmlResponse
+     */
+    public function view()
+    {
+        $apps = [];
+
+        return $this->respond('apps.twig', [
+            'apps' => $apps
+        ]);
+    }
     /**
      * Create App
      *
@@ -30,7 +42,7 @@ class AppController extends Controller
         }
 
         try {
-            TemplateValidator::create($request->data);
+            AppValidator::create($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
                 'invalid_input',
@@ -41,30 +53,27 @@ class AppController extends Controller
         }
 
         DB::create(
-            'templates',
+            'apps',
             [
-                'user_id' => SessionHelper::get('id'),
+                'id' => Uuid::uuid4()->toString(),
+                'gumroad_id' => $request->data->gumroad_id,
                 'name' => $request->data->name,
-                'uuid' => Uuid::uuid4()->toString(),
-                'captcha_key' => $request->data->captcha_key,
-                'email_to' => $request->data->email_to,
-                'email_replyTo' => $request->data->email_replyTo,
-                'email_cc' => $request->data->email_cc,
-                'email_bcc' => $request->data->email_bcc,
-                'email_fromName' => $request->data->email_fromName,
-                'email_subject' => $request->data->email_subject,
-                'email_content' => $request->data->email_content
+                'url' => $request->data->url
             ]
         );
 
-        return $this->respondJson();
+        return $this->respondJson(
+            true,
+            'App Created',
+            ['reload' => true]
+        );
     }
 
     /**
      * Update App
      *
      * @param ServerRequest $request
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -80,7 +89,7 @@ class AppController extends Controller
         }
 
         try {
-            TemplateValidator::update($request->data);
+            AppValidator::update($request->data);
         } catch (Exception $e) {
             return $this->respondJson(
                 'invalid_input',
@@ -90,18 +99,12 @@ class AppController extends Controller
             );
         }
 
-        $template = DB::get(
-            'templates',
+        $app = DB::get(
+            'apps',
             [
+                'gumroad_id',
                 'name',
-                'captcha_key',
-                'email_to',
-                'email_replyTo',
-                'email_cc',
-                'email_bcc',
-                'email_fromName',
-                'email_subject',
-                'email_content'
+                'url'
             ],
             [
                 'id' => $id
@@ -109,32 +112,29 @@ class AppController extends Controller
         );
 
         DB::update(
-            'templates',
+            'apps',
             [
-                'name' => $request->data->name ?: $template['name'],
-                'captcha_key' => $request->data->captcha_key ?: $template['captcha_key'],
-                'email_to' => $request->data->email_to ?: $template['email_to'],
-                'email_replyTo' => $request->data->email_replyTo ?: $template['email_replyTo'],
-                'email_cc' => $request->data->email_cc ?: $template['email_cc'],
-                'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
-                'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
-                'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-                'email_content' => $request->data->email_content ?: $template['email_content'],
-                'updated_at' => date("Y-m-d H:i:s")
+                'gumroad_id' => $request->data->gumroad_id ?: $app['gumroad_id'],
+                'name' => $request->data->name ?: $app['name'],
+                'url' => $request->data->url ?: $app['url']
             ],
             [
                 'id' => $id
             ]
         );
 
-        return $this->respondJson();
+        return $this->respondJson(
+            true,
+            'App Updated',
+            ['reload' => true]
+        );
     }
 
     /**
      * Toggle App
      *
      * @param ServerRequest $request
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -149,19 +149,22 @@ class AppController extends Controller
             );
         }
 
-        $app = DB::get('templates', ['active'], ['id' => $id]);
+        $active = DB::get('apps', 'active [bool]', ['id' => $id]);
+        var_dump($active);
+        exit;
 
-        DB::update('templates', ['active' => !$app], ['id' => $id]);
+        DB::update('templates', ['active' => !$active], ['id' => $id]);
 
-        return $this->respondJson([
-            'state' => !$app
-        ]);
+        return $this->respondJson(
+            true,
+            'App Deactivated/Activated'
+        );
     }
 
     /**
      * Delete App
      *
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -176,10 +179,14 @@ class AppController extends Controller
             );
         }
 
-        DB::delete('app', [
+        DB::delete('apps', [
             'id' => $id,
         ]);
 
-        return $this->respondJson();
+        return $this->respondJson(
+            true,
+            'App deleted',
+            ['reload' => true]
+        );
     }
 }

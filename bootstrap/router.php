@@ -30,13 +30,15 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
     $router->get('/github/callback', 'GithubAuthController@callback');
 });
 
-$router->group(['prefix' => '/user', 'middleware' => SessionMiddleware::class], function (Router $router) {
+$router->group(['middleware' => SessionMiddleware::class], function (Router $router) {
     $router->get('/dashboard', 'UserController@dashboard');
-    $router->get('/settings', 'UserController@settingsView');
+});
 
-    $router->post('/login', 'UserController@addLogin', JSONMiddleware::class);
-    $router->delete('/login', 'UserController@removeLogin', JSONMiddleware::class);
-    $router->delete('/account', 'UserController@removeAccount');
+$router->group(['prefix' => '/settings', 'middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('', 'SettingsController@view');
+    $router->post('/login', 'SettingsController@addLogin', JSONMiddleware::class);
+    $router->delete('/login', 'SettingsController@removeLogin', JSONMiddleware::class);
+    $router->delete('/account', 'SettingsController@removeAccount');
 });
 
 $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class], function (Router $router) {
@@ -46,7 +48,8 @@ $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class
 });
 
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
-    $router->post('/', 'AppController@create');
+    $router->get('', 'AppController@view');
+    $router->post('', 'AppController@create');
     $router->put('/{id}', 'AppController@update');
     $router->put('/{id}/toggle', 'AppController@toggleActive');
     $router->delete('/{id}', 'AppController@delete');

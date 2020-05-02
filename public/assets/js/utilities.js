@@ -28,6 +28,11 @@ const apiUse = (method, endpoint, data, form = null) => {
             await delay(750);
             redirect(response.data.data.redirect);
         }
+
+        if (response.data.data.reload) {
+            await delay(750);
+            reload();
+        }
     });
 }
 

@@ -38,6 +38,8 @@ class CreateAppsTable extends AbstractMigration
             ->addColumn('active',       'boolean',  ['default' => true])
             ->addColumn('name',         'string')
             ->addColumn('url',          'string')
+            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

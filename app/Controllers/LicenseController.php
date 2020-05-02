@@ -50,7 +50,7 @@ class LicenseController extends Controller
         if (!$app_id) {
             return $this->respondJson(
                 false,
-                'License invalid', // app not found
+                'License Invalid', // app not found
                 [],
                 400
             );
@@ -80,7 +80,7 @@ class LicenseController extends Controller
         if (!LicenseHelper::validate($gumroad_id, $license)) {
             return $this->respondJson(
                 false,
-                'License invalid',
+                'License Invalid',
                 [],
                 400
             );
@@ -94,8 +94,8 @@ class LicenseController extends Controller
 
         return $this->respondJson(
             true,
-            'License added',
-            ['redirect' => '/user/dashboard']
+            'License Added',
+            ['reload' => true]
         );
     }
 
@@ -126,8 +126,8 @@ class LicenseController extends Controller
 
         return $this->respondJson(
             true,
-            'License removed',
-            ['redirect' => '/user/settings']
+            'License Removed',
+            ['reload' => true]
         );
     }
 }

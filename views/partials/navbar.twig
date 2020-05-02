@@ -1,16 +1,19 @@
 <nav>
     <div class="nav-wrapper blue accent-4">
-        <a href="{{ navbarDisableBtns ? '#' : '/user/dashboard' }}" class="brand-logo" style="padding-left: 15px">Apps - {{ title }}</a>
+        <a href="{{ navbarDisableBtns ? '#' : '/dashboard' }}" class="brand-logo" style="padding-left: 15px">Apps - {{ title }}</a>
         {% if not navbarDisableBtns %}
             <a href="#" data-target="sidenav" class="right sidenav-trigger">
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
                 <li>
-                    <a href="/user/dashboard">Dashboard</a>
+                    <a href="/app">Apps (admin only)</a>
                 </li>
                 <li>
-                    <a href="/user/settings">Settings</a>
+                    <a href="/dashboard">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/settings">Settings</a>
                 </li>
                 <li>
                     <a href="/auth/logout">Logout</a>
@@ -21,10 +24,10 @@
 
     <ul class="sidenav" id="sidenav">
         <li>
-            <a href="/user/dashboard">Dashboard</a>
+            <a href="/dashboard">Dashboard</a>
         </li>
         <li>
-            <a href="/user/settings">Settings</a>
+            <a href="/settings">Settings</a>
         </li>
         <li>
             <a href="/auth/logout">Logout</a>

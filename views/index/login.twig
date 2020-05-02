@@ -5,7 +5,7 @@
     <div class="card-content">
         {% if logged_in %}
             <div class="row">
-                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large blue accent-4" href="/user/dashboard">
+                <a class="col s12 m8 offset-m2 waves-effect waves-light btn-large blue accent-4" href="/dashboard">
                     Go to dashboard
                 </a>
             </div>
@@ -24,7 +24,26 @@
                 <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large social email modal-trigger" data-target="auth-signin-email">
                     <i class="fa fa-envelope"></i> Sign in with email
                 </button>
-                {% include 'index/signin_email.twig' %}
+                <form id="auth-signin-email" class="modal">
+                    <div class="modal-content">
+                        <h4>Signin with email</h4>
+                        <div class="row mb-0">
+                            <div class="input-field col s12 mb-0">
+                                <input id="email" name="email" type="email" class="validate" required value="c19e6067-cc6e-4ef7-9b15-107890b63e88@usehelo.cloud">
+                                <label for="email">Email</label>
+                                <span class="helper-text" data-error="Valid email is required"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="input-field col s12 mb-0 mt-0">
+                                {% include 'partials/captcha.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn blue accent-4 waves-effect waves-light" type="submit">Send login link</button>
+                    </div>
+                </form>
             </div>
         {% endif %}
     </div>
