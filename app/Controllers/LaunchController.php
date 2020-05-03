@@ -3,8 +3,9 @@
 namespace App\Controllers;
 
 use DB;
+use Exception;
 use App\Helpers\SessionHelper;
-use App\Helpers\LicenseHelper;
+use App\Helpers\GumroadHelper;
 use App\Helpers\JWTHelper;
 use Zend\Diactoros\ServerRequest;
 
@@ -20,7 +21,7 @@ class LaunchController extends Controller
      */
     public function launch(ServerRequest $request, $id)
     {
-        $app = DB::get('apps', ['gumroad_id', 'url'], ['id' => $id]);
+        $app = DB::get('apps', ['url'], ['id' => $id]);
 
         if (!$app) {
             return $this->respond(
@@ -41,17 +42,19 @@ class LaunchController extends Controller
             );
         }
 
-        if (!LicenseHelper::validate($app['gumroad_id'], $license)) {
+        try {
+            $gumroad = GumroadHelper::license($id, $license);
+        } catch (Exception $e) {
             return $this->respond(
                 'launch.twig',
                 ['error' => 'License invalid']
             );
         }
 
-        // TODO: get tiers
         $jwt = JWTHelper::create('auth', [
-            'sub' => SessionHelper::get('id')
-        ]);
+            'sub' => SessionHelper::get('id'),
+            'variant' => str_replace(array('(', ')'), '', $gumroad->variants)
+        ], $app['url']);
 
         DB::create(
             'history',

@@ -36,6 +36,7 @@ class CreateLicensesTable extends AbstractMigration
             ->addColumn('user_id',      'uuid')
             ->addColumn('app_id',       'uuid')
             ->addColumn('license',      'string')
+            ->addColumn('variant',      'string')
             ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();

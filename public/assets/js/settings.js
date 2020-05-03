@@ -28,9 +28,9 @@ const loginUnlink = type => {
 
 const addLicense = () => {
     const license = document.querySelector('input[name="license"]').value;
-    const gumroad_id = document.querySelector('select[name="gumroad_id"]').value;
+    const id = document.querySelector('select[name="id"]').value;
 
-    apiUse('post', '/license', {license, gumroad_id});
+    apiUse('post', '/license', {license, id});
 }
 
 const removeLicense = license => {

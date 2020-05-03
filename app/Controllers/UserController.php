@@ -23,7 +23,6 @@ class UserController extends Controller
             'apps',
             [
                 'id',
-                'gumroad_id',
                 'active',
                 'name',
                 'url'
@@ -36,13 +35,19 @@ class UserController extends Controller
         $result = [];
 
         foreach ($apps as $app) {
-            $license = DB::get('licenses', 'license', [
+            $license = DB::get('licenses', ['variant'], [
                 'app_id' => $app['id'],
                 'user_id' => SessionHelper::get('id')
             ]);
 
             $result[$app['id']] = $app;
-            $result[$app['id']]['licensed'] = (bool) $license;
+            $result[$app['id']]['licensed'] = false;
+            $result[$app['id']]['licensed_variant'] = '';
+
+            if ($license) {
+                $result[$app['id']]['licensed'] = true;
+                $result[$app['id']]['licensed_variant'] = $license['variant'];
+            }
         }
 
         $apps = array_values($result);

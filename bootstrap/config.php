@@ -44,6 +44,9 @@ function config($key, $fallback = null)
                 'username' => env('DB_USERNAME'),
                 'password' => env('DB_PASSWORD')
             ],
+            'gumroad' => [
+                'access_token' => env('GUMROAD_ACCESS_TOKEN')
+            ],
             'jwt' => [
                 'algorithm' => 'RS256',
                 'private_key' => str_replace('||||', PHP_EOL, env('JWT_PRIVATE_KEY')),
@@ -53,7 +56,7 @@ function config($key, $fallback = null)
                 'emailLogin' => 300, // 5minutes
                 'register' => 3600, // 1hour
                 'invite' => 604800, // 1week
-                'auth' => 300, // 5minutes - external auth
+                'auth' => 600, // 10minutes - external auth
             ],
             'mail' => [
                 'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',

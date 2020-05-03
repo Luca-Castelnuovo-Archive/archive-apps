@@ -3,21 +3,19 @@
 namespace App\Controllers;
 
 use DB;
+use App\Helpers\GumroadHelper;
 use Exception;
-use App\Validators\AppValidator;
-use Ramsey\Uuid\Uuid;
-use Zend\Diactoros\ServerRequest;
 
 class AppController extends Controller
 {
     /**
-     * Create App
+     * Create/Update App
      *
-     * @param ServerRequest $request
+     * @param string $id
      *
      * @return JsonResponse
      */
-    public function create(ServerRequest $request)
+    public function create($id)
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
@@ -28,40 +26,50 @@ class AppController extends Controller
         }
 
         try {
-            AppValidator::create($request->data);
+            $product = GumroadHelper::product($id);
         } catch (Exception $e) {
             return $this->respondJson(
-                'Provided data was malformed',
-                json_decode($e->getMessage()),
-                422
+                'Gumroad ID not found',
+                [],
+                400
             );
         }
 
-        DB::create(
-            'apps',
-            [
-                'id' => Uuid::uuid4()->toString(),
-                'gumroad_id' => $request->data->gumroad_id,
-                'name' => $request->data->name,
-                'url' => $request->data->url
-            ]
-        );
+        if (!DB::has('apps', ['id' => $id])) {
+            DB::create(
+                'apps',
+                [
+                    'id' => $id,
+                    'name' => $product->name,
+                    'url' => "https://{$product->name}"
+                ]
+            );
+
+            return $this->respondJson(
+                'App Created',
+                ['reload' => true]
+            );
+        }
+
+        DB::update('apps', [
+            'name' => $product->name,
+            'url' => "https://{$product->name}"
+        ], ['id' => $id]);
 
         return $this->respondJson(
-            'App Created',
+            'App Updated',
             ['reload' => true]
         );
     }
 
     /**
-     * Update App
+     * Toggle acitve state
      *
-     * @param ServerRequest $request
      * @param string $id
-     *
+     * 
      * @return JsonResponse
      */
-    public function update(ServerRequest $request, $id)
+    public function toggleActive($id)
     {
         if (!$this->isUserAdmin()) {
             return $this->respondJson(
@@ -71,52 +79,20 @@ class AppController extends Controller
             );
         }
 
-        try {
-            AppValidator::update($request->data);
-        } catch (Exception $e) {
-            return $this->respondJson(
-                'Provided data was malformed',
-                json_decode($e->getMessage()),
-                422
-            );
-        }
-
-        $app = DB::get(
-            'apps',
-            [
-                'gumroad_id',
-                'name',
-                'url',
-                'active'
-            ],
-            [
-                'id' => $id
-            ]
-        );
+        $app = DB::get('apps', ['active'], ['id' => $id]);
 
         if (!$app) {
             return $this->respondJson(
-                'App not found',
+                'User not found',
                 [],
-                404
+                400
             );
         }
 
-        DB::update(
-            'apps',
-            [
-                'gumroad_id' => $request->data->gumroad_id ?: $app['gumroad_id'],
-                'name' => $request->data->name ?: $app['name'],
-                'url' => $request->data->url ?: $app['url'],
-                'active' => isset($request->data->active) ? $request->data->active : $app['active']
-            ],
-            [
-                'id' => $id
-            ]
-        );
+        DB::update('apps', ['active' => !$app['active']], ['id' => $id]);
 
         return $this->respondJson(
-            'App Updated',
+            'App Toggled',
             ['reload' => true]
         );
     }
@@ -138,9 +114,7 @@ class AppController extends Controller
             );
         }
 
-        DB::delete('apps', [
-            'id' => $id,
-        ]);
+        DB::delete('apps', ['id' => $id,]);
 
         return $this->respondJson(
             'App Deleted',

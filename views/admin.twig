@@ -7,14 +7,12 @@
     <table class="highlight responsive-table">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Gumroad ID</th>
                 <th>Name</th>
                 <th>Url</th>
                 <th>Updated At</th>
                 <th>Created At</th>
-                <th>Active</th>
-                <th>Edit</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -27,34 +25,17 @@
 
     <form id="app" class="modal">
         <div class="modal-content">
-            <h4>App</h4>
+            <h4>Create App</h4>
             <div class="row mb-0">
                 <div class="input-field col s12 mb-0">
-                    <input id="app-edit-gumroad_id" name="gumroad_id" type="text" class="validate" required value="">
-                    <label for="app-edit-gumroad_id">Gumroad ID</label>
+                    <input id="app-id" type="text" class="validate" required value="">
+                    <label for="app-id">Gumroad ID</label>
                     <span class="helper-text" data-error="Valid gumroad id is required"></span>
-                </div>
-            </div>
-            <div class="row mb-0 mt-0">
-                <div class="input-field col s12 mb-0">
-                    <input id="app-edit-name" name="name" type="text" class="validate" required value="">
-                    <label for="app-edit-name">Name</label>
-                    <span class="helper-text" data-error="Valid name is required"></span>
-                </div>
-            </div>
-            <div class="row mb-0 mt-0">
-                <div class="input-field col s12 mb-0">
-                    <input id="app-edit-url" name="url" type="text" class="validate" required value="">
-                    <label for="app-edit-url">Url</label>
-                    <span class="helper-text" data-error="Valid url is required"></span>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <input id="app-edit-id" type="hidden" required value="">
-            <input id="app-edit-active" name="active" type="hidden" required value="">
-            <button class="btn waves-effect waves-light red left" type="button" onClick="deleteApp()">Delete app</button>
-            <button class="btn waves-effect waves-light blue accent-4">Update app</button>
+            <button class="btn waves-effect waves-light blue accent-4">Create app</button>
         </div>
     </form>
 </div>
@@ -119,6 +100,5 @@
     </table>
 </div>
 
-<script>window.apps = JSON.parse('{{ apps|json_encode()|raw }}');</script>
 <script src="/assets/js/admin.js"></script>
 {% endblock %}

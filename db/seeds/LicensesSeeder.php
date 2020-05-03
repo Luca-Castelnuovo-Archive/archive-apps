@@ -22,6 +22,7 @@ class LicensesSeeder extends AbstractSeed
                 'user_id'       => $faker->uuid,
                 'app_id'        => $faker->uuid,
                 'license'       => $faker->uuid,
+                'variant'       => 'Free',
                 'updated_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use DB;
 use Exception;
 use App\Helpers\SessionHelper;
-use App\Helpers\LicenseHelper;
+use App\Helpers\GumroadHelper;
 use App\Validators\LicenseValidator;
 use Zend\Diactoros\ServerRequest;
 
@@ -14,15 +14,15 @@ class LicenseController extends Controller
     /**
      * Open popup to buy license
      *
-     * @param string $gumroad_id
+     * @param string $id
      * @param string $offer_code
      * 
      * @return HtmlResponse
      */
-    public function popup($gumroad_id, $offer_code)
+    public function popup($id, $offer_code)
     {
         return $this->respond('license/popup.twig', [
-            'gumroad_id' => $gumroad_id,
+            'id' => $id,
             'offer_code' => $offer_code
         ]);
     }
@@ -47,10 +47,9 @@ class LicenseController extends Controller
         }
 
         $license = $request->data->license;
-        $gumroad_id = $request->data->gumroad_id;
+        $id = $request->data->id;
 
-        $app_id = DB::select('apps', 'id', ['gumroad_id' => $gumroad_id])[0];
-        if (!$app_id) {
+        if (!DB::has('apps', ['id' => $id])) {
             return $this->respondJson(
                 'License Invalid', // app not found
                 [],
@@ -59,7 +58,7 @@ class LicenseController extends Controller
         }
 
         if (DB::has('licenses', [
-            'app_id' => $app_id,
+            'app_id' => $id,
             'user_id' => SessionHelper::get('id')
         ])) {
             return $this->respondJson(
@@ -77,7 +76,9 @@ class LicenseController extends Controller
             );
         }
 
-        if (!LicenseHelper::validate($gumroad_id, $license)) {
+        try {
+            $gumroad = GumroadHelper::license($id, $license);
+        } catch (Exception $e) {
             return $this->respondJson(
                 'License Invalid',
                 [],
@@ -86,8 +87,9 @@ class LicenseController extends Controller
         }
 
         DB::create('licenses', [
-            'app_id' => $app_id,
+            'app_id' => $id,
             'user_id' => SessionHelper::get('id'),
+            'variant' => str_replace(array('(', ')'), '', $gumroad->variants),
             'license' => $license
         ]);
 

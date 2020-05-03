@@ -1,59 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {});
+    M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
 });
 
-const toggleApp = identifier => {
-    const app = window.apps.filter(app => app.id == identifier)[0];
-    
-    apiUse('put', `/app/${identifier}`, {
-        gumroad_id: null,
-        name: null,
-        url: null,
-        active: !(app.active == true)
-    });
-}
-
-const editApp = identifier => {
-    const app = window.apps.filter(app => app.id == identifier)[0];
-
-    const id = document.querySelector('input#app-edit-id');
-    const gumroad_id = document.querySelector('input#app-edit-gumroad_id');
-    const name = document.querySelector('input#app-edit-name');
-    const url = document.querySelector('input#app-edit-url');
-    const active = document.querySelector('input#app-edit-active');
-    
-    id.value = app.id;
-    gumroad_id.value = app.gumroad_id;
-    name.value = app.name;
-    url.value = app.url;
-    active.value = app.active;
-
-    M.updateTextFields();
-    M.Modal.getInstance(document.querySelector('.modal#app')).open()
-}
-
-const appForm = document.querySelector('form#app');
-appForm.addEventListener('submit', e => {
+const appFrom = document.querySelector('form#app');
+appFrom.addEventListener('submit', e => {
     e.preventDefault();
     
-    const identifier = document.querySelector('input#app-edit-id').value;
-    if (identifier) {
-        return formSubmit(appForm, `/app/${identifier}`, false, 'put');
-    }
-    
-    formSubmit(appForm, '/app');
+    updateApp(document.querySelector('input#app-id').value);
 });
 
-const deleteApp = () => {
-    const identifier = document.querySelector('input#app-edit-id').value;
+const updateApp = id => {    
+    apiUse('post', `/app/${id}`);
+}
 
+const toggleApp = id => { 
+    apiUse('put', `/app/${id}`);
+}
+
+const deleteApp = id => {
     if (confirm("Do you want to delete this app?")) {
-        apiUse('delete', `/app/${identifier}`);
+        apiUse('delete', `/app/${id}`);
     }
 }
 
-const toggleUser = identifier => {
-    apiUse('put', `/admin/user/${identifier}`);
+const toggleUser = id => {
+    apiUse('put', `/admin/user/${id}`);
 }
 
 const inviteForm = document.querySelector('form#invite');

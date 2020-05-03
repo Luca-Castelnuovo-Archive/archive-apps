@@ -26,6 +26,7 @@ class SettingsController extends Controller
         $licenses = DB::select('licenses', [
             'app_id',
             'license',
+            'variant',
             'created_at'
         ], [
             'user_id' => SessionHelper::get('id')
@@ -34,7 +35,7 @@ class SettingsController extends Controller
         $apps = DB::select(
             'apps',
             [
-                'gumroad_id',
+                'id',
                 'name'
             ],
             [

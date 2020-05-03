@@ -1,7 +1,7 @@
 <div class="col s12 m12 l6">
     <div class="card hoverable">
         <div class="card-content">
-            <span class="card-title">{{ app.name }}</span>
+            <span class="card-title">{{ app.name }}{% if app.licensed %} - <button class="btn" disabled>{{ app.licensed_variant }}</button>{% endif %}</span>
         </div>
         <div class="card-action">
             <div class="row">
@@ -15,7 +15,7 @@
                             Launch
                         </a>
                     {% else %}
-                        <button class="btn-large waves-effect waves-light full-width" onClick="licensePopup('{{ app.gumroad_id }}')">
+                        <button class="btn-large waves-effect waves-light full-width" onClick="licensePopup('{{ app.id }}')">
                             Buy License
                         </button>
                     {% endif %}

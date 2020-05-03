@@ -24,7 +24,6 @@ class AdminController extends Controller
 
         $apps = DB::select('apps', [
             'id',
-            'gumroad_id',
             'active',
             'name',
             'url',

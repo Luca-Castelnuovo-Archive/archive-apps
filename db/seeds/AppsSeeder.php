@@ -19,8 +19,7 @@ class AppsSeeder extends AbstractSeed
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'id'            => $faker->md5,
-                'gumroad_id'    => $faker->userName,
+                'id'            => $faker->userName,
                 'active'        => $faker->boolean,
                 'name'          => $faker->firstName,
                 'url'           => $faker->url,
@@ -29,6 +28,6 @@ class AppsSeeder extends AbstractSeed
             ];
         }
 
-        $this->table('invites')->insert($data)->saveData();
+        $this->table('apps')->insert($data)->saveData();
     }
 }

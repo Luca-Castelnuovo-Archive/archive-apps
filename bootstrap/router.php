@@ -41,14 +41,14 @@ $router->group(['prefix' => '/settings', 'middleware' => SessionMiddleware::clas
 });
 
 $router->group(['prefix' => '/license', 'middleware' => SessionMiddleware::class], function (Router $router) {
-    $router->get('/{gumroad_id}/{offer_code}', 'LicenseController@popup');
+    $router->get('/{id}/{offer_code}', 'LicenseController@popup');
     $router->post('', 'LicenseController@create', JSONMiddleware::class);
     $router->delete('', 'LicenseController@remove', JSONMiddleware::class);
 });
 
 $router->group(['prefix' => '/app', 'middleware' => SessionMiddleware::class], function (Router $router) {
-    $router->post('', 'AppController@create', JSONMiddleware::class);
-    $router->put('/{id}', 'AppController@update', JSONMiddleware::class);
+    $router->post('/{id}', 'AppController@create');
+    $router->put('/{id}', 'AppController@toggleActive');
     $router->delete('/{id}', 'AppController@delete');
 });
 
