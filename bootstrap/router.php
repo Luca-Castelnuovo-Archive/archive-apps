@@ -9,7 +9,6 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 $router = new Router('', 'App\Controllers');
 $router->define('httpcode', '[0-9]+');
-$router->define('path', '[a-zA-Z]+');
 
 $router->get('/', 'GeneralController@index');
 $router->get('/error/{httpcode}', 'GeneralController@error');
