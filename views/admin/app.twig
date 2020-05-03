@@ -6,9 +6,9 @@
     <td>{{ app.created_at }}</td>
     <td>
     <div class="row center">
-        <button class="col s4 btn waves-effect waves-light tooltipped {{ app.active ? 'green' : 'red' }}" data-tooltip="Toggle Active" onClick="toggleApp('{{ app.id }}')"><i class="material-icons">{{ app.active ? 'play_arrow' : 'stop' }}</i></button>
-        <button class="col s4 btn waves-effect waves-light blue accent-4 tooltipped" data-position="top" data-tooltip="Pull Changes" onClick="updateApp('{{ app.id}}')"><i class="material-icons">create</i></button>
-        <button class="col s4 btn waves-effect waves-light red accent-4 tooltipped" data-tooltip="Delete App" onClick="deleteApp('{{ app.id}}')"><i class="material-icons">delete</i></button>
+        <button class="col s4 btn waves-effect waves-light {{ app.active ? 'green' : 'red' }}" onClick="toggleApp('{{ app.id }}')"><i class="material-icons">{{ app.active ? 'play_arrow' : 'stop' }}</i></button>
+        <button class="col s4 btn waves-effect waves-light blue accent-4" onClick="updateApp('{{ app.id}}')"><i class="material-icons">create</i></button>
+        <button class="col s4 btn waves-effect waves-light red accent-4" onClick="deleteApp('{{ app.id}}')"><i class="material-icons">delete</i></button>
     </div>
     </td>
 </tr>

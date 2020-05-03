@@ -67,8 +67,8 @@
             <h4>Invite User</h4>
             <div class="row mb-0">
                 <div class="input-field col s12 mb-0">
-                    <input id="email" name="email" type="email" class="validate" required>
-                    <label for="email">Email</label>
+                    <input id="invite-email" name="email" type="email" class="validate" required>
+                    <label for="invite-email">Email</label>
                     <span class="helper-text" data-error="Valid email is required"></span>
                 </div>
             </div>
@@ -79,7 +79,7 @@
     </form>
 </div>
 
-<h2>History <button class="btn blue accent-4 waves-effect waves-light modal-trigger" onClick="clearHistory()">Clear</button></h2>
+<h2>History <button id="clearHistory" class="btn blue accent-4 waves-effect waves-light modal-trigger">Clear</button></h2>
 <div class="row">
     <table class="highlight responsive-table">
         <thead>

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {});
-    M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
 });
 
 const appFrom = document.querySelector('form#app');
@@ -35,8 +34,9 @@ inviteForm.addEventListener('submit', e => {
     formSubmit(inviteForm, '/admin/invite');
 });
 
-const clearHistory = () => {
+const clearHistory = document.querySelector('button#clearHistory');
+clearHistory.addEventListener("click", () => {
     if (confirm("Do you want to clear the history?")) {
         apiUse('delete', '/admin/history');
     }
-}
+});
