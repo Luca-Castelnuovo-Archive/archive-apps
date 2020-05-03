@@ -8,6 +8,7 @@
         "league/oauth2-github": "^2.0",
         "league/oauth2-google": "^3.0",
         "miladrahimi/phprouter": "^4.0",
+        "phpseclib/phpseclib": "^2.0",
         "ramsey/uuid": "^4.0",
         "respect/validation": "^2.0",
         "robmorgan/phinx": "^0.12.0",
@@ -33,6 +34,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "phinx": "vendor/bin/phinx",
+        "jwt": "app/Commands/JWTGenerate",
         "migrate": "composer phinx migrate",
         "seed": "composer phinx seed:run -v"
     },

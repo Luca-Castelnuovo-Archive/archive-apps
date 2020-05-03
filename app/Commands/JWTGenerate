@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use phpseclib\Crypt\RSA;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
+$bits = 2048;
+$rsa = new RSA();
+$key = $rsa->createKey(intval($bits));
+$path =  __DIR__ . '/../../.env';
+
+echo PHP_EOL;
+
+if (!file_exists($path)) {
+    echo "JWT keypair not set successfully. (bit size: {$bits})" . PHP_EOL;
+    echo '.env file not found. Please set keys manually.' . PHP_EOL;
+
+    echo PHP_EOL;
+
+    echo 'Private key: ' . PHP_EOL;
+    echo $key['privatekey'] . PHP_EOL;
+
+    echo PHP_EOL;
+
+    echo 'Public key: ' . PHP_EOL;
+    echo $key['publickey'] . PHP_EOL;
+
+    exit;
+}
+
+echo "JWT keypair set successfully. (bit size: {$bits})";
+
+file_put_contents($path, str_replace(
+    'JWT_PRIVATE_KEY="' . env('JWT_PRIVATE_KEY') . '"',
+    'JWT_PRIVATE_KEY="' . str_replace(["\r", "\n"], '||', $key['privatekey']) . '"',
+    file_get_contents($path)
+));
+
+file_put_contents($path, str_replace(
+    'JWT_PUBLIC_KEY="' . env('JWT_PUBLIC_KEY') . '"',
+    'JWT_PUBLIC_KEY="' . str_replace(["\r", "\n"], '||', $key['publickey']) . '"',
+    file_get_contents($path)
+));
+
+exit;
