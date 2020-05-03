@@ -9,7 +9,7 @@
 
 ### 🏠 [Homepage](https://apps.lucacastelnuovo.nl)
 
-### 💾 [SDK](https://apps.lucacastelnuovo.nl/sdk)
+### 💾 [SDK](https://github.com/Luca-Castelnuovo/Apps-Client)
 
 ## Install
 
