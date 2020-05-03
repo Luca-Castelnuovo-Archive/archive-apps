@@ -5,7 +5,7 @@
     <div class="card-content">
         <div class="row">
             <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large blue accent-4 modal-trigger" data-target="auth-register-invite">
-                Invite Code
+                Register with invite 
             </button>
             <form id="auth-register-invite" class="modal">
                 <div class="modal-content">
@@ -15,31 +15,6 @@
                             <input id="invite_code" name="invite_code" type="text" class="validate" required>
                             <label for="invite_code">Code</label>
                             <span class="helper-text" data-error="Invite code is required"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-0">
-                        <div class="input-field col s12 mb-0 mt-0">
-                            {% include 'partials/captcha.twig' %}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn blue accent-4 waves-effect waves-light" type="submit">Submit</button>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <button class="col s12 m8 offset-m2 waves-effect waves-light btn-large blue accent-4 modal-trigger" data-target="auth-register-license">
-                License Code
-            </button>
-            <form id="auth-register-license" class="modal">
-                <div class="modal-content">
-                    <h4>License Code</h4>
-                    <div class="row mb-0">
-                        <div class="input-field col s12 mb-0">
-                            <input id="license_code" name="license_code" type="text" class="validate" required>
-                            <label for="license_code">Code</label>
-                            <span class="helper-text" data-error="License code is required"></span>
                         </div>
                     </div>
                     <div class="row mb-0">

@@ -18,7 +18,6 @@ $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], fun
     $router->get('/logout', 'AuthController@logout');
 
     $router->post('/invite', 'RegisterAuthController@invite', [JSONMiddleware::class, CaptchaMiddleware::class]);
-    $router->post('/license', 'RegisterAuthController@license', [JSONMiddleware::class, CaptchaMiddleware::class]);
     $router->get('/register', 'RegisterAuthController@registerView');
     $router->post('/register', 'RegisterAuthController@register', JSONMiddleware::class);
 

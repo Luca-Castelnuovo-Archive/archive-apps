@@ -60,38 +60,6 @@ class RegisterAuthController extends AuthController
     }
 
     /**
-     * License validation
-     *
-     * @return JsonResponse
-     */
-    public function license(ServerRequest $request)
-    {
-        try {
-            RegisterAuthValidator::license($request->data);
-        } catch (Exception $e) {
-            return $this->respondJson(
-                'Provided data was malformed',
-                json_decode($e->getMessage()),
-                422
-            );
-        }
-
-        // TODO: validate invite code with gumroad
-        return $this->respondJson(
-            'License code not found',
-            [],
-            400
-        );
-
-        $jwt = JWTHelper::create('register', ['state' => StateHelper::set()]);
-
-        return $this->respondJson(
-            'License code valid',
-            ['redirect' => "/auth/register?code={$jwt}"]
-        );
-    }
-
-    /**
      * View register form
      * 
      * @param ServerRequest $request

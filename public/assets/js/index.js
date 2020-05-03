@@ -24,12 +24,4 @@ document.addEventListener('DOMContentLoaded', function() {
         M.Modal.getInstance(document.querySelector('form#auth-register-invite')).open();
     }
     formHandler(document.querySelector('form#auth-register-invite'), '/auth/invite', true);
-
-    const licenseCode = new URLSearchParams(window.location.search).get('license');
-    if (licenseCode) {
-        document.querySelector('input#license_code').value = licenseCode;
-        M.updateTextFields();
-        M.Modal.getInstance(document.querySelector('form#auth-register-license')).open();
-    }
-    formHandler(document.querySelector('form#auth-register-license'), '/auth/license', true);
 });

@@ -27,20 +27,6 @@ class RegisterAuthValidator extends ValidatorBase
      *
      * @return void
      */
-    public static function license($data)
-    {
-        $v = v::attribute('license_code', v::alnum('-')->length(1, 128));
-
-        ValidatorBase::validate($v, $data);
-    }
-
-    /**
-     * Validate json submission
-     *
-     * @param object $data
-     *
-     * @return void
-     */
     public static function register($data)
     {
         $v = v::attribute('code', v::stringType())
