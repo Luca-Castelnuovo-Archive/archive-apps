@@ -24,18 +24,20 @@ composer install
 
 3. Run `composer migrate`
 
-4. Run `composer gen-jwt-keys`
+4. Run `composer jwt`
 
-5. Create Gihub OAuth application and place keys in `.env`
+5. Create Gihub OAuth application and place keys in `.env`  
    _the callback url should be https://your.app/auth/github/callback_
 
-6. Create Google OAuth application and place keys in `.env`
+6. Create Google OAuth application and place keys in `.env`  
    _the callback url should be https://your.app/auth/google/callback_
 
-7. Create hCaptcha or ReCaptcha keys and place in `.env`
+7. Create hCaptcha or ReCaptcha keys and place in `.env`  
    _if you want to use recaptcha edit /bootstrap/config.php_
 
-8. Create new template from `/views/partials/email_template.twig` on mailjs.lucacastelnuovo.nl
+8. Create Gumroad app and access_token and place in `.env`
+
+8. Create new template from `/views/partials/email_template.twig` on mailjs.lucacastelnuovo.nl  
    _create accesstoken for https://your.app_
 
 ## 📝 License
