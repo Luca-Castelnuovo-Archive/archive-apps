@@ -29,7 +29,9 @@ class AdminController extends Controller
             'url',
             'updated_at',
             'created_at'
-        ], '*');
+        ], [
+            "ORDER" => ["name" => "ASC"]
+        ]);
 
         $users = DB::select('users', [
             'id',
