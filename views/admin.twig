@@ -98,6 +98,27 @@
     </form>
 </div>
 
+<h2>History <button class="btn blue accent-4 waves-effect waves-light modal-trigger" onClick="clearHistory()">Clear</button></h2>
+<div class="row">
+    <table class="highlight responsive-table">
+        <thead>
+            <tr>
+                <th>App ID</th>
+                <th>User ID</th>
+                <th>User Agent</th>
+                <th>User IP</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for entry in history %}
+                {% include 'admin/history.twig' %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 <script>window.apps = JSON.parse('{{ apps|json_encode()|raw }}');</script>
 <script src="/assets/js/admin.js"></script>
 {% endblock %}

@@ -43,9 +43,18 @@ class AdminController extends Controller
             'created_at'
         ], '*');
 
+        $history = DB::select('history', [
+            'app_id',
+            'user_id',
+            'user_agent',
+            'user_ip',
+            'created_at'
+        ], '*');
+
         return $this->respond('admin.twig', [
             'apps' => $apps,
-            'users' => $users
+            'users' => $users,
+            'history' => $history
         ]);
     }
 
@@ -140,6 +149,29 @@ class AdminController extends Controller
 
         return $this->respondJson(
             'User Updated',
+            ['reload' => true]
+        );
+    }
+
+    /**
+     * Delete history
+     *
+     * @return JsonRespone
+     */
+    public function clearHistory()
+    {
+        if (!$this->isUserAdmin()) {
+            return $this->respondJson(
+                'Access Denied',
+                [],
+                403
+            );
+        }
+
+        DB::delete('history', '*');
+
+        return $this->respondJson(
+            'History Deleted',
             ['reload' => true]
         );
     }

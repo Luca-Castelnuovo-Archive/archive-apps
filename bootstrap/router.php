@@ -60,6 +60,7 @@ $router->group(['prefix' => '/admin', 'middleware' => SessionMiddleware::class],
     $router->get('', 'AdminController@view');
     $router->post('/invite', 'AdminController@invite', JSONMiddleware::class);
     $router->put('/user/{id}', 'AdminController@userToggle');
+    $router->delete('/history', 'AdminController@clearHistory');
 });
 
 try {

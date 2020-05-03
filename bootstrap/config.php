@@ -53,6 +53,7 @@ function config($key, $fallback = null)
                 'emailLogin' => 300, // 5minutes
                 'register' => 3600, // 1hour
                 'invite' => 604800, // 1week
+                'auth' => 300, // 5minutes - external auth
             ],
             'mail' => [
                 'endpoint' => 'https://mailjs.lucacastelnuovo.nl/submit',

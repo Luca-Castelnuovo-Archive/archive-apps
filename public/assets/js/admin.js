@@ -62,3 +62,9 @@ inviteForm.addEventListener('submit', e => {
     
     formSubmit(inviteForm, '/admin/invite');
 });
+
+const clearHistory = () => {
+    if (confirm("Do you want to clear the history?")) {
+        apiUse('delete', '/admin/history');
+    }
+}

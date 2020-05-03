@@ -24,6 +24,7 @@ class Controller
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));
         $this->twig->addGlobal('captcha', config('captcha'));
+        $this->twig->addGlobal('admin', $this->isUserAdmin());
     }
 
     /**

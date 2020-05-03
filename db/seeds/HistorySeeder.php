@@ -2,7 +2,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class InvitesSeeder extends AbstractSeed
+class HistorySeeder extends AbstractSeed
 {
     /**
      * Run Method.
@@ -19,13 +19,15 @@ class InvitesSeeder extends AbstractSeed
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'code'          => $faker->md5,
-                'expires_at'    => date('Y-m-d H:i:s'),
+                'app_id'        => $faker->uuid,
+                'user_id'       => $faker->uuid,
+                'user_agent'    => $faker->userAgent,
+                'user_ip'       => $faker->ipv4,
                 'updated_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];
         }
 
-        $this->table('invites')->insert($data)->saveData();
+        $this->table('history')->insert($data)->saveData();
     }
 }

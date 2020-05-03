@@ -2,7 +2,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class InvitesSeeder extends AbstractSeed
+class AppsSeeder extends AbstractSeed
 {
     /**
      * Run Method.
@@ -19,8 +19,11 @@ class InvitesSeeder extends AbstractSeed
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'code'          => $faker->md5,
-                'expires_at'    => date('Y-m-d H:i:s'),
+                'id'            => $faker->md5,
+                'gumroad_id'    => $faker->userName,
+                'active'        => $faker->boolean,
+                'name'          => $faker->firstName,
+                'url'           => $faker->url,
                 'updated_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];

@@ -2,7 +2,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class InvitesSeeder extends AbstractSeed
+class LicensesSeeder extends AbstractSeed
 {
     /**
      * Run Method.
@@ -19,13 +19,14 @@ class InvitesSeeder extends AbstractSeed
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'code'          => $faker->md5,
-                'expires_at'    => date('Y-m-d H:i:s'),
+                'user_id'       => $faker->uuid,
+                'app_id'        => $faker->uuid,
+                'license'       => $faker->uuid,
                 'updated_at'    => date('Y-m-d H:i:s'),
                 'created_at'    => date('Y-m-d H:i:s'),
             ];
         }
 
-        $this->table('invites')->insert($data)->saveData();
+        $this->table('licenses')->insert($data)->saveData();
     }
 }
