@@ -21,12 +21,19 @@ class LaunchController extends Controller
      */
     public function launch(ServerRequest $request, $id)
     {
-        $app = DB::get('apps', ['url'], ['id' => $id]);
+        $app = DB::get('apps', ['url', 'active'], ['id' => $id]);
 
         if (!$app) {
             return $this->respond(
                 'launch.twig',
                 ['error' => 'App not found']
+            );
+        }
+
+        if (!$app['active']) {
+            return $this->respond(
+                'launch.twig',
+                ['error' => 'App not active']
             );
         }
 
