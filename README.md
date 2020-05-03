@@ -1,5 +1,3 @@
-# 🚧 WORK IN PROGRESS - don't install yet 🚧
-
 <h1 align="center">Welcome to Apps Manager 👋</h1>
 <p>
   <a href="https://github.com/Luca-Castelnuovo/Auth/blob/master/LICENSE" target="_blank">
