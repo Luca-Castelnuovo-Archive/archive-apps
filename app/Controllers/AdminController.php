@@ -167,7 +167,7 @@ class AdminController extends Controller
             );
         }
 
-        DB::delete('history', '*');
+        DB::delete('history',  ["user_ip[~]" => "%"]);
 
         return $this->respondJson(
             'History Deleted',
