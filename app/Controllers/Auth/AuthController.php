@@ -12,7 +12,7 @@ class AuthController extends Controller
     /**
      * Create session
      * 
-     * @param array $user_where
+     * @param string|null $next
      *
      * @return RedirectResponse
      */
@@ -28,11 +28,17 @@ class AuthController extends Controller
             return $this->logout('Your account has been deactivated! Contact the administrator');
         }
 
+        $return_to = SessionHelper::get('return_to');
+
         SessionHelper::destroy();
         SessionHelper::set('id', $user['id']);
         SessionHelper::set('admin', $user['admin']);
         SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
         SessionHelper::set('last_activity', time());
+
+        if ($return_to) {
+            return $this->redirect($return_to);
+        }
 
         return $this->redirect('/dashboard');
     }

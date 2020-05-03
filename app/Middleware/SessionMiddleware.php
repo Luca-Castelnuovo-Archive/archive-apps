@@ -4,6 +4,7 @@ namespace App\Middleware;
 
 use App\Helpers\AuthHelper;
 use App\Helpers\SessionHelper;
+use App\Helpers\JWTHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -24,17 +25,18 @@ class SessionMiddleware implements Middleware
         if (!AuthHelper::valid()) {
             SessionHelper::destroy();
 
-            if ($request->isJSON) {
-                SessionHelper::destroy();
+            $msg = JWTHelper::create('message', ['message' => 'Session expired']);
+            SessionHelper::set('return_to', $request->getUri());
 
+            if ($request->isJSON) {
                 return new JsonResponse([
                     'success' => false,
-                    'message' => 'Session expired or IP mismatch',
-                    'data' => ['redirect' => '/auth/logout']
+                    'message' => 'Session expired',
+                    'data' => ['redirect' => "/?msg={$msg}"]
                 ], 403);
             }
 
-            return new RedirectResponse('/auth/logout', 403);
+            return new RedirectResponse("/?msg={$msg}");
         }
 
         return $next($request);
