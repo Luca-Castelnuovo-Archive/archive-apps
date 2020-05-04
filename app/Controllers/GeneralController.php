@@ -12,6 +12,8 @@ class GeneralController extends Controller
     /**
      * Login screen
      * 
+     * @param ServerRequest $requests
+     * 
      * @return HtmlResponse
      */
     public function index(ServerRequest $request)
@@ -29,6 +31,16 @@ class GeneralController extends Controller
             'message' => $msg,
             'logged_in' => AuthHelper::valid()
         ]);
+    }
+
+    /**
+     * Show JWT public_key
+     * 
+     * @return JsonResponse
+     */
+    public function jwt()
+    {
+        return $this->respondJson('jwt.public_key', config('jwt.public_key'));
     }
 
     /**

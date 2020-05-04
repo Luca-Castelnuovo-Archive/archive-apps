@@ -11,6 +11,7 @@ $router = new Router('', 'App\Controllers');
 $router->define('httpcode', '[0-9]+');
 
 $router->get('/', 'GeneralController@index');
+$router->get('/jwt', 'GeneralController@jwt');
 $router->get('/error/{httpcode}', 'GeneralController@error');
 
 $router->group(['prefix' => '/auth', 'namespace' => 'App\Controllers\Auth'], function (Router $router) {
