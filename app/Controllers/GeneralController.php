@@ -43,7 +43,7 @@ class GeneralController extends Controller
         return $this->respondJson('jwt public info', [
             'algorithm' => config('jwt.algorithm'),
             'iss' => config('jwt.iss'),
-            'public_key' => config('jwt.algorithm')
+            'public_key' => config('jwt.public_key')
         ]);
     }
 
