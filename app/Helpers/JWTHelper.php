@@ -64,6 +64,10 @@ class JWTHelper
             throw new Exception('Token is invalid');
         }
 
+        if (config('jwt.iss') !== $credentials->iss) {
+            throw new Exception('Token iss not valid');
+        }
+
         if ($type !== $credentials->type) {
             throw new Exception('Token type not valid');
         }
