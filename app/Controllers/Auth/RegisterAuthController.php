@@ -140,7 +140,10 @@ class RegisterAuthController extends AuthController
             $type => $data
         ]);
 
-        $jwt = JWTHelper::create('message', ['message' => 'You can now login']);
+        $jwt = JWTHelper::create([
+            'type' => 'message',
+            'message' => 'You can now login'
+        ], config('jwt.message'));
         return $this->respondJson(
             'Account Created',
             ['redirect' => "/?msg={$jwt}"]

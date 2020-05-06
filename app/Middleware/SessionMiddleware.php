@@ -26,7 +26,10 @@ class SessionMiddleware implements Middleware
         if (!AuthHelper::valid()) {
             SessionHelper::destroy();
 
-            $msg = JWTHelper::create('message', ['message' => 'Session expired']);
+            $msg = JWTHelper::create([
+                'type' => 'message',
+                'message' => 'Session expired'
+            ], config('jwt.message'));
             SessionHelper::set('return_to', $request->getUri());
 
             if (StringHelper::contains($request->getHeader('content-type')[0], '/json')) {

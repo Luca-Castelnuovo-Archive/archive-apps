@@ -58,12 +58,13 @@ class LaunchController extends Controller
             );
         }
 
-        $jwt = JWTHelper::create('auth', [
+        $jwt = JWTHelper::create([
+            'type' => 'auth',
             'sub' => SessionHelper::get('id'),
             'user_agent' => $request->getHeader('user-agent')[0],
             'user_ip' => $_SERVER['REMOTE_ADDR'],
             'variant' => str_replace(array('(', ')'), '', $gumroad->variants)
-        ], $app['url']);
+        ], config('jwt.auth'), $app['url']);
 
         DB::create(
             'history',

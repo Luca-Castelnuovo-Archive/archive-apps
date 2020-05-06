@@ -41,13 +41,11 @@ class EmailAuthController extends AuthController
 
         try {
             $app_url = config('app.url');
-            $jwt = JWTHelper::create(
-                'emailLogin',
-                [
-                    'sub' => $request->data->email,
-                    'state' => StateHelper::set()
-                ]
-            );
+            $jwt = JWTHelper::create([
+                'type' => 'emailLogin',
+                'sub' => $request->data->email,
+                'state' => StateHelper::set()
+            ], config('jwt.message'));
 
             MailHelper::send(
                 'emailLogin',

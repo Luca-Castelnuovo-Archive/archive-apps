@@ -55,9 +55,10 @@ class AuthController extends Controller
         SessionHelper::destroy();
 
         if ($message) {
-            $jwt = JWTHelper::create('message', [
+            $jwt = JWTHelper::create([
+                'type' => 'message',
                 'message' => $message
-            ]);
+            ], config('jwt.message'));
 
             return $this->redirect("/?msg={$jwt}");
         }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3a9db555b83e7c891021bcbb2bb5bb1",
+    "content-hash": "e2aed426e713f1d2e2b41b8c48b07c71",
     "packages": [
         {
             "name": "brick/math",
@@ -773,6 +773,44 @@
                 "oauth2"
             ],
             "time": "2019-11-16T14:11:06+00:00"
+        },
+        {
+            "name": "lucacastelnuovo/helpers-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Luca-Castelnuovo/php-helpers.git",
+                "reference": "5f5a702747d3aa74589248a7e478bc8379ca13f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/php-helpers/zipball/5f5a702747d3aa74589248a7e478bc8379ca13f4",
+                "reference": "5f5a702747d3aa74589248a7e478bc8379ca13f4",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^5.2",
+                "php": ">=5.3.0",
+                "phpseclib/phpseclib": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lucacastelnuovo\\Helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luca Castelnuovo",
+                    "email": "luca@castelnuovo.xyz"
+                }
+            ],
+            "description": "PHP helpers",
+            "time": "2020-05-06T15:27:17+00:00"
         },
         {
             "name": "miladrahimi/phprouter",
@@ -2437,7 +2475,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "lucacastelnuovo/helpers-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
