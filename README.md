@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Apps Manager 👋</h1>
 <p>
-  <a href="https://github.com/Luca-Castelnuovo/Auth/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/Luca-Castelnuovo/Apps/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
@@ -16,7 +16,7 @@
 1. Install Package
 
 ```sh
-git clone https://github.com/Luca-Castelnuovo/Apps-Manager.git
+git clone https://github.com/Luca-Castelnuovo/Apps.git
 composer install
 ```
 
@@ -43,4 +43,4 @@ composer install
 ## 📝 License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
-This project is [MIT](https://github.com/Luca-Castelnuovo/Auth/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/Luca-Castelnuovo/Apps/blob/master/LICENSE) licensed.
