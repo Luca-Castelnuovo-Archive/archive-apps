@@ -779,12 +779,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Luca-Castelnuovo/php-helpers.git",
+                "url": "https://github.com/Luca-Castelnuovo/helpers-php.git",
                 "reference": "5f5a702747d3aa74589248a7e478bc8379ca13f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Luca-Castelnuovo/php-helpers/zipball/5f5a702747d3aa74589248a7e478bc8379ca13f4",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/helpers-php/zipball/5f5a702747d3aa74589248a7e478bc8379ca13f4",
                 "reference": "5f5a702747d3aa74589248a7e478bc8379ca13f4",
                 "shasum": ""
             },
