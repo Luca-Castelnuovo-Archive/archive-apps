@@ -8,7 +8,7 @@ use CQ\Middleware\Middleware;
 use CQ\Response\Json;
 use CQ\Response\Redirect;
 
-class Admin implements Middleware
+class Admin extends Middleware
 {
     /**
      * Validate admin access

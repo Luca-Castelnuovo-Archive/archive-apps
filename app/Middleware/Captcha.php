@@ -10,7 +10,7 @@ use App\Validators\CaptchaValidator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class Captcha implements Middleware
+class Captcha extends Middleware
 {
     /**
      * Validate captcha response
