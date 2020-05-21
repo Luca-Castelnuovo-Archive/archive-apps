@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
-use App\Helpers\SessionHelper;
-use App\Helpers\GumroadHelper;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use CQ\Controllers\Controller;
+use App\Helpers\Gumroad;
 use App\Validators\LicenseValidator;
-use Zend\Diactoros\ServerRequest;
 
 class LicenseController extends Controller
 {
@@ -17,7 +17,7 @@ class LicenseController extends Controller
      * @param string $id
      * @param string $offer_code
      * 
-     * @return HtmlResponse
+     * @return Html
      */
     public function popup($id, $offer_code)
     {
@@ -30,11 +30,11 @@ class LicenseController extends Controller
     /**
      * Add license to user
      * 
-     * @param ServerRequest $request
+     * @param object $request
      *
-     * @return JsonResponse
+     * @return Json
      */
-    public function create(ServerRequest $request)
+    public function create($request)
     {
         try {
             LicenseValidator::create($request->data);
@@ -59,7 +59,7 @@ class LicenseController extends Controller
 
         if (DB::has('licenses', [
             'app_id' => $id,
-            'user_id' => SessionHelper::get('id')
+            'user_id' => Session::get('id')
         ])) {
             return $this->respondJson(
                 'App already licensed',
@@ -77,7 +77,7 @@ class LicenseController extends Controller
         }
 
         try {
-            $gumroad = GumroadHelper::license($id, $license);
+            $gumroad = Gumroad::license($id, $license);
         } catch (Exception $e) {
             return $this->respondJson(
                 'License Invalid',
@@ -88,7 +88,7 @@ class LicenseController extends Controller
 
         DB::create('licenses', [
             'app_id' => $id,
-            'user_id' => SessionHelper::get('id'),
+            'user_id' => Session::get('id'),
             'variant' => str_replace(array('(', ')'), '', $gumroad->variants),
             'license' => $license
         ]);
@@ -102,11 +102,11 @@ class LicenseController extends Controller
     /**
      * Remove license from user
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return JsonResponse
+     * @return Json
      */
-    public function remove(ServerRequest $request)
+    public function remove($request)
     {
         try {
             LicenseValidator::remove($request->data);
@@ -120,7 +120,7 @@ class LicenseController extends Controller
 
         DB::delete('licenses', [
             'license' => $request->data->license,
-            'user_id' => SessionHelper::get('id')
+            'user_id' => Session::get('id')
         ]);
 
         return $this->respondJson(

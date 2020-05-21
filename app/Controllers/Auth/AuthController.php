@@ -2,10 +2,9 @@
 
 namespace App\Controllers\Auth;
 
-use DB;
-use App\Controllers\Controller;
-use App\Helpers\JWTHelper;
-use App\Helpers\SessionHelper;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use CQ\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -14,27 +13,27 @@ class AuthController extends Controller
      * 
      * @param string|null $next
      *
-     * @return RedirectResponse
+     * @return Redirect
      */
     public function login($user_where)
     {
         $user = DB::get('users', ['id', 'active [Bool]', 'admin [Bool]'], $user_where);
 
         if (!$user) {
-            return $this->logout('Account not found!');
+            return $this->logout('notfound');
         }
 
         if (!$user['active']) {
-            return $this->logout('Your account has been deactivated! Contact the administrator');
+            return $this->logout('deactivated');
         }
 
-        $return_to = SessionHelper::get('return_to');
+        $return_to = Session::get('return_to');
 
-        SessionHelper::destroy();
-        SessionHelper::set('id', $user['id']);
-        SessionHelper::set('admin', $user['admin']);
-        SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
-        SessionHelper::set('last_activity', time());
+        Session::destroy();
+        Session::set('id', $user['id']);
+        Session::set('admin', $user['admin']);
+        Session::set('ip', $_SERVER['REMOTE_ADDR']);
+        Session::set('last_activity', time());
 
         if ($return_to) {
             return $this->redirect($return_to);
@@ -48,19 +47,14 @@ class AuthController extends Controller
      * 
      * @param string $message optional
      *
-     * @return RedirectResponse
+     * @return Redirect
      */
-    public function logout($message = 'You have been logged out!')
+    public function logout($message = 'logout')
     {
-        SessionHelper::destroy();
+        Session::destroy();
 
         if ($message) {
-            $jwt = JWTHelper::create([
-                'type' => 'message',
-                'message' => $message
-            ], config('jwt.message'));
-
-            return $this->redirect("/?msg={$jwt}");
+            return $this->redirect("/?msg={$message}");
         }
 
         return $this->redirect('/');

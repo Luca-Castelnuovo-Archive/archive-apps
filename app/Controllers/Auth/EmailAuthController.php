@@ -2,24 +2,24 @@
 
 namespace App\Controllers\Auth;
 
-use DB;
 use Exception;
-use App\Helpers\JWTHelper;
-use App\Helpers\MailHelper;
-use App\Helpers\StateHelper;
+use CQ\DB\DB;
+use CQ\Config\Config;
+use CQ\Helpers\State;
+use App\Helpers\JWT;
+use App\Helpers\Mail;
 use App\Validators\EmailAuthValidator;
-use Zend\Diactoros\ServerRequest;
 
 class EmailAuthController extends AuthController
 {
     /**
      * Request for email
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return JsonResponse;
+     * @return Json;
      */
-    public function request(ServerRequest $request)
+    public function request($request)
     {
         try {
             EmailAuthValidator::request($request->data);
@@ -40,14 +40,14 @@ class EmailAuthController extends AuthController
         }
 
         try {
-            $app_url = config('app.url');
-            $jwt = JWTHelper::create([
+            $app_url = Config::get('app.url');
+            $jwt = JWT::create([
                 'type' => 'emailLogin',
                 'sub' => $request->data->email,
-                'state' => StateHelper::set()
-            ], config('jwt.message'));
+                'state' => State::set()
+            ], Config::get('jwt.message'));
 
-            MailHelper::send(
+            Mail::send(
                 'emailLogin',
                 $request->data->email,
                 $request->data->email,
@@ -67,22 +67,22 @@ class EmailAuthController extends AuthController
     /**
      * Callback for email
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return RedirectResponse
+     * @return Redirect
      */
-    public function callback(ServerRequest $request)
+    public function callback($request)
     {
         $code = $request->getQueryParams()['code'];
 
         try {
-            $jwt = JWTHelper::valid('emailLogin', $code);
+            $jwt = JWT::valid('emailLogin', $code);
         } catch (Exception $e) {
             return $this->logout($e->getMessage());
         }
 
-        if (!StateHelper::valid($jwt->state)) {
-            return $this->logout('Please open link on the same device that requested the login');
+        if (!State::valid($jwt->state)) {
+            return $this->logout('stateMail');
         }
 
         return $this->login(['email' => $jwt->sub]);

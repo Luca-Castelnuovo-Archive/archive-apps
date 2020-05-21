@@ -11,37 +11,31 @@
 
 ### 💾 [SDK](https://github.com/luca-castelnuovo/helpers-php#appsclient)
 
-## Install
+## Installation
 
-1. Install Package
+For development
 
-```sh
-git clone https://github.com/Luca-Castelnuovo/Apps.git
-composer install
-```
+1. `git clone https://github.com/Luca-Castelnuovo/Apps.git`
+2. `composer install`
+3. Edit `.env`
+4. `composer jwt`
+5. `composer migrate`
+6. `composer seed`
+7. Start development server `php -S localhost:8080 -t public`
 
-2. Set DB credentials in `.env`
+For deployment
 
-3. Run `composer migrate`
+1. `git clone https://github.com/Luca-Castelnuovo/Apps.git`
+2. `composer install --optimize-autoloader --no-dev`
+3. Edit `.env`
+4. `composer jwt`
+5. `composer migrate`
 
-4. Run `composer jwt`
+## Security Vulnerabilities
 
-5. Create Gihub OAuth application and place keys in `.env`  
-   _the callback url should be https://your.app/auth/github/callback_
+Please review [our security policy](https://github.com/Luca-Castelnuovo/Apps/security/policy) on how to report security vulnerabilities.
 
-6. Create Google OAuth application and place keys in `.env`  
-   _the callback url should be https://your.app/auth/google/callback_
-
-7. Create hCaptcha or ReCaptcha keys and place in `.env`  
-   _if you want to use recaptcha edit /bootstrap/config.php_
-
-8. Create Gumroad app and access_token and place in `.env`
-
-8. Create new template from `/views/partials/email_template.twig` on mailjs.lucacastelnuovo.nl  
-   _create accesstoken for https://your.app_
-
-## 📝 License
+## License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
 This project is [MIT](https://github.com/Luca-Castelnuovo/Apps/blob/master/LICENSE) licensed.
- 

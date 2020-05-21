@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class RegisterAuthValidator extends ValidatorBase
+class RegisterAuthValidator extends Validator
 {
     /**
      * Validate json submission
@@ -17,7 +18,7 @@ class RegisterAuthValidator extends ValidatorBase
     {
         $v = v::attribute('invite_code', v::alnum()->length(1, 128));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 
     /**
@@ -35,6 +36,6 @@ class RegisterAuthValidator extends ValidatorBase
             ->attribute('google', v::optional(v::stringType()->length(1, 255)))
             ->attribute('email', v::optional(v::email()->length(1, 255)));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "Apps",
+  "short_name": "Apps",
+  "description": "Centralized auth server for managing access to my apps",
+  "start_url": "/",
+  "background_color": "#000000",
+  "theme_color": "#0f4a73",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

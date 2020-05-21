@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use DB;
-use App\Helpers\GumroadHelper;
 use Exception;
+use CQ\DB\DB;
+use CQ\Controllers\Controller;
+use App\Helpers\Gumroad;
 
 class AppController extends Controller
 {
@@ -13,20 +14,12 @@ class AppController extends Controller
      *
      * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
     public function create($id)
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         try {
-            $product = GumroadHelper::product($id);
+            $product = Gumroad::product($id);
         } catch (Exception $e) {
             return $this->respondJson(
                 'Gumroad ID not found',
@@ -67,18 +60,10 @@ class AppController extends Controller
      *
      * @param string $id
      * 
-     * @return JsonResponse
+     * @return Json
      */
     public function toggleActive($id)
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         $app = DB::get('apps', ['active'], ['id' => $id]);
 
         if (!$app) {
@@ -102,18 +87,10 @@ class AppController extends Controller
      *
      * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
     public function delete($id)
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         DB::delete('apps', ['id' => $id,]);
 
         return $this->respondJson(

@@ -2,18 +2,18 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
-use App\Helpers\SessionHelper;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use CQ\Controllers\Controller;
 use App\Validators\UserValidator;
-use Zend\Diactoros\ServerRequest;
 
 class SettingsController extends Controller
 {
     /**
      * View settings
-     *     * 
-     * @return HtmlResponse
+     * 
+     * @return Html
      */
     public function view()
     {
@@ -21,7 +21,7 @@ class SettingsController extends Controller
             'github',
             'google',
             'email'
-        ], ['id' => SessionHelper::get('id')]);
+        ], ['id' => Session::get('id')]);
 
         $licenses = DB::select('licenses', [
             'app_id',
@@ -29,7 +29,7 @@ class SettingsController extends Controller
             'variant',
             'created_at'
         ], [
-            'user_id' => SessionHelper::get('id')
+            'user_id' => Session::get('id')
         ]);
 
         $apps = DB::select(
@@ -64,11 +64,11 @@ class SettingsController extends Controller
     /**
      * Add login option
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return JsonResponse
+     * @return Json
      */
-    public function addLogin(ServerRequest $request)
+    public function addLogin($request)
     {
         try {
             UserValidator::addLogin($request->data);
@@ -83,7 +83,7 @@ class SettingsController extends Controller
         $type = $request->data->type;
         $data = $request->data->id;
 
-        if (DB::get('users', $type, ['id' => SessionHelper::get('id')])) {
+        if (DB::get('users', $type, ['id' => Session::get('id')])) {
             return $this->respondJson(
                 "Please unlink {$type} before relinking it",
                 [],
@@ -99,7 +99,7 @@ class SettingsController extends Controller
             );
         }
 
-        DB::update('users', [$type => $data], ['id' => SessionHelper::get('id')]);
+        DB::update('users', [$type => $data], ['id' => Session::get('id')]);
 
         return $this->respondJson(
             'Login Added',
@@ -110,11 +110,11 @@ class SettingsController extends Controller
     /**
      * Remove login option
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return JsonResponse
+     * @return Json
      */
-    public function removeLogin(ServerRequest $request)
+    public function removeLogin($request)
     {
         try {
             UserValidator::removeLogin($request->data);
@@ -131,7 +131,7 @@ class SettingsController extends Controller
             'github',
             'google',
             'email'
-        ], ['id' => SessionHelper::get('id')]);
+        ], ['id' => Session::get('id')]);
 
         switch ($type) {
             case 'github':
@@ -165,7 +165,7 @@ class SettingsController extends Controller
                 break;
         }
 
-        DB::update('users', [$type => null], ['id' => SessionHelper::get('id')]);
+        DB::update('users', [$type => null], ['id' => Session::get('id')]);
 
         return $this->respondJson(
             'Login Removed',
@@ -176,13 +176,13 @@ class SettingsController extends Controller
     /**
      * Remove account
      * 
-     * @return JsonResponse
+     * @return Json
      */
     public function removeAccount()
     {
-        DB::delete('users', ['id' => SessionHelper::get('id')]);
+        DB::delete('users', ['id' => Session::get('id')]);
 
-        SessionHelper::destroy();
+        Session::destroy();
 
         return $this->respondJson(
             'Account Deleted',

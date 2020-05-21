@@ -3,31 +3,31 @@
 namespace App\Middleware;
 
 use Exception;
+use CQ\Response\Json;
+use CQ\Config\Config;
+use CQ\Middleware\Middleware;
 use App\Validators\CaptchaValidator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use MiladRahimi\PhpRouter\Middleware;
-use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
-class CaptchaMiddleware implements Middleware
+class Captcha implements Middleware
 {
     /**
      * Validate captcha response
      *
-     * @param Request $request
+     * @param $request
      * @param $next
      *
      * @return mixed
      */
-    public function handle(ServerRequestInterface $request, $next)
+    public function handle($request, $next)
     {
         $guzzle = new Client();
 
         try {
             CaptchaValidator::submit($request->data);
         } catch (Exception $e) {
-            return new JsonResponse([
+            return new Json([
                 'success' => false,
                 'message' => 'Provided data was malformed',
                 'data' => $e->getMessage()
@@ -35,19 +35,19 @@ class CaptchaMiddleware implements Middleware
         }
 
         try {
-            $guzzle->post(config('captcha.endpoint'), [
+            $guzzle->post('https://hcaptcha.com/siteverify', [
                 'headers' => [
-                    'Origin' => config('app.url')
+                    'Origin' => Config::get('app.url')
                 ],
                 'form_params' => [
-                    'secret' => config('captcha.secret_key'),
-                    'response' => $request->data->{config('captcha.frontend_class') . '-response'}
+                    'secret' => Config::get('captcha.secret_key'),
+                    'response' => $request->data->{'h-captcha-response'}
                 ],
             ]);
         } catch (RequestException $e) {
             $response = json_decode($e->getResponse()->getBody(true));
 
-            return new JsonResponse([
+            return new Json([
                 'success' => false,
                 'message' => 'Please complete captcha',
                 'data' => $response->{'error-codes'}

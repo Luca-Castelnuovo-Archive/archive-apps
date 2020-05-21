@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class CaptchaValidator extends ValidatorBase
+class CaptchaValidator extends Validator
 {
     /**
      * Validate json submission
@@ -15,8 +16,8 @@ class CaptchaValidator extends ValidatorBase
      */
     public static function submit($data)
     {
-        $v = v::attribute(config('captcha.frontend_class') . '-response', v::stringType());
+        $v = v::attribute('h-captcha-response', v::stringType());
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }

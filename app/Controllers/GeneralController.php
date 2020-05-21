@@ -2,48 +2,80 @@
 
 namespace App\Controllers;
 
-use Exception;
-use App\Helpers\JWTHelper;
-use App\Helpers\AuthHelper;
-use Zend\Diactoros\ServerRequest;
+use CQ\Helpers\Auth;
+use CQ\Config\Config;
+use CQ\Controllers\Controller;
 
 class GeneralController extends Controller
 {
     /**
-     * Login screen
+     * Index screen
      * 
-     * @param ServerRequest $requests
+     * @param object $request
      * 
-     * @return HtmlResponse
+     * @return Html
      */
-    public function index(ServerRequest $request)
+    public function index($request)
     {
         $msg = $request->getQueryParams()['msg'] ?: '';
 
-        try {
-            $claims = JWTHelper::valid('message', $msg);
-            $msg = $claims->message;
-        } catch (Exception $e) {
-            $msg = '';
+        if ($msg) {
+            switch ($msg) {
+                case 'logout':
+                    $msg = 'You have been logged out!';
+                    break;
+
+                case 'notfound':
+                    $msg = 'Account not found!';
+                    break;
+
+                case 'deactivated':
+                    $msg = 'Your account has been deactivated! Contact the administrator';
+                    break;
+
+                case 'state':
+                    $msg = 'State is invalid!';
+                    break;
+
+                case 'stateMail':
+                    $msg = 'Please open link on the same device that requested the login!';
+                    break;
+
+                case 'expired':
+                    $msg = 'Session expired!';
+                    break;
+
+                case 'register':
+                    $msg = 'You can now login!';
+                    break;
+
+                case 'token':
+                    $msg = 'Invalid authentication!';
+                    break;
+
+                default:
+                    $msg = '';
+                    break;
+            }
         }
 
         return $this->respond('index.twig', [
             'message' => $msg,
-            'logged_in' => AuthHelper::valid()
+            'logged_in' => Auth::valid()
         ]);
     }
 
     /**
      * Show JWT public_key
      * 
-     * @return JsonResponse
+     * @return Json
      */
     public function jwt()
     {
         return $this->respondJson('jwt public info', [
-            'algorithm' => config('jwt.algorithm'),
-            'iss' => config('jwt.iss'),
-            'public_key' => config('jwt.public_key')
+            'algorithm' => Config::get('jwt.algorithm'),
+            'iss' =>  Config::get('jwt.iss'),
+            'public_key' => Config::get('jwt.public_key')
         ]);
     }
 
@@ -51,12 +83,12 @@ class GeneralController extends Controller
      * Error screen
      * 
      * @param string $httpcode
-     *
-     * @return HtmlResponse
+     * 
+     * @return Html
      */
-    public function error($httpcode)
+    public function error($code)
     {
-        switch ($httpcode) {
+        switch ($code) {
             case '403':
                 $short_message = 'Oops! Access denied';
                 $message = 'Access to this page is forbidden';
@@ -65,30 +97,22 @@ class GeneralController extends Controller
                 $short_message = 'Oops! Page not found';
                 $message = 'We are sorry, but the page you requested was not found';
                 break;
-            case '422':
-                $short_message = 'Oops! Parameters missing';
-                $message = 'The page you requested missed required parameters';
-                break;
             case '500':
                 $short_message = 'Oops! Server error';
-                $message = 'We are experiencing some technical issues';
-                break;
-            case '502':
-                $short_message = 'Oops! Proxy error';
                 $message = 'We are experiencing some technical issues';
                 break;
 
             default:
                 $short_message = 'Oops! Unknown Error';
                 $message = 'Unknown error occured';
-                $httpcode = 400;
+                $code = 400;
                 break;
         }
 
         return $this->respond('error.twig', [
-            'code' => $httpcode,
+            'code' => $code,
             'short_message' => $short_message,
             'message' => $message
-        ], $httpcode);
+        ], $code);
     }
 }

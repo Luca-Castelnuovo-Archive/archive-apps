@@ -1,14 +1,18 @@
-<script src="/assets/js/materialize.min.js"></script>
-<script src="/assets/js/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="/assets/js/utilities.js"></script>
+<script src="https://hcaptcha.com/1/api.js" async defer></script>
 
-<script src="{{ captcha.frontend_endpoint }}" async defer></script>
+{% if page_script %}
+    <script src="/assets/js/pages/{{ page_script }}"></script>
+{% endif %}
+
 {% if analytics.enabled %}
     <script
         async
         src="https://analytics.lucacastelnuovo.nl/tracker.js"
         data-ackee-server="https://analytics.lucacastelnuovo.nl"
         data-ackee-domain-id="{{ analytics.domainId }}"
-        data-ackee-opts="{{ analytics.options }}">
+        data-ackee-opts='{{ analytics.options }}'>
     </script>
 {% endif %}

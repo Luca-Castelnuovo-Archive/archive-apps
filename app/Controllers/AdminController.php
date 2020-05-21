@@ -2,26 +2,23 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
-use App\Helpers\MailHelper;
-use App\Helpers\StringHelper;
+use CQ\DB\DB;
+use CQ\Config\Config;
+use CQ\Helpers\Str;
+use CQ\Controllers\Controller;
+use App\Helpers\Mail;
 use App\Validators\AdminValidator;
-use Zend\Diactoros\ServerRequest;
 
 class AdminController extends Controller
 {
     /**
      * List apps and users
      *
-     * @return HtmlResponse
+     * @return Html
      */
     public function view()
     {
-        if (!$this->isUserAdmin()) {
-            return $this->redirect('/dashboard');
-        }
-
         $apps = DB::select('apps', [
             'id',
             'active',
@@ -62,21 +59,13 @@ class AdminController extends Controller
     /**
      * Invite user
      *
-     * @param ServerRequest $request
+     * @param object $request
      * @param string $id
      * 
-     * @return JsonResponse
+     * @return Json
      */
-    public function invite(ServerRequest $request)
+    public function invite($request)
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         try {
             AdminValidator::invite($request->data);
         } catch (Exception $e) {
@@ -87,19 +76,19 @@ class AdminController extends Controller
             );
         }
 
-        $code = StringHelper::random();
+        $code = Str::random();
 
         DB::create(
             'invites',
             [
                 'code' => $code,
-                'expires_at' => date("Y-m-d H:i:s", (strtotime(date('Y-m-d H:i:s')) + config('jwt.invite')))
+                'expires_at' => date("Y-m-d H:i:s", (strtotime(date('Y-m-d H:i:s')) + Config::get('jwt.invite')))
             ]
         );
 
         try {
-            $app_url = config('app.url');
-            MailHelper::send(
+            $app_url = Config::get('app.url');
+            Mail::send(
                 'invite',
                 $request->data->email,
                 $request->data->email,
@@ -124,18 +113,10 @@ class AdminController extends Controller
      *
      * @param string $id
      * 
-     * @return JsonResponse
+     * @return Json
      */
     public function userToggle($id)
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         $user = DB::get('users', ['active'], ['id' => $id]);
 
         if (!$user) {
@@ -157,18 +138,10 @@ class AdminController extends Controller
     /**
      * Delete history
      *
-     * @return JsonRespone
+     * @return Json
      */
     public function clearHistory()
     {
-        if (!$this->isUserAdmin()) {
-            return $this->respondJson(
-                'Access Denied',
-                [],
-                403
-            );
-        }
-
         DB::delete('history',  ["user_ip[~]" => "%"]);
 
         return $this->respondJson(

@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class EmailAuthValidator extends ValidatorBase
+class EmailAuthValidator extends Validator
 {
     /**
      * Validate json submission
@@ -17,6 +18,6 @@ class EmailAuthValidator extends ValidatorBase
     {
         $v = v::attribute('email', v::email()->length(1, 255));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }

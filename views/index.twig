@@ -1,10 +1,10 @@
 {% extends "partials/base.twig" %}
 {% set title = "Login" %}
 {% set navbarDisable = true %}
+{% set page_css = "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" %}
+{% set page_script = "index.js" %}
 
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <div class="row">
     {% if message %}
         <div class="col s12">
@@ -23,6 +23,4 @@
         {% include 'index/register.twig' %}
     </div>
 </div>
-
-<script src="/assets/js/index.js"></script>
 {% endblock %}

@@ -2,22 +2,23 @@
 
 namespace App\Controllers\Auth;
 
-use DB;
 use Exception;
-use App\Helpers\JWTHelper;
-use App\Helpers\StateHelper;
+use CQ\DB\DB;
+use CQ\Helpers\UUID;
+use CQ\Helpers\State;
+use App\Helpers\JWT;
 use App\Validators\RegisterAuthValidator;
-use Zend\Diactoros\ServerRequest;
-use Ramsey\Uuid\Uuid;
 
 class RegisterAuthController extends AuthController
 {
     /**
      * Invite validation
+     * 
+     * @param object $request
      *
-     * @return JsonResponse
+     * @return Json
      */
-    public function invite(ServerRequest $request)
+    public function invite($request)
     {
         try {
             RegisterAuthValidator::invite($request->data);
@@ -49,8 +50,8 @@ class RegisterAuthController extends AuthController
 
         DB::delete('invites', ['code' => $request->data->invite_code]);
 
-        $jwt = JWTHelper::create('register', [
-            'state' => StateHelper::set()
+        $jwt = JWT::create('register', [
+            'state' => State::set()
         ]);
 
         return $this->respondJson(
@@ -62,22 +63,22 @@ class RegisterAuthController extends AuthController
     /**
      * View register form
      * 
-     * @param ServerRequest $request
+     * @param object $request
      *
-     * @return HtmlResponse
+     * @return Html
      */
-    public function registerView(ServerRequest $request)
+    public function registerView($request)
     {
         $code = $request->getQueryParams()['code'];
 
         try {
-            $jwt = JWTHelper::valid('register', $code);
+            $jwt = JWT::valid('register', $code);
         } catch (Exception $e) {
             return $this->logout($e->getMessage());
         }
 
-        if (!StateHelper::valid($jwt->state, false)) {
-            return $this->logout('State is invalid');
+        if (!State::valid($jwt->state, false)) {
+            return $this->logout('state');
         }
 
         return $this->respond('auth/register.twig', ['code' => $code]);
@@ -86,11 +87,11 @@ class RegisterAuthController extends AuthController
     /**
      * Register new user
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return RedirectResponse|JsonResponse
+     * @return Redirect|Json
      */
-    public function register(ServerRequest $request)
+    public function register($request)
     {
         try {
             RegisterAuthValidator::register($request->data);
@@ -114,7 +115,7 @@ class RegisterAuthController extends AuthController
         }
 
         try {
-            $jwt = JWTHelper::valid('register', $request->data->code);
+            $jwt = JWT::valid('register', $request->data->code);
         } catch (Exception $e) {
             return $this->logout($e->getMessage());
         }
@@ -127,7 +128,7 @@ class RegisterAuthController extends AuthController
             );
         }
 
-        if (!StateHelper::valid($jwt->state)) {
+        if (!State::valid($jwt->state)) {
             return $this->respondJson(
                 'State is invalid',
                 ['redirect' => '/'],
@@ -136,17 +137,13 @@ class RegisterAuthController extends AuthController
         }
 
         DB::create('users', [
-            'id' => Uuid::uuid4()->toString(),
+            'id' => UUID::v6(),
             $type => $data
         ]);
 
-        $jwt = JWTHelper::create([
-            'type' => 'message',
-            'message' => 'You can now login'
-        ], config('jwt.message'));
         return $this->respondJson(
             'Account Created',
-            ['redirect' => "/?msg={$jwt}"]
+            ['redirect' => '/?msg=register']
         );
     }
 }
