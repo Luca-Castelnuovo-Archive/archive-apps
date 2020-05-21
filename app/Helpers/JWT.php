@@ -53,7 +53,7 @@ class JWT
         $provider = self::getProvider();
         $claims = $provider->valid($code);
 
-        if ($claims->type !== 'auth') {
+        if ($claims->type !== $type) {
             throw new Exception('Token type not valid');
         }
 
