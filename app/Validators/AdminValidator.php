@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class AdminValidator extends ValidatorBase
+class AdminValidator extends Validator
 {
     /**
      * Validate json submission
@@ -17,6 +18,6 @@ class AdminValidator extends ValidatorBase
     {
         $v = v::attribute('email', v::email());
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }

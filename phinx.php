@@ -1,34 +1,37 @@
 <?php
 
-// load our environment files - used to store credentials & configuration
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+require_once __DIR__ . '/vendor/autoload.php';
+
+use CQ\Config\Config;
+
+$config = new Config(__DIR__ . '/bootstrap');
+$config->attach('database');
 
 return [
     'paths' => [
-        'migrations' => '%%PHINX_CONFIG_DIR%%/db/migrations',
-        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds',
+        'migrations' => '%%PHINX_CONFIG_DIR%%/database/migrations',
+        'seeds' => '%%PHINX_CONFIG_DIR%%/database/seeds',
     ],
     'environments' => [
         'default_database' => 'development',
         'default_migration_table' => 'phinxlog',
         'development' => [
             'adapter' => 'mysql',
-            'host' => env('DB_HOST'),
-            'name' => env('DB_DATABASE'),
-            'user' => env('DB_USERNAME'),
-            'pass' => env('DB_PASSWORD'),
-            'port' => env('DB_PORT'),
+            'host' => Config::get('database.host'),
+            'name' => Config::get('database.database'),
+            'user' => Config::get('database.username'),
+            'pass' => Config::get('database.password'),
+            'port' => Config::get('database.port'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ],
         'production' => [
             'adapter' => 'mysql',
-            'host' => env('DB_HOST'),
-            'name' => env('DB_DATABASE'),
-            'user' => env('DB_USERNAME'),
-            'pass' => env('DB_PASSWORD'),
-            'port' => env('DB_PORT'),
+            'host' => Config::get('database.host'),
+            'name' => Config::get('database.database'),
+            'user' => Config::get('database.username'),
+            'pass' => Config::get('database.password'),
+            'port' => Config::get('database.port'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
         ],

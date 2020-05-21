@@ -2,24 +2,25 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
-use App\Helpers\SessionHelper;
-use App\Helpers\GumroadHelper;
-use App\Helpers\JWTHelper;
-use Zend\Diactoros\ServerRequest;
+use CQ\DB\DB;
+use CQ\Config\Config;
+use CQ\Helpers\Session;
+use CQ\Helpers\Request;
+use CQ\Controllers\Controller;
+use App\Helpers\JWt;
+use App\Helpers\Gumroad;
 
 class LaunchController extends Controller
 {
     /**
      * Launch access to app
      *
-     * @param ServerRequest $request
      * @param string $id
      * 
-     * @return HtmlResponse|RedirectResponse
+     * @return Html|Redirect
      */
-    public function launch(ServerRequest $request, $id)
+    public function launch($id)
     {
         $app = DB::get('apps', ['url', 'active'], ['id' => $id]);
 
@@ -39,7 +40,7 @@ class LaunchController extends Controller
 
         $license = DB::get('licenses', 'license', [
             'app_id' => $id,
-            'user_id' => SessionHelper::get('id')
+            'user_id' => Session::get('id')
         ]);
 
         if (!$license) {
@@ -50,7 +51,7 @@ class LaunchController extends Controller
         }
 
         try {
-            $gumroad = GumroadHelper::license($id, $license);
+            $gumroad = Gumroad::license($id, $license);
         } catch (Exception $e) {
             return $this->respond(
                 'launch.twig',
@@ -58,21 +59,21 @@ class LaunchController extends Controller
             );
         }
 
-        $jwt = JWTHelper::create([
+        $jwt = JWT::create([
             'type' => 'auth',
-            'sub' => SessionHelper::get('id'),
-            'user_agent' => $request->getHeader('user-agent')[0],
-            'user_ip' => $_SERVER['REMOTE_ADDR'],
+            'sub' => Session::get('id'),
+            'user_agent' => Request::userAgent(),
+            'user_ip' =>  Request::ip(),
             'variant' => str_replace(array('(', ')'), '', $gumroad->variants)
-        ], config('jwt.auth'), $app['url']);
+        ], Config::get('jwt.auth'), $app['url']);
 
         DB::create(
             'history',
             [
                 'app_id' => $id,
-                'user_id' => SessionHelper::get('id'),
-                'user_agent' => $request->getHeader('user-agent')[0],
-                'user_ip' => $_SERVER['REMOTE_ADDR'],
+                'user_id' => Session::get('id'),
+                'user_agent' => Request::userAgent(),
+                'user_ip' => Request::ip(),
             ]
         );
 

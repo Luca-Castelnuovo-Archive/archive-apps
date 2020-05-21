@@ -1,10 +1,10 @@
 {% extends "partials/base.twig" %}
 {% set title = "Register" %}
 {% set navbarDisable = true %}
+{% set page_css = "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" %}
+{% set page_script = "register.js" %}
 
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <div class="row">
     <form class="col s12">
         <input name="code" type="hidden" required value="{{ code }}">
@@ -54,6 +54,4 @@
 
     </form>
 </div>
-
-<script src="/assets/js/register.js"></script>
 {% endblock %}

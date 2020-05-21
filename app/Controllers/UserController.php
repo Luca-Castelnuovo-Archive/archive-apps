@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
-use DB;
-use App\Helpers\SessionHelper;
-use Zend\Diactoros\ServerRequest;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
 
 class UserController extends Controller
 {
     /**
      * Dashboard screen
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return HtmlResponse
+     * @return Html
      */
-    public function dashboard(ServerRequest $request)
+    public function dashboard($request)
     {
         $offer_code = $request->getQueryParams()['offer_code'] ?: 'free';
 
@@ -37,7 +37,7 @@ class UserController extends Controller
         foreach ($apps as $app) {
             $license = DB::get('licenses', ['variant'], [
                 'app_id' => $app['id'],
-                'user_id' => SessionHelper::get('id')
+                'user_id' => Session::get('id')
             ]);
 
             $result[$app['id']] = $app;

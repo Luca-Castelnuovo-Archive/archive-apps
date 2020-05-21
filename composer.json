@@ -1,30 +1,26 @@
 {
-    "name": "lucacastelnuovo/apps-manager",
-    "description": "Centralized auth server for managing access to my apps",
+    "name": "cubequence/cubequence",
+    "description": "The CubeQuence Framework",
+    "keywords": [
+        "framework",
+        "cubequence"
+    ],
     "license": "MIT",
     "authors": [
         {
             "name": "Luca Castelnuovo",
-            "email": "ltcastelnuovo@gmail.com"
+            "email": "luca@castelnuovo.xyz"
         }
     ],
     "require": {
-        "catfan/medoo": "^1.7",
-        "firebase/php-jwt": "^5.1",
+        "php": ">=5.3.0",
+        "cubequence/framework": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
         "league/oauth2-github": "^2.0",
-        "league/oauth2-google": "^3.0",
-        "lucacastelnuovo/helpers-php": "dev-master",
-        "miladrahimi/phprouter": "^4.0",
-        "phpseclib/phpseclib": "^2.0",
-        "ramsey/uuid": "^4.0",
-        "respect/validation": "^2.0",
-        "robmorgan/phinx": "^0.12.0",
-        "twig/twig": "^3.0",
-        "vlucas/phpdotenv": "^4.1"
+        "league/oauth2-google": "^3.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.9"
+        "filp/whoops": "^2.7"
     },
     "config": {
         "optimize-autoloader": true,
@@ -42,9 +38,12 @@
         "post-install-cmd": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "jwt": "app/Commands/JWTGenerate",
         "migrate": "composer phinx migrate",
         "phinx": "vendor/bin/phinx",
         "seed": "composer phinx seed:run -v"
+    },
+    "support": {
+        "issues": "https://github.com/Luca-Castelnuovo/CubeQuence/issues",
+        "source": "https://github.com/Luca-Castelnuovo/CubeQuence"
     }
 }

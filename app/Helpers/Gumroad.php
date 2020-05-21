@@ -3,10 +3,11 @@
 namespace App\Helpers;
 
 use Exception;
+use CQ\Config\Config;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
-class GumroadHelper
+class Gumroad
 {
     /**
      * Product info based on permalink
@@ -23,10 +24,10 @@ class GumroadHelper
         try {
             $response = $guzzle->get("https://api.gumroad.com/v2/products/{$id}", [
                 'headers' => [
-                    'Origin' => config('app.url')
+                    'Origin' => Config::Get('app.url')
                 ],
                 'form_params' => [
-                    'access_token' => config('gumroad.access_token')
+                    'access_token' => Config::get('auth.gumroad.access_token')
                 ]
             ]);
         } catch (GuzzleException $e) {
@@ -58,7 +59,7 @@ class GumroadHelper
         try {
             $response = $guzzle->post('https://api.gumroad.com/v2/licenses/verify', [
                 'headers' => [
-                    'Origin' => config('app.url')
+                    'Origin' => Config::get('app.url')
                 ],
                 'form_params' => [
                     'product_permalink' => $id,

@@ -3,9 +3,9 @@
 namespace App\Controllers\Auth;
 
 use Exception;
-use App\Helpers\StateHelper;
-use App\Helpers\StringHelper;
-use Zend\Diactoros\ServerRequest;
+use CQ\Helpers\Str;
+use CQ\Helpers\State;
+use CQ\Config\Config;
 use League\OAuth2\Client\Provider\Github;
 
 class GithubAuthController extends AuthController
@@ -22,20 +22,20 @@ class GithubAuthController extends AuthController
         $queryString = $popup ? '?popup=1' : '';
 
         return new Github([
-            'clientId'     => config('auth.github.client_id'),
-            'clientSecret' => config('auth.github.client_secret'),
-            'redirectUri' => config('app.url') . '/auth/github/callback' . $queryString
+            'clientId' => Config::get('auth.github.client_id'),
+            'clientSecret' => Config::get('auth.github.client_secret'),
+            'redirectUri' => Config::get('app.url') . '/auth/github/callback' . $queryString
         ]);
     }
 
     /**
      * Redirect to OAuth
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return RedirectResponse
+     * @return Redirect
      */
-    public function request(ServerRequest $request)
+    public function request($request)
     {
         $popup = $request->getQueryParams()['popup'];
         $provider = $this->provider($popup);
@@ -45,7 +45,7 @@ class GithubAuthController extends AuthController
         // State isn't checked when in popup mode because
         // the /auth/register is only available by an already checked state
         if (!$popup) {
-            StateHelper::set($provider->getState());
+            State::set($provider->getState());
         }
 
         return $this->redirect($authUrl);
@@ -54,25 +54,25 @@ class GithubAuthController extends AuthController
     /**
      * Callback for OAuth
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return RedirectResponse
+     * @return Redirect
      */
-    public function callback(ServerRequest $request)
+    public function callback($request)
     {
         $popup = $request->getQueryParams()['popup'];
         $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (!$popup && !StateHelper::valid($state)) {
-            return $this->logout('State is invalid!');
+        if (!$popup && !State::valid($state)) {
+            return $this->logout('state');
         }
 
         try {
             $provider = $this->provider($popup);
             $token = $provider->getAccessToken('authorization_code', ['code' => $code]);
             $data = $provider->getResourceOwner($token);
-            $id = StringHelper::escape($data->toArray()['id']);
+            $id = Str::escape($data->toArray()['id']);
         } catch (Exception $e) {
             return $this->logout("Error: {$e}");
         }

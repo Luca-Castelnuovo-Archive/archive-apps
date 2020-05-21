@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class LicenseValidator extends ValidatorBase
+class LicenseValidator extends Validator
 {
     /**
      * Validate json submission
@@ -18,7 +19,7 @@ class LicenseValidator extends ValidatorBase
         $v = v::attribute('license', v::alnum('-'))
             ->attribute('id', v::alnum());
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 
     /**
@@ -32,6 +33,6 @@ class LicenseValidator extends ValidatorBase
     {
         $v = v::attribute('license', v::alnum('-'));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }

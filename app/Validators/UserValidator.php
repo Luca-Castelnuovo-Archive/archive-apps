@@ -2,9 +2,10 @@
 
 namespace App\Validators;
 
+use CQ\Validators\Validator;
 use Respect\Validation\Validator as v;
 
-class UserValidator extends ValidatorBase
+class UserValidator extends Validator
 {
     /**
      * Validate json submission
@@ -18,7 +19,7 @@ class UserValidator extends ValidatorBase
         $v = v::attribute('type', v::oneOf(v::equals('github'), v::equals('google'), v::equals('email')))
             ->attribute('id', v::oneOf(v::email(), v::number()));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 
     /**
@@ -32,6 +33,6 @@ class UserValidator extends ValidatorBase
     {
         $v = v::attribute('type', v::oneOf(v::equals('github'), v::equals('google'), v::equals('email')));
 
-        ValidatorBase::validate($v, $data);
+        self::validate($v, $data);
     }
 }
