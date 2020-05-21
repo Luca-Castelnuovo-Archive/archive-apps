@@ -1,7 +1,8 @@
 {
-    "name": "cubequence/cubequence",
-    "description": "The CubeQuence Framework",
+    "name": "luca-castelnuovo/apps",
+    "description": "Centralized auth server for managing access to my apps",
     "keywords": [
+        "apps",
         "framework",
         "cubequence"
     ],
@@ -38,6 +39,7 @@
         "post-install-cmd": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
+        "jwt": "app/Commands/JWTGenerate",
         "migrate": "composer phinx migrate",
         "phinx": "vendor/bin/phinx",
         "seed": "composer phinx seed:run -v"
