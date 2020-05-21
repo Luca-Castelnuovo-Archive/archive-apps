@@ -1,3 +1,4 @@
+{% set captcha_site_key = "85af0d70-4722-497b-930f-45edde467d67" %}
 {% autoescape %}
     {% apply spaceless %}
         <!DOCTYPE html>
@@ -15,7 +16,7 @@
                     </div>
                 </div>
 
-                {% include 'partials/footer.twig' with analytics only %}
+                {% include 'partials/footer.twig' %}
             </body>
 
         </html>
