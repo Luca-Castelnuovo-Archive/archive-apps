@@ -13,6 +13,7 @@ session_start();
 $config = new Config(__DIR__);
 $config->attach('analytics');
 $config->attach('app');
+$config->attach('auth');
 $config->attach('cache');
 $config->attach('captcha');
 $config->attach('database');
