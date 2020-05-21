@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use CQ\Config\Config;
 use CQ\JWT\Utils;
 
-$config = new Config(__DIR__ . '/bootstrap');
+$config = new Config(__DIR__ . '/../../bootstrap');
 $config->attach('jwt');
 
 $key = Utils::generateKeys();
