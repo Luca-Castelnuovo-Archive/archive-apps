@@ -8,7 +8,7 @@ use CQ\Config\Config;
 use CQ\Helpers\Session;
 use CQ\Helpers\Request;
 use CQ\Controllers\Controller;
-use App\Helpers\JWt;
+use App\Helpers\JWT;
 use App\Helpers\Gumroad;
 
 class LaunchController extends Controller
