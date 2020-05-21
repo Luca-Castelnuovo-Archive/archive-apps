@@ -4,7 +4,7 @@
 <script src="https://hcaptcha.com/1/api.js" async defer></script>
 
 {% if page_script %}
-    <script src="/assets/js/pages/{{ page_script }}"></script>
+    <script src="{{ page_script }}"></script>
 {% endif %}
 
 {% if analytics.enabled %}

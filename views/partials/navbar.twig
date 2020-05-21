@@ -12,11 +12,6 @@
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
-                {% if admin %} {# TODO: think of adding globals to twig #}
-                <li>
-                    <a href="/admin">Admin</a>
-                </li>
-                {% endif %}
                 <li>
                     <a href="/dashboard">Dashboard</a>
                 </li>
@@ -31,11 +26,6 @@
     </div>
 
     <ul class="sidenav" id="sidenav">
-        {% if admin %}
-        <li>
-            <a href="/admin">Admin</a>
-        </li>
-        {% endif %}
         <li>
             <a href="/dashboard">Dashboard</a>
         </li>

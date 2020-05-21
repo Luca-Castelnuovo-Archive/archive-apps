@@ -1,8 +1,6 @@
 {% extends "partials/base.twig" %}
 {% set title = "Admin" %}
-{% set navbarDisable = false %}
-{% set page_css = "" %}
-{% set page_script = "" %}
+{% set page_script = "/assets/js/pages/admin.js" %}
 
 {% block content %}
 <h2>Apps <button class="btn blue accent-4 waves-effect waves-light modal-trigger" data-target="app">Create</button></h2>
@@ -102,6 +100,4 @@
         </tbody>
     </table>
 </div>
-
-<script src="/assets/js/admin.js"></script>
 {% endblock %}

@@ -1,9 +1,7 @@
 {% extends "partials/base.twig" %}
 {% set title = "Buy License" %}
-{% set navbarDisable = false %}
 {% set navbarPopup = true %}
-{% set page_css = "" %}
-{% set page_script = "" %}
+{% set page_script = "https://gumroad.com/js/gumroad-embed.js" %}
 
 {% block content %}
 <div class="row">
@@ -16,7 +14,6 @@
     </div>
 </div>
 
-<script src="https://gumroad.com/js/gumroad-embed.js"></script>
 <script>
     window.addEventListener('message', event => {
         try {
