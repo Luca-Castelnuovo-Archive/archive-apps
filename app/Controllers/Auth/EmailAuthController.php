@@ -45,7 +45,7 @@ class EmailAuthController extends AuthController
                 'type' => 'emailLogin',
                 'sub' => $request->data->email,
                 'state' => State::set()
-            ], Config::get('jwt.message'));
+            ], Config::get('jwt.emailLogin'));
 
             Mail::send(
                 'emailLogin',
@@ -78,7 +78,7 @@ class EmailAuthController extends AuthController
         try {
             $jwt = JWT::valid('emailLogin', $code);
         } catch (Exception $e) {
-            return $this->logout($e->getMessage());
+            return $this->logout('token');
         }
 
         if (!State::valid($jwt->state)) {
