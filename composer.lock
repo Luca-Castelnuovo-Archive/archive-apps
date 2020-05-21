@@ -364,16 +364,16 @@
         },
         {
             "name": "cubequence/framework",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Luca-Castelnuovo/CubeQuence-framework.git",
-                "reference": "d03e2dfd04039a728f6a8caa1244d9eb4f28bc53"
+                "reference": "9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/d03e2dfd04039a728f6a8caa1244d9eb4f28bc53",
-                "reference": "d03e2dfd04039a728f6a8caa1244d9eb4f28bc53",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d",
+                "reference": "9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d",
                 "shasum": ""
             },
             "require": {
@@ -411,7 +411,7 @@
                 "cubequence",
                 "framework"
             ],
-            "time": "2020-05-21T21:27:50+00:00"
+            "time": "2020-05-21T23:27:55+00:00"
         },
         {
             "name": "firebase/php-jwt",
