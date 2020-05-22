@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Seed\AbstractSeed;
+use CQ\DB\Seeder;
 
-class LicensesSeeder extends AbstractSeed
+class LicensesSeeder extends Seeder
 {
     /**
      * Run Method.
@@ -14,7 +14,7 @@ class LicensesSeeder extends AbstractSeed
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        $faker = self::faker();
         $data = [];
 
         for ($i = 0; $i < 5; $i++) {

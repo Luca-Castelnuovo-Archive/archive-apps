@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class CreateLicensesTable extends AbstractMigration
+class CreateLicensesTable extends Migration
 {
     /**
      * Change Method.

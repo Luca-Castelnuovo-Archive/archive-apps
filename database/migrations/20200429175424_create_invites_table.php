@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class CreateInvitesTable extends AbstractMigration
+class CreateInvitesTable extends Migration
 {
     /**
      * Change Method.

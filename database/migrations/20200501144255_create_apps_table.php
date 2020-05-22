@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class CreateAppsTable extends AbstractMigration
+class CreateAppsTable extends Migration
 {
     /**
      * Change Method.

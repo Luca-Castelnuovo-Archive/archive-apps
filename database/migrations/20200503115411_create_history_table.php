@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class CreateHistoryTable extends AbstractMigration
+class CreateHistoryTable extends Migration
 {
     /**
      * Change Method.
