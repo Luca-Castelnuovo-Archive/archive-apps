@@ -364,16 +364,16 @@
         },
         {
             "name": "cubequence/framework",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Luca-Castelnuovo/CubeQuence-framework.git",
-                "reference": "9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d"
+                "reference": "3522e21abfc975ca58283bf6cb0b5b9fdd95fd31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d",
-                "reference": "9d51c5ab1c4bd9956152c1e38d7ff8c9fb829c1d",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/3522e21abfc975ca58283bf6cb0b5b9fdd95fd31",
+                "reference": "3522e21abfc975ca58283bf6cb0b5b9fdd95fd31",
                 "shasum": ""
             },
             "require": {
@@ -411,7 +411,7 @@
                 "cubequence",
                 "framework"
             ],
-            "time": "2020-05-21T23:27:55+00:00"
+            "time": "2020-05-23T18:48:30+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -2353,16 +2353,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1"
+                "reference": "0b32505d67c1abbfa829283c86bfc0642a661bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/539bb6927c101a5605d31d11a2d17185a2ce2bf1",
-                "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/0b32505d67c1abbfa829283c86bfc0642a661bf6",
+                "reference": "0b32505d67c1abbfa829283c86bfc0642a661bf6",
                 "shasum": ""
             },
             "require": {
@@ -2413,7 +2413,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2020-05-02T14:08:57+00:00"
+            "time": "2020-05-23T09:43:32+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",
