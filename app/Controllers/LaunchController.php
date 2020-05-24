@@ -5,10 +5,10 @@ namespace App\Controllers;
 use Exception;
 use CQ\DB\DB;
 use CQ\Config\Config;
+use CQ\Helpers\JWT;
 use CQ\Helpers\Session;
 use CQ\Helpers\Request;
 use CQ\Controllers\Controller;
-use App\Helpers\JWT;
 use App\Helpers\Gumroad;
 
 class LaunchController extends Controller

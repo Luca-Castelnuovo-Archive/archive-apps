@@ -5,8 +5,8 @@ namespace App\Controllers\Auth;
 use Exception;
 use CQ\DB\DB;
 use CQ\Config\Config;
+use CQ\Helpers\JWT;
 use CQ\Helpers\State;
-use App\Helpers\JWT;
 use App\Helpers\Mail;
 use App\Validators\EmailAuthValidator;
 

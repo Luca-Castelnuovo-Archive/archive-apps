@@ -4,9 +4,9 @@ namespace App\Controllers\Auth;
 
 use Exception;
 use CQ\DB\DB;
+use CQ\Helpers\JWT;
 use CQ\Helpers\UUID;
 use CQ\Helpers\State;
-use App\Helpers\JWT;
 use App\Validators\RegisterAuthValidator;
 
 class RegisterAuthController extends AuthController
