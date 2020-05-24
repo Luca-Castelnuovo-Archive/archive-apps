@@ -6,6 +6,7 @@ use Exception;
 use CQ\DB\DB;
 use CQ\Config\Config;
 use CQ\Helpers\Str;
+use CQ\Helpers\Session;
 use CQ\Controllers\Controller;
 use App\Helpers\Mail;
 use App\Validators\AdminValidator;
@@ -52,7 +53,8 @@ class AdminController extends Controller
         return $this->respond('admin.twig', [
             'apps' => $apps,
             'users' => $users,
-            'history' => $history
+            'history' => $history,
+            'admin' => Session::get('admin')
         ]);
     }
 

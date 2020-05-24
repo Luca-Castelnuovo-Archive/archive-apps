@@ -54,7 +54,8 @@ class UserController extends Controller
 
         return $this->respond('dashboard.twig', [
             'apps' => $apps,
-            'offer_code' => $offer_code
+            'offer_code' => $offer_code,
+            'admin' => Session::get('admin')
         ]);
     }
 }

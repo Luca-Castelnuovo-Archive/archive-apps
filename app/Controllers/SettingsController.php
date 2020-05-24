@@ -57,7 +57,8 @@ class SettingsController extends Controller
         return $this->respond('settings.twig', [
             'settings' => $settings,
             'licenses' => $licenses,
-            'apps' => $apps
+            'apps' => $apps,
+            'admin' => Session::get('admin')
         ]);
     }
 
