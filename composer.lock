@@ -54,16 +54,16 @@
         },
         {
             "name": "cakephp/collection",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/collection.git",
-                "reference": "18393a716322585c86b46c852c396534d925926a"
+                "reference": "96bfd16c815fb8cbdaf736d5dc5dc9236af76567"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/collection/zipball/18393a716322585c86b46c852c396534d925926a",
-                "reference": "18393a716322585c86b46c852c396534d925926a",
+                "url": "https://api.github.com/repos/cakephp/collection/zipball/96bfd16c815fb8cbdaf736d5dc5dc9236af76567",
+                "reference": "96bfd16c815fb8cbdaf736d5dc5dc9236af76567",
                 "shasum": ""
             },
             "require": {
@@ -96,20 +96,20 @@
                 "collections",
                 "iterators"
             ],
-            "time": "2020-04-17T08:12:09+00:00"
+            "time": "2020-05-20T14:35:50+00:00"
         },
         {
             "name": "cakephp/core",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "d8463fec4f59cc1b9e4bd0faaa64991b130b961a"
+                "reference": "47634837aedcef333e8d8cf235467e645181c226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/d8463fec4f59cc1b9e4bd0faaa64991b130b961a",
-                "reference": "d8463fec4f59cc1b9e4bd0faaa64991b130b961a",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/47634837aedcef333e8d8cf235467e645181c226",
+                "reference": "47634837aedcef333e8d8cf235467e645181c226",
                 "shasum": ""
             },
             "require": {
@@ -146,20 +146,20 @@
                 "core",
                 "framework"
             ],
-            "time": "2020-04-17T13:58:27+00:00"
+            "time": "2020-05-21T21:18:40+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e"
+                "reference": "7f5b42ce86b59d1f8137a4633134540aaf236404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e",
-                "reference": "af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/7f5b42ce86b59d1f8137a4633134540aaf236404",
+                "reference": "7f5b42ce86b59d1f8137a4633134540aaf236404",
                 "shasum": ""
             },
             "require": {
@@ -195,20 +195,20 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2020-04-30T19:42:01+00:00"
+            "time": "2020-05-21T05:06:55+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "63ead8c51206aa4a3e2dea10c42cc4bbb960300f"
+                "reference": "8667778e8e1ff3c75dc67e35c3d1279a427aaa72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/63ead8c51206aa4a3e2dea10c42cc4bbb960300f",
-                "reference": "63ead8c51206aa4a3e2dea10c42cc4bbb960300f",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/8667778e8e1ff3c75dc67e35c3d1279a427aaa72",
+                "reference": "8667778e8e1ff3c75dc67e35c3d1279a427aaa72",
                 "shasum": ""
             },
             "require": {
@@ -247,20 +247,20 @@
                 "entity",
                 "query"
             ],
-            "time": "2020-04-30T21:23:14+00:00"
+            "time": "2020-05-19T14:52:54+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "28c1444cd00d3fadc0a478fff60e7f6526b383bd"
+                "reference": "f4f151efcd2b952a619c9a62acd8b068c264fcde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/28c1444cd00d3fadc0a478fff60e7f6526b383bd",
-                "reference": "28c1444cd00d3fadc0a478fff60e7f6526b383bd",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/f4f151efcd2b952a619c9a62acd8b068c264fcde",
+                "reference": "f4f151efcd2b952a619c9a62acd8b068c264fcde",
                 "shasum": ""
             },
             "require": {
@@ -300,7 +300,7 @@
                 "string",
                 "utility"
             ],
-            "time": "2020-04-22T13:00:10+00:00"
+            "time": "2020-05-21T05:06:55+00:00"
         },
         {
             "name": "catfan/medoo",
@@ -364,16 +364,16 @@
         },
         {
             "name": "cubequence/framework",
-            "version": "v1.0.9",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Luca-Castelnuovo/CubeQuence-framework.git",
-                "reference": "95905323b9d6cbe3a6ca573dfe6c62240880c994"
+                "reference": "ec8b9751377235a93a521b9364af376f6030d7f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/95905323b9d6cbe3a6ca573dfe6c62240880c994",
-                "reference": "95905323b9d6cbe3a6ca573dfe6c62240880c994",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/ec8b9751377235a93a521b9364af376f6030d7f2",
+                "reference": "ec8b9751377235a93a521b9364af376f6030d7f2",
                 "shasum": ""
             },
             "require": {
@@ -411,7 +411,7 @@
                 "cubequence",
                 "framework"
             ],
-            "time": "2020-05-24T00:03:07+00:00"
+            "time": "2020-05-24T12:13:56+00:00"
         },
         {
             "name": "firebase/php-jwt",
