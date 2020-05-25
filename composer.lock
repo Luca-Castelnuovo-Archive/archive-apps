@@ -364,16 +364,16 @@
         },
         {
             "name": "cubequence/framework",
-            "version": "v1.0.13",
+            "version": "v1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Luca-Castelnuovo/CubeQuence-framework.git",
-                "reference": "5f0613f90f2b424f63678263dc7be377698007b3"
+                "reference": "bb4e8ce0e9e276d8ca2d36c87d1034f684050df8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/5f0613f90f2b424f63678263dc7be377698007b3",
-                "reference": "5f0613f90f2b424f63678263dc7be377698007b3",
+                "url": "https://api.github.com/repos/Luca-Castelnuovo/CubeQuence-framework/zipball/bb4e8ce0e9e276d8ca2d36c87d1034f684050df8",
+                "reference": "bb4e8ce0e9e276d8ca2d36c87d1034f684050df8",
                 "shasum": ""
             },
             "require": {
@@ -382,6 +382,7 @@
                 "fzaninotto/faker": "^1.9",
                 "guzzlehttp/guzzle": "^6.5",
                 "miladrahimi/phprouter": "^4.0",
+                "mnapoli/silly": "^1.7",
                 "php": ">=5.3.0",
                 "phpseclib/phpseclib": "^2.0",
                 "ramsey/uuid": "^4.0",
@@ -411,7 +412,7 @@
                 "cubequence",
                 "framework"
             ],
-            "time": "2020-05-24T13:31:39+00:00"
+            "time": "2020-05-25T13:46:17+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -932,6 +933,52 @@
             "time": "2019-12-24T21:02:04+00:00"
         },
         {
+            "name": "mnapoli/silly",
+            "version": "1.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mnapoli/silly.git",
+                "reference": "66807f87abd2ab8e5708754d70b4b601f5614c32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mnapoli/silly/zipball/66807f87abd2ab8e5708754d70b4b601f5614c32",
+                "reference": "66807f87abd2ab8e5708754d70b4b601f5614c32",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "php-di/invoker": "~2.0",
+                "psr/container": "^1.0",
+                "symfony/console": "~3.0|~4.0|~5.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "mnapoli/phpunit-easymock": "~1.0",
+                "phpunit/phpunit": "~6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Silly\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Silly CLI micro-framework based on Symfony Console",
+            "keywords": [
+                "PSR-11",
+                "cli",
+                "console",
+                "framework",
+                "micro-framework",
+                "silly"
+            ],
+            "time": "2019-11-26T20:07:27+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v9.99.99",
             "source": {
@@ -975,6 +1022,49 @@
                 "random"
             ],
             "time": "2018-07-02T15:55:56+00:00"
+        },
+        {
+            "name": "php-di/invoker",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/Invoker.git",
+                "reference": "540c27c86f663e20fe39a24cd72fa76cdb21d41a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/540c27c86f663e20fe39a24cd72fa76cdb21d41a",
+                "reference": "540c27c86f663e20fe39a24cd72fa76cdb21d41a",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "~1.0"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Invoker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Generic and extensible callable invoker",
+            "homepage": "https://github.com/PHP-DI/Invoker",
+            "keywords": [
+                "callable",
+                "dependency",
+                "dependency-injection",
+                "injection",
+                "invoke",
+                "invoker"
+            ],
+            "time": "2017-03-20T19:28:22+00:00"
         },
         {
             "name": "phpoption/phpoption",
