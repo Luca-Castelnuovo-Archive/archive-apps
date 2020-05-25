@@ -31,7 +31,7 @@ if (!file_exists($path)) {
     exit;
 }
 
-echo "JWT keypair set successfully. (bit size: 2048)";
+echo "JWT keypair set successfully. (bit size: 2048)" . PHP_EOL;
 
 file_put_contents($path, str_replace(
     'JWT_PRIVATE_KEY="' . Config::get('jwt.private_key') . '"',
