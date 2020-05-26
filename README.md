@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/Luca-Castelnuovo/Apps"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/TestingPlatform/d0951b9ab506d603b75ca33da72aaa79eb4ba181/public/assets/images/banner.png"></a></p>
+<p align="center"><a href="https://github.com/Luca-Castelnuovo/Apps"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/Apps/99fd8e1cb1f4f9992ebd7f8e2739332ab22401d2/public/assets/images/banner.png"></a></p>
 
 <p align="center">
 <a href="https://github.com/Luca-Castelnuovo/Apps/commits/master"><img src="https://img.shields.io/github/last-commit/Luca-Castelnuovo/Apps" alt="Latest Commit"></a>
