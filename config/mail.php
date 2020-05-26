@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'access_token' => env('MAIL_KEY'),
+    'access_token' => getenv('MAIL_KEY'),
     'invite' => [
         'subject' => '[apps.lucacastelnuovo.nl] You have been invited',
         'preheader' => 'You have been invited to use apps.lucacastelnuovo.nl.',

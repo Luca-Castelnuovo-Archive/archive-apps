@@ -3,7 +3,6 @@
     "description": "Centralized auth server for managing access to my apps",
     "keywords": [
         "apps",
-        "framework",
         "cubequence"
     ],
     "license": "MIT",
@@ -38,14 +37,10 @@
     "scripts": {
         "post-install-cmd": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "jwt": "app/Commands/JWTGenerate",
-        "migrate": "composer phinx migrate",
-        "phinx": "vendor/bin/phinx",
-        "seed": "composer phinx seed:run -v"
+        ]
     },
     "support": {
-        "issues": "https://github.com/Luca-Castelnuovo/CubeQuence/issues",
-        "source": "https://github.com/Luca-Castelnuovo/CubeQuence"
+        "issues": "https://github.com/Luca-Castelnuovo/Apps/issues",
+        "source": "https://github.com/Luca-Castelnuovo/Apps"
     }
 }

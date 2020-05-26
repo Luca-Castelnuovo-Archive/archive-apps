@@ -1,15 +1,17 @@
-<h1 align="center">Welcome to Apps Manager 👋</h1>
-<p>
-  <a href="https://github.com/Luca-Castelnuovo/Apps/blob/master/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
+<p align="center"><a href="https://github.com/Luca-Castelnuovo/Apps"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/TestingPlatform/d0951b9ab506d603b75ca33da72aaa79eb4ba181/public/assets/images/banner.png"></a></p>
+
+<p align="center">
+<a href="https://github.com/Luca-Castelnuovo/Apps/commits/master"><img src="https://img.shields.io/github/last-commit/Luca-Castelnuovo/Apps" alt="Latest Commit"></a>
+<a href="https://github.com/Luca-Castelnuovo/Apps/issues"><img src="https://img.shields.io/github/issues/Luca-Castelnuovo/Apps" alt="Issues"></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/github/license/Luca-Castelnuovo/Apps" alt="License"></a>
 </p>
 
-> Centralized auth server for managing access to my apps
+# Apps
 
-### 🏠 [Homepage](https://apps.lucacastelnuovo.nl)
+Centralized auth server for managing access to my apps
 
-### 💾 [SDK](https://github.com/luca-castelnuovo/helpers-php#appsclient)
+-   [Homepage](https://apps.lucacastelnuovo.nl)
+-   [SDK](https://github.com/luca-castelnuovo/helpers-php#appsclient)
 
 ## Installation
 
@@ -18,18 +20,20 @@ For development
 1. `git clone https://github.com/Luca-Castelnuovo/Apps.git`
 2. `composer install`
 3. Edit `.env`
-4. `composer jwt`
-5. `composer migrate`
-6. `composer seed`
-7. Start development server `php -S localhost:8080 -t public`
+4. `php cubequence app:key`
+5. `php cubequence app:jwt`
+6. `php cubequence db:migrate`
+7. `php cubequence db:seed`
+8. Start development server `php -S localhost:8080 -t public`
 
 For deployment
 
 1. `git clone https://github.com/Luca-Castelnuovo/Apps.git`
 2. `composer install --optimize-autoloader --no-dev`
 3. Edit `.env`
-4. `composer jwt`
-5. `composer migrate`
+4. `php cubequence app:key`
+5. `php cubequence app:jwt`
+6. `php cubequence db:migrate`
 
 ## Security Vulnerabilities
 
@@ -38,4 +42,4 @@ Please review [our security policy](https://github.com/Luca-Castelnuovo/Apps/sec
 ## License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
-This project is [MIT](https://github.com/Luca-Castelnuovo/Apps/blob/master/LICENSE) licensed.
+This project is [MIT](LICENSE.md) licensed.
