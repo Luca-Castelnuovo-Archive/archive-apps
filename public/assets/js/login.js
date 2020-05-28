@@ -1,27 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     M.Modal.init(document.querySelectorAll('.modal'), {dismissible: true});
 
-    const formHandler = (form, endpoint, captchaRequired = false) => {
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            
-            formSubmit(form, endpoint, captchaRequired)
-        });    
+    const inviteSubmit = token => {
+        document.querySelector('input#register-invite-captcha').value = token;
+
+        formSubmit(
+            document.querySelector('form#register-invite'),
+            '/auth/invite',
+            true
+        );
     }
 
-    const emailCode = new URLSearchParams(window.location.search).get('email');
-    if (emailCode) {
-        document.querySelector('input#email').value = emailCode;
-        M.updateTextFields();
-        M.Modal.getInstance(document.querySelector('form#auth-signin-email')).open();
-    }
-    formHandler(document.querySelector('form#auth-signin-email'), '/auth/email/request', true);
+    const loginSubmit = token => {
+        document.querySelector('input#signin-email-captcha').value = token;
 
-    const inviteCode = new URLSearchParams(window.location.search).get('invite');
-    if (inviteCode) {
-        document.querySelector('input#invite_code').value = inviteCode;
-        M.updateTextFields();
-        M.Modal.getInstance(document.querySelector('form#auth-register-invite')).open();
+        formSubmit(
+            document.querySelector('form#signin-email'),
+            '/auth/email/request',
+            true
+        );
     }
-    formHandler(document.querySelector('form#auth-register-invite'), '/auth/invite', true);
 });

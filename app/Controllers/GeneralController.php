@@ -61,7 +61,8 @@ class GeneralController extends Controller
 
         return $this->respond('index.twig', [
             'message' => $msg,
-            'logged_in' => Auth::valid()
+            'logged_in' => Auth::valid(),
+            'captcha_site_key' => Config::get('captcha.site_key')
         ]);
     }
 

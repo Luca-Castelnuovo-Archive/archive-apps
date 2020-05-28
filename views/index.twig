@@ -46,7 +46,7 @@
     </div>
 
     <div>
-        <form id="auth-register-invite" class="modal">
+        <form id="register-invite" class="modal">
             <div class="modal-content">
                 <h4>Invite</h4>
                 <div class="row mb-0">
@@ -56,18 +56,18 @@
                         <span class="helper-text" data-error="Invite code is required"></span>
                     </div>
                 </div>
-                <div class="row mb-0">
-                    <div class="input-field col s12 mb-0 mt-0">
-                        {% include 'partials/captcha.twig' %}
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn blue accent-4 waves-effect waves-light" type="submit">Submit</button>
+                <input id="register-invite-captcha" type="hidden" name="h-captcha-response" value="">
+                <button
+                    class="btn blue accent-4 waves-effect waves-light h-captcha"
+                    data-sitekey="{{captcha_site_key}}"
+                    type="inviteSubmit"
+                >Submit</button>
             </div>
         </form>
 
-        <form id="auth-signin-email" class="modal">
+        <form id="signin-email" class="modal">
             <div class="modal-content">
                 <h4>Signin with email</h4>
                 <div class="row mb-0">
@@ -77,14 +77,14 @@
                         <span class="helper-text" data-error="Valid email is required"></span>
                     </div>
                 </div>
-                <div class="row mb-0">
-                    <div class="input-field col s12 mb-0 mt-0">
-                        {% include 'partials/captcha.twig' %}
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn blue accent-4 waves-effect waves-light" type="submit">Send login link</button>
+                <input id="signin-email-captcha" type="hidden" name="h-captcha-response" value="">
+                <button
+                    class="btn blue accent-4 waves-effect waves-light h-captcha"
+                    data-sitekey="{{captcha_site_key}}"
+                    type="loginSubmit"
+                >Send login link</button>
             </div>
         </form>
     </div>
