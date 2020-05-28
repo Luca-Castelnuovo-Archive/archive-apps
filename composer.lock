@@ -364,7 +364,7 @@
         },
         {
             "name": "cubequence/framework",
-            "version": "v1.0.2",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CubeQuence/framework.git",
