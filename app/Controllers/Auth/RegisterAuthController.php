@@ -35,7 +35,7 @@ class RegisterAuthController extends AuthController
 
         if (!$invite) {
             return $this->respondJson(
-                'Invite code not found',
+                'Invite not found',
                 [],
                 400
             );
@@ -43,7 +43,7 @@ class RegisterAuthController extends AuthController
 
         if ($invite['expires_at'] < date('Y-m-d H:i:s')) {
             return $this->respondJson(
-                'Invite code has expired',
+                'Invite has expired',
                 [],
                 400
             );
@@ -57,7 +57,7 @@ class RegisterAuthController extends AuthController
         ], Config::get('jwt.register'));
 
         return $this->respondJson(
-            'Invite code valid',
+            'Invite valid',
             ['redirect' => "/auth/register?code={$jwt}"]
         );
     }
