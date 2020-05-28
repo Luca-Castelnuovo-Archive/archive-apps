@@ -5,10 +5,9 @@ namespace App\Middleware;
 use Exception;
 use CQ\Response\Json;
 use CQ\Config\Config;
+use CQ\Captcha\hCaptcha;
 use CQ\Middleware\Middleware;
 use App\Validators\CaptchaValidator;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 
 class Captcha extends Middleware
 {
@@ -22,8 +21,6 @@ class Captcha extends Middleware
      */
     public function handle($request, $next)
     {
-        $guzzle = new Client();
-
         try {
             CaptchaValidator::submit($request->data);
         } catch (Exception $e) {
@@ -34,23 +31,14 @@ class Captcha extends Middleware
             ], 422);
         }
 
-        try {
-            $guzzle->post('https://hcaptcha.com/siteverify', [
-                'headers' => [
-                    'Origin' => Config::get('app.url')
-                ],
-                'form_params' => [
-                    'secret' => Config::get('captcha.secret_key'),
-                    'response' => $request->data->{'h-captcha-response'}
-                ],
-            ]);
-        } catch (RequestException $e) {
-            $response = json_decode($e->getResponse()->getBody(true));
-
+        if (!hCaptcha::v1(
+            Config::get('captcha.secret_key'),
+            $request->data->{'h-captcha-response'}
+        )) {
             return new Json([
                 'success' => false,
                 'message' => 'Please complete captcha',
-                'data' => $response->{'error-codes'}
+                'data' => []
             ], 422);
         }
 
