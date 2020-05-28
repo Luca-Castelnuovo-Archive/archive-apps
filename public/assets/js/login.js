@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         M.updateTextFields();
         M.Modal.getInstance(document.querySelector('form#register-invite')).open();
     }
-    const inviteSubmit = token => {
+    function inviteSubmit(token) {
         document.querySelector('input#register-invite-captcha').value = token;
 
         formSubmit(
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     }
 
-    const loginSubmit = token => {
+    function loginSubmit(token) {
         document.querySelector('input#signin-email-captcha').value = token;
 
         formSubmit(
