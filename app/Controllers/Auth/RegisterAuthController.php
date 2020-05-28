@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use Exception;
 use CQ\DB\DB;
+use CQ\Config\Config;
 use CQ\Helpers\JWT;
 use CQ\Helpers\UUID;
 use CQ\Helpers\State;
@@ -50,9 +51,10 @@ class RegisterAuthController extends AuthController
 
         DB::delete('invites', ['code' => $request->data->invite_code]);
 
-        $jwt = JWT::create('register', [
+        $jwt = JWT::create([
+            'type' => 'register',
             'state' => State::set()
-        ]);
+        ], Config::get('jwt.register'));
 
         return $this->respondJson(
             'Invite code valid',
