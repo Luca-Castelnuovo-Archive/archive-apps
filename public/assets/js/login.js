@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function inviteSubmit(token) {
-    document.querySelector('input#register-invite-captcha').value = token;
-
+function inviteSubmit() {
     formSubmit(
         document.querySelector('form#register-invite'),
         '/auth/invite',
@@ -19,9 +17,7 @@ function inviteSubmit(token) {
     );
 }
 
-function loginSubmit(token) {
-    document.querySelector('input#signin-email-captcha').value = token;
-
+function loginSubmit() {
     formSubmit(
         document.querySelector('form#signin-email'),
         '/auth/email/request',
