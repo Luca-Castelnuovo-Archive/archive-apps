@@ -91,8 +91,9 @@ class AppController extends Controller
      */
     public function delete($id)
     {
-        DB::delete('apps', ['id' => $id,]);
-
+        DB::delete('apps', ['id' => $id]);
+        DB::delete('licenses', ['app_id' => $id]);
+        
         return $this->respondJson(
             'App Deleted',
             ['reload' => true]
