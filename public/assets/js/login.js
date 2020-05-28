@@ -7,23 +7,24 @@ document.addEventListener('DOMContentLoaded', function() {
         M.updateTextFields();
         M.Modal.getInstance(document.querySelector('form#register-invite')).open();
     }
-    function inviteSubmit(token) {
-        document.querySelector('input#register-invite-captcha').value = token;
-
-        formSubmit(
-            document.querySelector('form#register-invite'),
-            '/auth/invite',
-            true
-        );
-    }
-
-    function loginSubmit(token) {
-        document.querySelector('input#signin-email-captcha').value = token;
-
-        formSubmit(
-            document.querySelector('form#signin-email'),
-            '/auth/email/request',
-            true
-        );
-    }
 });
+
+function inviteSubmit(token) {
+    document.querySelector('input#register-invite-captcha').value = token;
+
+    formSubmit(
+        document.querySelector('form#register-invite'),
+        '/auth/invite',
+        true
+    );
+}
+
+function loginSubmit(token) {
+    document.querySelector('input#signin-email-captcha').value = token;
+
+    formSubmit(
+        document.querySelector('form#signin-email'),
+        '/auth/email/request',
+        true
+    );
+}
