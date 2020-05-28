@@ -7,5 +7,6 @@ return [
     'iss' => getenv('APP_URL'),
     'emailLogin' => 300, // 5minutes
     'register' => 3600, // 1hour
+    'invite' => 604800, // 1week
     'auth' => 600 // 10minutes - external auth
 ];

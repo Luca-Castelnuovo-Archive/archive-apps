@@ -24,6 +24,7 @@ class Mail
             'email' => $to,
             'name' => $name,
             'btn_url' => $btn_url,
+            'expires' => time() + Config::get("jwt.{$type}"),
             'subject' => Config::get("mail.{$type}.subject"),
             'preheader' => Config::get("mail.{$type}.preheader"),
             'message' => Config::get("mail.{$type}.message"),
