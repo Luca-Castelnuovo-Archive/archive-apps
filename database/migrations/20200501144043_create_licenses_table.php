@@ -33,12 +33,12 @@ class CreateLicensesTable extends Migration
     {
         $licenses = $this->table('licenses');
         $licenses
-            ->addColumn('user_id',      'uuid')
-            ->addColumn('app_id',       'uuid')
-            ->addColumn('license',      'string')
-            ->addColumn('variant',      'string')
-            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('user_id', 'uuid')
+            ->addColumn('app_id', 'uuid')
+            ->addColumn('license', 'string')
+            ->addColumn('variant', 'string')
+            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

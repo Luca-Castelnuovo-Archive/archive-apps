@@ -33,14 +33,14 @@ class CreateUsersTable extends Migration
     {
         $users = $this->table('users', ['id' => false, 'primary_key' => 'id']);
         $users
-            ->addColumn('id',           'uuid',     ['default' => 'UUID()'])
-            ->addColumn('active',       'boolean',  ['default' => true])
-            ->addColumn('admin',        'boolean',  ['default' => false])
-            ->addColumn('email',        'string',   ['null' => true])
-            ->addColumn('google',       'string',   ['null' => true])
-            ->addColumn('github',       'string',   ['null' => true])
-            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('id', 'uuid', ['default' => 'UUID()'])
+            ->addColumn('active', 'boolean', ['default' => true])
+            ->addColumn('admin', 'boolean', ['default' => false])
+            ->addColumn('email', 'string', ['null' => true])
+            ->addColumn('google', 'string', ['null' => true])
+            ->addColumn('github', 'string', ['null' => true])
+            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

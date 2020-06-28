@@ -18,7 +18,7 @@ class App
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param SymfonyStyle $io
-     * 
+     *
      * @return void
      */
     public function key(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
@@ -42,7 +42,7 @@ class App
             });
 
             $key = Str::random($length);
-            $path =  __DIR__ . '/../../.env';
+            $path = __DIR__ . '/../../.env';
 
             if (!file_exists($path)) {
                 $io->warning('.env file not found, please set key manually');
@@ -71,7 +71,7 @@ class App
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param SymfonyStyle $io
-     * 
+     *
      * @return void
      */
     public function jwt(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
@@ -99,7 +99,7 @@ class App
             });
 
             $key = Utils::generateKeys($bits);
-            $path =  __DIR__ . '/../../.env';
+            $path = __DIR__ . '/../../.env';
 
             $private_key_string = str_replace(["\r", "\n"], '||', $key['privatekey']);
             $public_key_string = str_replace(["\r", "\n"], '||', $key['publickey']);

@@ -12,7 +12,7 @@ class SettingsController extends Controller
 {
     /**
      * View settings
-     * 
+     *
      * @return Html
      */
     public function view()
@@ -39,7 +39,7 @@ class SettingsController extends Controller
                 'name'
             ],
             [
-                "ORDER" => ["name" => "ASC"]
+                'ORDER' => ['name' => 'ASC']
             ]
         );
 
@@ -66,7 +66,7 @@ class SettingsController extends Controller
      * Add login option
      *
      * @param object $request
-     * 
+     *
      * @return Json
      */
     public function addLogin($request)
@@ -112,7 +112,7 @@ class SettingsController extends Controller
      * Remove login option
      *
      * @param object $request
-     * 
+     *
      * @return Json
      */
     public function removeLogin($request)
@@ -176,7 +176,7 @@ class SettingsController extends Controller
 
     /**
      * Remove account
-     * 
+     *
      * @return Json
      */
     public function removeAccount()

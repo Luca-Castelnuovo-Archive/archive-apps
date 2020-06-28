@@ -15,7 +15,7 @@ class Mail
      * @param string $to
      * @param string $name
      * @param string $btn_url
-     * 
+     *
      * @throws Exception
      */
     public static function send($type, $to, $name, $btn_url)

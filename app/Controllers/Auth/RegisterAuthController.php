@@ -14,7 +14,7 @@ class RegisterAuthController extends AuthController
 {
     /**
      * Invite validation
-     * 
+     *
      * @param object $request
      *
      * @return Json
@@ -64,7 +64,7 @@ class RegisterAuthController extends AuthController
 
     /**
      * View register form
-     * 
+     *
      * @param object $request
      *
      * @return Html
@@ -90,7 +90,7 @@ class RegisterAuthController extends AuthController
      * Register new user
      *
      * @param object $request
-     * 
+     *
      * @return Redirect|Json
      */
     public function register($request)
@@ -106,7 +106,7 @@ class RegisterAuthController extends AuthController
         }
 
         $type = $request->data->type;
-        $data =  $request->data->{$type};
+        $data = $request->data->{$type};
 
         if (!$data) {
             return $this->respondJson(

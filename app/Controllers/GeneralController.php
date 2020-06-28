@@ -10,9 +10,9 @@ class GeneralController extends Controller
 {
     /**
      * Index screen
-     * 
+     *
      * @param object $request
-     * 
+     *
      * @return Html
      */
     public function index($request)
@@ -68,23 +68,23 @@ class GeneralController extends Controller
 
     /**
      * Show JWT public_key
-     * 
+     *
      * @return Json
      */
     public function jwt()
     {
         return $this->respondJson('jwt public info', [
             'algorithm' => Config::get('jwt.algorithm'),
-            'iss' =>  Config::get('jwt.iss'),
+            'iss' => Config::get('jwt.iss'),
             'public_key' => Config::get('jwt.public_key')
         ]);
     }
 
     /**
      * Error screen
-     * 
+     *
      * @param string $httpcode
-     * 
+     *
      * @return Html
      */
     public function error($code)

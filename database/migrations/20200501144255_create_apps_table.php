@@ -33,12 +33,12 @@ class CreateAppsTable extends Migration
     {
         $users = $this->table('apps', ['id' => false, 'primary_key' => 'id']);
         $users
-            ->addColumn('id',           'string')
-            ->addColumn('active',       'boolean',  ['default' => true])
-            ->addColumn('name',         'string')
-            ->addColumn('url',          'string')
-            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('id', 'string')
+            ->addColumn('active', 'boolean', ['default' => true])
+            ->addColumn('name', 'string')
+            ->addColumn('url', 'string')
+            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

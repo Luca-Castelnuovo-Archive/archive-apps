@@ -33,10 +33,10 @@ class CreateInvitesTable extends Migration
     {
         $invites = $this->table('invites');
         $invites
-            ->addColumn('code',         'string')
-            ->addColumn('expires_at',   'datetime')
-            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('code', 'string')
+            ->addColumn('expires_at', 'datetime')
+            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

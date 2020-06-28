@@ -12,9 +12,9 @@ class GoogleAuthController extends AuthController
 {
     /**
      * Initialize the OAuth provider
-     * 
+     *
      * @param bool $popup
-     * 
+     *
      * @return Google
      */
     private function provider($popup = false)
@@ -32,7 +32,7 @@ class GoogleAuthController extends AuthController
      * Redirect to OAuth
      *
      * @param object $request
-     * 
+     *
      * @return Redirect
      */
     public function request($request)
@@ -55,7 +55,7 @@ class GoogleAuthController extends AuthController
      * Callback for OAuth
      *
      * @param object $request
-     * 
+     *
      * @return Redirect
      */
     public function callback($request)

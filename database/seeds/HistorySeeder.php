@@ -19,12 +19,12 @@ class HistorySeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'app_id'        => $faker->uuid,
-                'user_id'       => $faker->uuid,
-                'user_agent'    => $faker->userAgent,
-                'user_ip'       => $faker->ipv4,
-                'updated_at'    => date('Y-m-d H:i:s'),
-                'created_at'    => date('Y-m-d H:i:s'),
+                'app_id' => $faker->uuid,
+                'user_id' => $faker->uuid,
+                'user_agent' => $faker->userAgent,
+                'user_ip' => $faker->ipv4,
+                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
             ];
         }
 

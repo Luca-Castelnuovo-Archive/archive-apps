@@ -28,7 +28,7 @@ class AdminController extends Controller
             'updated_at',
             'created_at'
         ], [
-            "ORDER" => ["name" => "ASC"]
+            'ORDER' => ['name' => 'ASC']
         ]);
 
         $users = DB::select('users', [
@@ -63,7 +63,7 @@ class AdminController extends Controller
      *
      * @param object $request
      * @param string $id
-     * 
+     *
      * @return Json
      */
     public function invite($request)
@@ -84,7 +84,7 @@ class AdminController extends Controller
             'invites',
             [
                 'code' => $code,
-                'expires_at' => date("Y-m-d H:i:s", (strtotime(date('Y-m-d H:i:s')) + Config::get('jwt.invite')))
+                'expires_at' => date('Y-m-d H:i:s', (strtotime(date('Y-m-d H:i:s')) + Config::get('jwt.invite')))
             ]
         );
 
@@ -114,7 +114,7 @@ class AdminController extends Controller
      * Update user
      *
      * @param string $id
-     * 
+     *
      * @return Json
      */
     public function userToggle($id)
@@ -144,7 +144,7 @@ class AdminController extends Controller
      */
     public function clearHistory()
     {
-        DB::delete('history',  ["user_ip[~]" => "%"]);
+        DB::delete('history', ['user_ip[~]' => '%']);
 
         return $this->respondJson(
             'History Deleted',

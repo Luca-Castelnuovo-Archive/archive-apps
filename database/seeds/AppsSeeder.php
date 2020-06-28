@@ -19,12 +19,12 @@ class AppsSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'id'            => $faker->userName,
-                'active'        => $faker->boolean,
-                'name'          => $faker->firstName,
-                'url'           => $faker->url,
-                'updated_at'    => date('Y-m-d H:i:s'),
-                'created_at'    => date('Y-m-d H:i:s'),
+                'id' => $faker->userName,
+                'active' => $faker->boolean,
+                'name' => $faker->firstName,
+                'url' => $faker->url,
+                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
             ];
         }
 

@@ -16,7 +16,7 @@ class EmailAuthController extends AuthController
      * Request for email
      *
      * @param object $request
-     * 
+     *
      * @return Json;
      */
     public function request($request)
@@ -68,7 +68,7 @@ class EmailAuthController extends AuthController
      * Callback for email
      *
      * @param object $request
-     * 
+     *
      * @return Redirect
      */
     public function callback($request)

@@ -50,7 +50,6 @@ Middleware::create(['prefix' => '/launch', 'middleware' => [Session::class]], fu
     Route::get('/{id}', 'LaunchController@launch');
 });
 
-
 Middleware::create(['prefix' => '/app', 'middleware' => [Session::class, Admin::class]], function () {
     Route::post('/{id}', 'AppController@create');
     Route::put('/{id}', 'AppController@toggleActive');

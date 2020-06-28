@@ -10,7 +10,7 @@ class Auth
 {
     /**
      * Check if session active
-     * 
+     *
      * @return bool
      */
     public static function valid()

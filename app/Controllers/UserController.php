@@ -12,7 +12,7 @@ class UserController extends Controller
      * Dashboard screen
      *
      * @param object $request
-     * 
+     *
      * @return Html
      */
     public function dashboard($request)
@@ -28,7 +28,7 @@ class UserController extends Controller
                 'url'
             ],
             [
-                "ORDER" => ["name" => "ASC"]
+                'ORDER' => ['name' => 'ASC']
             ]
         );
 

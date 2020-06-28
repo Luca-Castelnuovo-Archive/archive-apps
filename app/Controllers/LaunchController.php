@@ -17,7 +17,7 @@ class LaunchController extends Controller
      * Launch access to app
      *
      * @param string $id
-     * 
+     *
      * @return Html|Redirect
      */
     public function launch($id)
@@ -63,8 +63,8 @@ class LaunchController extends Controller
             'type' => 'auth',
             'sub' => Session::get('id'),
             'user_agent' => Request::userAgent(),
-            'user_ip' =>  Request::ip(),
-            'variant' => str_replace(array('(', ')'), '', $gumroad->variants)
+            'user_ip' => Request::ip(),
+            'variant' => str_replace(['(', ')'], '', $gumroad->variants)
         ], Config::get('jwt.auth'), $app['url']);
 
         DB::create(

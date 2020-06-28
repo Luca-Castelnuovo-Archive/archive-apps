@@ -13,7 +13,7 @@ class Gumroad
      * Product info based on permalink
      *
      * @param string $id
-     * 
+     *
      * @return object
      * @throws Exception
      */

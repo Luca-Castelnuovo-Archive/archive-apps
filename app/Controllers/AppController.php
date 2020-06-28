@@ -59,7 +59,7 @@ class AppController extends Controller
      * Toggle acitve state
      *
      * @param string $id
-     * 
+     *
      * @return Json
      */
     public function toggleActive($id)
@@ -93,7 +93,7 @@ class AppController extends Controller
     {
         DB::delete('apps', ['id' => $id]);
         DB::delete('licenses', ['app_id' => $id]);
-        
+
         return $this->respondJson(
             'App Deleted',
             ['reload' => true]

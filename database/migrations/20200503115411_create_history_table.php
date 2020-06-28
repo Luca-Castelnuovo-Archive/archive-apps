@@ -33,12 +33,12 @@ class CreateHistoryTable extends Migration
     {
         $history = $this->table('history');
         $history
-            ->addColumn('app_id',       'uuid')
-            ->addColumn('user_id',      'uuid')
-            ->addColumn('user_agent',   'text')
-            ->addColumn('user_ip',      'string')
-            ->addColumn('updated_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('created_at',   'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('app_id', 'uuid')
+            ->addColumn('user_id', 'uuid')
+            ->addColumn('user_agent', 'text')
+            ->addColumn('user_ip', 'string')
+            ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }
 }

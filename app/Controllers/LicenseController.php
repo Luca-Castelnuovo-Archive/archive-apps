@@ -16,7 +16,7 @@ class LicenseController extends Controller
      *
      * @param string $id
      * @param string $offer_code
-     * 
+     *
      * @return Html
      */
     public function popup($id, $offer_code)
@@ -29,7 +29,7 @@ class LicenseController extends Controller
 
     /**
      * Add license to user
-     * 
+     *
      * @param object $request
      *
      * @return Json
@@ -89,7 +89,7 @@ class LicenseController extends Controller
         DB::create('licenses', [
             'app_id' => $id,
             'user_id' => Session::get('id'),
-            'variant' => str_replace(array('(', ')'), '', $gumroad->variants),
+            'variant' => str_replace(['(', ')'], '', $gumroad->variants),
             'license' => $license
         ]);
 
@@ -103,7 +103,7 @@ class LicenseController extends Controller
      * Remove license from user
      *
      * @param object $request
-     * 
+     *
      * @return Json
      */
     public function remove($request)

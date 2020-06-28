@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     /**
      * Create session
-     * 
+     *
      * @param string|null $next
      *
      * @return Redirect
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     /**
      * Destroy session
-     * 
+     *
      * @param string $message optional
      *
      * @return Redirect
