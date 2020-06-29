@@ -2,24 +2,18 @@
 
 namespace App\Commands;
 
-use Exception;
 use CQ\Helpers\App;
+use Exception;
 use Phinx\Console\PhinxApplication;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class Make
 {
     /**
-     * Make migration
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param SymfonyStyle $io
-     *
-     * @return void
+     * Make migration.
      */
     public function migration(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
     {
@@ -40,8 +34,8 @@ class Make
             $arguments = [
                 'command' => 'create',
                 'name' => $name,
-                '--template' => __DIR__ . '/../../vendor/cubequence/framework/src/CubeQuence/DB/Template/Migration.php',
-                '--configuration' => __DIR__ . '/../../phinx.php'
+                '--template' => __DIR__.'/../../vendor/cubequence/framework/src/CubeQuence/DB/Template/Migration.php',
+                '--configuration' => __DIR__.'/../../phinx.php',
             ];
 
             $command->run(new ArrayInput($arguments), $output);
@@ -55,13 +49,7 @@ class Make
     }
 
     /**
-     * Make seed
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param SymfonyStyle $io
-     *
-     * @return void
+     * Make seed.
      */
     public function seed(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
     {
@@ -82,7 +70,7 @@ class Make
             $arguments = [
                 'command' => "seed:create {$name}",
                 'name' => $name,
-                '--configuration' => __DIR__ . '/../../phinx.php'
+                '--configuration' => __DIR__.'/../../phinx.php',
             ];
 
             $command->run(new ArrayInput($arguments), $output);

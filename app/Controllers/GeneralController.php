@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use CQ\Helpers\Auth;
+use App\Helpers\Auth;
 use CQ\Config\Config;
 use CQ\Controllers\Controller;
 
 class GeneralController extends Controller
 {
     /**
-     * Index screen
+     * Index screen.
      *
      * @param object $request
      *
@@ -62,12 +62,12 @@ class GeneralController extends Controller
         return $this->respond('index.twig', [
             'message' => $msg,
             'logged_in' => Auth::valid(),
-            'captcha_site_key' => Config::get('captcha.site_key')
+            'captcha_site_key' => Config::get('captcha.site_key'),
         ]);
     }
 
     /**
-     * Show JWT public_key
+     * Show JWT public_key.
      *
      * @return Json
      */
@@ -76,14 +76,15 @@ class GeneralController extends Controller
         return $this->respondJson('jwt public info', [
             'algorithm' => Config::get('jwt.algorithm'),
             'iss' => Config::get('jwt.iss'),
-            'public_key' => Config::get('jwt.public_key')
+            'public_key' => Config::get('jwt.public_key'),
         ]);
     }
 
     /**
-     * Error screen
+     * Error screen.
      *
      * @param string $httpcode
+     * @param mixed  $code
      *
      * @return Html
      */
@@ -113,7 +114,7 @@ class GeneralController extends Controller
         return $this->respond('error.twig', [
             'code' => $code,
             'short_message' => $short_message,
-            'message' => $message
+            'message' => $message,
         ], $code);
     }
 }

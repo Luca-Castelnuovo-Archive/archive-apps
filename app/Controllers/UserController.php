@@ -9,7 +9,7 @@ use CQ\Helpers\Session;
 class UserController extends Controller
 {
     /**
-     * Dashboard screen
+     * Dashboard screen.
      *
      * @param object $request
      *
@@ -25,10 +25,10 @@ class UserController extends Controller
                 'id',
                 'active',
                 'name',
-                'url'
+                'url',
             ],
             [
-                'ORDER' => ['name' => 'ASC']
+                'ORDER' => ['name' => 'ASC'],
             ]
         );
 
@@ -37,7 +37,7 @@ class UserController extends Controller
         foreach ($apps as $app) {
             $license = DB::get('licenses', ['variant'], [
                 'app_id' => $app['id'],
-                'user_id' => Session::get('id')
+                'user_id' => Session::get('id'),
             ]);
 
             $result[$app['id']] = $app;
@@ -55,7 +55,7 @@ class UserController extends Controller
         return $this->respond('dashboard.twig', [
             'apps' => $apps,
             'offer_code' => $offer_code,
-            'admin' => Session::get('admin')
+            'admin' => Session::get('admin'),
         ]);
     }
 }

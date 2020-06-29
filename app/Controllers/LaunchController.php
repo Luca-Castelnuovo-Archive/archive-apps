@@ -2,19 +2,19 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Config\Config;
-use CQ\Helpers\JWT;
-use CQ\Helpers\Session;
-use CQ\Helpers\Request;
-use CQ\Controllers\Controller;
 use App\Helpers\Gumroad;
+use CQ\Config\Config;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use CQ\Helpers\JWT;
+use CQ\Helpers\Request;
+use CQ\Helpers\Session;
+use Exception;
 
 class LaunchController extends Controller
 {
     /**
-     * Launch access to app
+     * Launch access to app.
      *
      * @param string $id
      *
@@ -40,7 +40,7 @@ class LaunchController extends Controller
 
         $license = DB::get('licenses', 'license', [
             'app_id' => $id,
-            'user_id' => Session::get('id')
+            'user_id' => Session::get('id'),
         ]);
 
         if (!$license) {
@@ -64,7 +64,7 @@ class LaunchController extends Controller
             'sub' => Session::get('id'),
             'user_agent' => Request::userAgent(),
             'user_ip' => Request::ip(),
-            'variant' => str_replace(['(', ')'], '', $gumroad->variants)
+            'variant' => str_replace(['(', ')'], '', $gumroad->variants),
         ], Config::get('jwt.auth'), $app['url']);
 
         DB::create(

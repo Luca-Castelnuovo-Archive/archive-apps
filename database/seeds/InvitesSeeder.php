@@ -17,7 +17,7 @@ class InvitesSeeder extends Seeder
         $faker = self::faker();
         $data = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'code' => $faker->md5,
                 'expires_at' => date('Y-m-d H:i:s'),

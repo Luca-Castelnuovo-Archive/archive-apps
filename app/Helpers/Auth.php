@@ -9,7 +9,7 @@ use CQ\Helpers\Session;
 class Auth
 {
     /**
-     * Check if session active
+     * Check if session active.
      *
      * @return bool
      */

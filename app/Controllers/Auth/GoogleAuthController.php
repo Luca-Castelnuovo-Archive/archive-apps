@@ -2,34 +2,16 @@
 
 namespace App\Controllers\Auth;
 
-use Exception;
-use CQ\Helpers\Str;
-use CQ\Helpers\State;
 use CQ\Config\Config;
+use CQ\Helpers\State;
+use CQ\Helpers\Str;
+use Exception;
 use League\OAuth2\Client\Provider\Google;
 
 class GoogleAuthController extends AuthController
 {
     /**
-     * Initialize the OAuth provider
-     *
-     * @param bool $popup
-     *
-     * @return Google
-     */
-    private function provider($popup = false)
-    {
-        $queryString = $popup ? '?popup=1' : '';
-
-        return new Google([
-            'clientId' => Config::get('auth.google.client_id'),
-            'clientSecret' => Config::get('auth.google.client_secret'),
-            'redirectUri' => Config::get('app.url') . '/auth/google/callback' . $queryString
-        ]);
-    }
-
-    /**
-     * Redirect to OAuth
+     * Redirect to OAuth.
      *
      * @param object $request
      *
@@ -52,7 +34,7 @@ class GoogleAuthController extends AuthController
     }
 
     /**
-     * Callback for OAuth
+     * Callback for OAuth.
      *
      * @param object $request
      *
@@ -82,5 +64,23 @@ class GoogleAuthController extends AuthController
         }
 
         return $this->login(['google' => $id]);
+    }
+
+    /**
+     * Initialize the OAuth provider.
+     *
+     * @param bool $popup
+     *
+     * @return Google
+     */
+    private function provider($popup = false)
+    {
+        $queryString = $popup ? '?popup=1' : '';
+
+        return new Google([
+            'clientId' => Config::get('auth.google.client_id'),
+            'clientSecret' => Config::get('auth.google.client_secret'),
+            'redirectUri' => Config::get('app.url').'/auth/google/callback'.$queryString,
+        ]);
     }
 }

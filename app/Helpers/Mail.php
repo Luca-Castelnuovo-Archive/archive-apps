@@ -2,14 +2,14 @@
 
 namespace App\Helpers;
 
-use Exception;
 use CQ\Config\Config;
 use CQ\Helpers\Mail as MailHelper;
+use Exception;
 
 class Mail
 {
     /**
-     * Send Emails
+     * Send Emails.
      *
      * @param string $type
      * @param string $to

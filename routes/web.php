@@ -1,11 +1,11 @@
 <?php
 
 use App\Middleware\Admin;
-use CQ\Routing\Route;
-use CQ\Routing\Middleware;
-use CQ\Middleware\JSON;
-use App\Middleware\Session;
 use App\Middleware\Captcha;
+use App\Middleware\Session;
+use CQ\Middleware\JSON;
+use CQ\Routing\Middleware;
+use CQ\Routing\Route;
 
 Route::$router = $router->get();
 Middleware::$router = $router->get();

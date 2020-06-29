@@ -2,18 +2,18 @@
 
 namespace App\Controllers\Auth;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Config\Config;
-use CQ\Helpers\JWT;
-use CQ\Helpers\UUID;
-use CQ\Helpers\State;
 use App\Validators\RegisterAuthValidator;
+use CQ\Config\Config;
+use CQ\DB\DB;
+use CQ\Helpers\JWT;
+use CQ\Helpers\State;
+use CQ\Helpers\UUID;
+use Exception;
 
 class RegisterAuthController extends AuthController
 {
     /**
-     * Invite validation
+     * Invite validation.
      *
      * @param object $request
      *
@@ -53,7 +53,7 @@ class RegisterAuthController extends AuthController
 
         $jwt = JWT::create([
             'type' => 'register',
-            'state' => State::set()
+            'state' => State::set(),
         ], Config::get('jwt.register'));
 
         return $this->respondJson(
@@ -63,7 +63,7 @@ class RegisterAuthController extends AuthController
     }
 
     /**
-     * View register form
+     * View register form.
      *
      * @param object $request
      *
@@ -87,7 +87,7 @@ class RegisterAuthController extends AuthController
     }
 
     /**
-     * Register new user
+     * Register new user.
      *
      * @param object $request
      *
@@ -140,7 +140,7 @@ class RegisterAuthController extends AuthController
 
         DB::create('users', [
             'id' => UUID::v6(),
-            $type => $data
+            $type => $data,
         ]);
 
         return $this->respondJson(

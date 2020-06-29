@@ -11,7 +11,7 @@ use CQ\Response\Redirect;
 class Admin extends Middleware
 {
     /**
-     * Validate admin access
+     * Validate admin access.
      *
      * @param $request
      * @param $next
@@ -25,7 +25,7 @@ class Admin extends Middleware
                 return new Json([
                     'success' => false,
                     'message' => 'Access Denied',
-                    'data' => []
+                    'data' => [],
                 ], 403);
             }
 

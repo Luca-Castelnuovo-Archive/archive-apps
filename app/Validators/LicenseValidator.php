@@ -8,26 +8,23 @@ use Respect\Validation\Validator as v;
 class LicenseValidator extends Validator
 {
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function create($data)
     {
         $v = v::attribute('license', v::alnum('-'))
-            ->attribute('id', v::alnum());
+            ->attribute('id', v::alnum())
+        ;
 
         self::validate($v, $data);
     }
 
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function remove($data)
     {

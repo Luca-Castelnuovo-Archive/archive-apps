@@ -8,11 +8,9 @@ use Respect\Validation\Validator as v;
 class RegisterAuthValidator extends Validator
 {
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function invite($data)
     {
@@ -22,11 +20,9 @@ class RegisterAuthValidator extends Validator
     }
 
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function register($data)
     {
@@ -34,7 +30,8 @@ class RegisterAuthValidator extends Validator
             ->attribute('type', v::oneOf(v::equals('github'), v::equals('google'), v::equals('email')))
             ->attribute('github', v::optional(v::stringType()->length(1, 255)))
             ->attribute('google', v::optional(v::stringType()->length(1, 255)))
-            ->attribute('email', v::optional(v::email()->length(1, 255)));
+            ->attribute('email', v::optional(v::email()->length(1, 255)))
+        ;
 
         self::validate($v, $data);
     }

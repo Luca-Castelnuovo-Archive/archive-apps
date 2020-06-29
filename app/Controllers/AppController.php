@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Controllers\Controller;
 use App\Helpers\Gumroad;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use Exception;
 
 class AppController extends Controller
 {
     /**
-     * Create/Update App
+     * Create/Update App.
      *
      * @param string $id
      *
@@ -34,7 +34,7 @@ class AppController extends Controller
                 [
                     'id' => $id,
                     'name' => $product->name,
-                    'url' => "https://{$product->name}"
+                    'url' => "https://{$product->name}",
                 ]
             );
 
@@ -46,7 +46,7 @@ class AppController extends Controller
 
         DB::update('apps', [
             'name' => $product->name,
-            'url' => "https://{$product->name}"
+            'url' => "https://{$product->name}",
         ], ['id' => $id]);
 
         return $this->respondJson(
@@ -56,7 +56,7 @@ class AppController extends Controller
     }
 
     /**
-     * Toggle acitve state
+     * Toggle acitve state.
      *
      * @param string $id
      *
@@ -83,7 +83,7 @@ class AppController extends Controller
     }
 
     /**
-     * Delete App
+     * Delete App.
      *
      * @param string $id
      *

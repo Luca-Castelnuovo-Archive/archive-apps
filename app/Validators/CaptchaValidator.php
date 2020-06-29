@@ -8,11 +8,9 @@ use Respect\Validation\Validator as v;
 class CaptchaValidator extends Validator
 {
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function submit($data)
     {

@@ -2,16 +2,16 @@
 
 namespace App\Controllers;
 
-use Exception;
+use App\Validators\UserValidator;
+use CQ\Controllers\Controller;
 use CQ\DB\DB;
 use CQ\Helpers\Session;
-use CQ\Controllers\Controller;
-use App\Validators\UserValidator;
+use Exception;
 
 class SettingsController extends Controller
 {
     /**
-     * View settings
+     * View settings.
      *
      * @return Html
      */
@@ -20,26 +20,26 @@ class SettingsController extends Controller
         $settings = DB::get('users', [
             'github',
             'google',
-            'email'
+            'email',
         ], ['id' => Session::get('id')]);
 
         $licenses = DB::select('licenses', [
             'app_id',
             'license',
             'variant',
-            'created_at'
+            'created_at',
         ], [
-            'user_id' => Session::get('id')
+            'user_id' => Session::get('id'),
         ]);
 
         $apps = DB::select(
             'apps',
             [
                 'id',
-                'name'
+                'name',
             ],
             [
-                'ORDER' => ['name' => 'ASC']
+                'ORDER' => ['name' => 'ASC'],
             ]
         );
 
@@ -58,12 +58,12 @@ class SettingsController extends Controller
             'settings' => $settings,
             'licenses' => $licenses,
             'apps' => $apps,
-            'admin' => Session::get('admin')
+            'admin' => Session::get('admin'),
         ]);
     }
 
     /**
-     * Add login option
+     * Add login option.
      *
      * @param object $request
      *
@@ -109,7 +109,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Remove login option
+     * Remove login option.
      *
      * @param object $request
      *
@@ -131,7 +131,7 @@ class SettingsController extends Controller
         $settings = DB::get('users', [
             'github',
             'google',
-            'email'
+            'email',
         ], ['id' => Session::get('id')]);
 
         switch ($type) {
@@ -175,7 +175,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Remove account
+     * Remove account.
      *
      * @return Json
      */

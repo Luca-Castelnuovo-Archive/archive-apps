@@ -2,16 +2,17 @@
 
 namespace App\Controllers\Auth;
 
+use CQ\Controllers\Controller;
 use CQ\DB\DB;
 use CQ\Helpers\Session;
-use CQ\Controllers\Controller;
 
 class AuthController extends Controller
 {
     /**
-     * Create session
+     * Create session.
      *
      * @param string|null $next
+     * @param mixed       $user_where
      *
      * @return Redirect
      */
@@ -43,7 +44,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Destroy session
+     * Destroy session.
      *
      * @param string $message optional
      *

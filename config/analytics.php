@@ -2,5 +2,5 @@
 
 return [
     'enabled' => false,
-    'domainId' => ''
+    'domainId' => '',
 ];

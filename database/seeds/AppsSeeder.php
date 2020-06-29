@@ -17,7 +17,7 @@ class AppsSeeder extends Seeder
         $faker = self::faker();
         $data = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'id' => $faker->userName,
                 'active' => $faker->boolean,

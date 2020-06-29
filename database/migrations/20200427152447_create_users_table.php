@@ -41,6 +41,7 @@ class CreateUsersTable extends Migration
             ->addColumn('github', 'string', ['null' => true])
             ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->create();
+            ->create()
+        ;
     }
 }

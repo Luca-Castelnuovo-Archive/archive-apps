@@ -2,20 +2,21 @@
 
 namespace App\Helpers;
 
-use Exception;
 use CQ\Config\Config;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Gumroad
 {
     /**
-     * Product info based on permalink
+     * Product info based on permalink.
      *
      * @param string $id
      *
-     * @return object
      * @throws Exception
+     *
+     * @return object
      */
     public static function product($id)
     {
@@ -24,11 +25,11 @@ class Gumroad
         try {
             $response = $guzzle->get("https://api.gumroad.com/v2/products/{$id}", [
                 'headers' => [
-                    'Origin' => Config::Get('app.url')
+                    'Origin' => Config::Get('app.url'),
                 ],
                 'form_params' => [
-                    'access_token' => Config::get('auth.gumroad.access_token')
-                ]
+                    'access_token' => Config::get('auth.gumroad.access_token'),
+                ],
             ]);
         } catch (GuzzleException $e) {
             throw new Exception('Unknown error');
@@ -44,13 +45,14 @@ class Gumroad
     }
 
     /**
-     * Validates license
+     * Validates license.
      *
      * @param string $id
      * @param string $license
      *
-     * @return object
      * @throws Exception
+     *
+     * @return object
      */
     public static function license($id, $license)
     {
@@ -59,7 +61,7 @@ class Gumroad
         try {
             $response = $guzzle->post('https://api.gumroad.com/v2/licenses/verify', [
                 'headers' => [
-                    'Origin' => Config::get('app.url')
+                    'Origin' => Config::get('app.url'),
                 ],
                 'form_params' => [
                     'product_permalink' => $id,

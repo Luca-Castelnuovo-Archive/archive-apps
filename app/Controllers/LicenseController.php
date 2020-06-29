@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Helpers\Session;
-use CQ\Controllers\Controller;
 use App\Helpers\Gumroad;
 use App\Validators\LicenseValidator;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use Exception;
 
 class LicenseController extends Controller
 {
     /**
-     * Open popup to buy license
+     * Open popup to buy license.
      *
      * @param string $id
      * @param string $offer_code
@@ -23,12 +23,12 @@ class LicenseController extends Controller
     {
         return $this->respond('license/popup.twig', [
             'id' => $id,
-            'offer_code' => $offer_code
+            'offer_code' => $offer_code,
         ]);
     }
 
     /**
-     * Add license to user
+     * Add license to user.
      *
      * @param object $request
      *
@@ -59,7 +59,7 @@ class LicenseController extends Controller
 
         if (DB::has('licenses', [
             'app_id' => $id,
-            'user_id' => Session::get('id')
+            'user_id' => Session::get('id'),
         ])) {
             return $this->respondJson(
                 'App already licensed',
@@ -90,7 +90,7 @@ class LicenseController extends Controller
             'app_id' => $id,
             'user_id' => Session::get('id'),
             'variant' => str_replace(['(', ')'], '', $gumroad->variants),
-            'license' => $license
+            'license' => $license,
         ]);
 
         return $this->respondJson(
@@ -100,7 +100,7 @@ class LicenseController extends Controller
     }
 
     /**
-     * Remove license from user
+     * Remove license from user.
      *
      * @param object $request
      *
@@ -120,7 +120,7 @@ class LicenseController extends Controller
 
         DB::delete('licenses', [
             'license' => $request->data->license,
-            'user_id' => Session::get('id')
+            'user_id' => Session::get('id'),
         ]);
 
         return $this->respondJson(

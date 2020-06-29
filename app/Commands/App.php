@@ -2,24 +2,18 @@
 
 namespace App\Commands;
 
-use Exception;
-use CQ\JWT\Utils;
-use CQ\Helpers\Str;
 use CQ\Helpers\App as AppHelper;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use CQ\Helpers\Str;
+use CQ\JWT\Utils;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class App
 {
     /**
-     * Generate key command
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param SymfonyStyle $io
-     *
-     * @return void
+     * Generate key command.
      */
     public function key(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
     {
@@ -42,7 +36,7 @@ class App
             });
 
             $key = Str::random($length);
-            $path = __DIR__ . '/../../.env';
+            $path = __DIR__.'/../../.env';
 
             if (!file_exists($path)) {
                 $io->warning('.env file not found, please set key manually');
@@ -52,8 +46,8 @@ class App
             }
 
             file_put_contents($path, str_replace(
-                'APP_KEY="' . getenv('APP_KEY') . '"',
-                'APP_KEY="' . $key . '"',
+                'APP_KEY="'.getenv('APP_KEY').'"',
+                'APP_KEY="'.$key.'"',
                 file_get_contents($path)
             ));
         } catch (Exception $e) {
@@ -66,13 +60,7 @@ class App
     }
 
     /**
-     * Generate JWT key command
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @param SymfonyStyle $io
-     *
-     * @return void
+     * Generate JWT key command.
      */
     public function jwt(InputInterface $input, OutputInterface $output, SymfonyStyle $io)
     {
@@ -99,7 +87,7 @@ class App
             });
 
             $key = Utils::generateKeys($bits);
-            $path = __DIR__ . '/../../.env';
+            $path = __DIR__.'/../../.env';
 
             $private_key_string = str_replace(["\r", "\n"], '||', $key['privatekey']);
             $public_key_string = str_replace(["\r", "\n"], '||', $key['publickey']);
@@ -113,14 +101,14 @@ class App
             }
 
             file_put_contents($path, str_replace(
-                'JWT_PRIVATE_KEY="' . getenv('JWT_PRIVATE_KEY') . '"',
-                'JWT_PRIVATE_KEY="' . $private_key_string . '"',
+                'JWT_PRIVATE_KEY="'.getenv('JWT_PRIVATE_KEY').'"',
+                'JWT_PRIVATE_KEY="'.$private_key_string.'"',
                 file_get_contents($path)
             ));
 
             file_put_contents($path, str_replace(
-                'JWT_PUBLIC_KEY="' . getenv('JWT_PUBLIC_KEY') . '"',
-                'JWT_PUBLIC_KEY="' . $public_key_string . '"',
+                'JWT_PUBLIC_KEY="'.getenv('JWT_PUBLIC_KEY').'"',
+                'JWT_PUBLIC_KEY="'.$public_key_string.'"',
                 file_get_contents($path)
             ));
         } catch (Exception $e) {

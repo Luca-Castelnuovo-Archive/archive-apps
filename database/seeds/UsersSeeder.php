@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
         $faker = self::faker();
         $data = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'id' => $faker->uuid,
                 'active' => $faker->boolean,

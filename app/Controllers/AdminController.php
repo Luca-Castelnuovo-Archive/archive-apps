@@ -2,19 +2,19 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Config\Config;
-use CQ\Helpers\Str;
-use CQ\Helpers\Session;
-use CQ\Controllers\Controller;
 use App\Helpers\Mail;
 use App\Validators\AdminValidator;
+use CQ\Config\Config;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use CQ\Helpers\Str;
+use Exception;
 
 class AdminController extends Controller
 {
     /**
-     * List apps and users
+     * List apps and users.
      *
      * @return Html
      */
@@ -26,9 +26,9 @@ class AdminController extends Controller
             'name',
             'url',
             'updated_at',
-            'created_at'
+            'created_at',
         ], [
-            'ORDER' => ['name' => 'ASC']
+            'ORDER' => ['name' => 'ASC'],
         ]);
 
         $users = DB::select('users', [
@@ -39,7 +39,7 @@ class AdminController extends Controller
             'google',
             'github',
             'updated_at',
-            'created_at'
+            'created_at',
         ], '*');
 
         $history = DB::select('history', [
@@ -47,19 +47,19 @@ class AdminController extends Controller
             'user_id',
             'user_agent',
             'user_ip',
-            'created_at'
+            'created_at',
         ], '*');
 
         return $this->respond('admin.twig', [
             'apps' => $apps,
             'users' => $users,
             'history' => $history,
-            'admin' => Session::get('admin')
+            'admin' => Session::get('admin'),
         ]);
     }
 
     /**
-     * Invite user
+     * Invite user.
      *
      * @param object $request
      * @param string $id
@@ -84,7 +84,7 @@ class AdminController extends Controller
             'invites',
             [
                 'code' => $code,
-                'expires_at' => date('Y-m-d H:i:s', (strtotime(date('Y-m-d H:i:s')) + Config::get('jwt.invite')))
+                'expires_at' => date('Y-m-d H:i:s', (strtotime(date('Y-m-d H:i:s')) + Config::get('jwt.invite'))),
             ]
         );
 
@@ -111,7 +111,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update user
+     * Update user.
      *
      * @param string $id
      *
@@ -138,7 +138,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Delete history
+     * Delete history.
      *
      * @return Json
      */

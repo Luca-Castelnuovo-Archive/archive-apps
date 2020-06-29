@@ -2,12 +2,12 @@
 
 namespace App\Middleware;
 
+use App\Helpers\Auth;
 use CQ\Helpers\Request;
 use CQ\Helpers\Session as SessionHelper;
 use CQ\Middleware\Middleware;
 use CQ\Response\Json;
 use CQ\Response\Redirect;
-use App\Helpers\Auth;
 
 class Session extends Middleware
 {
@@ -30,7 +30,7 @@ class Session extends Middleware
                 return new Json([
                     'success' => false,
                     'message' => 'Session expired',
-                    'data' => ['redirect' => '/?msg=expired']
+                    'data' => ['redirect' => '/?msg=expired'],
                 ], 403);
             }
 

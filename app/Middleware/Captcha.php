@@ -2,17 +2,17 @@
 
 namespace App\Middleware;
 
-use Exception;
-use CQ\Response\Json;
-use CQ\Config\Config;
-use CQ\Captcha\hCaptcha;
-use CQ\Middleware\Middleware;
 use App\Validators\CaptchaValidator;
+use CQ\Captcha\hCaptcha;
+use CQ\Config\Config;
+use CQ\Middleware\Middleware;
+use CQ\Response\Json;
+use Exception;
 
 class Captcha extends Middleware
 {
     /**
-     * Validate captcha response
+     * Validate captcha response.
      *
      * @param $request
      * @param $next
@@ -27,7 +27,7 @@ class Captcha extends Middleware
             return new Json([
                 'success' => false,
                 'message' => 'Provided data was malformed',
-                'data' => $e->getMessage()
+                'data' => $e->getMessage(),
             ], 422);
         }
 
@@ -38,7 +38,7 @@ class Captcha extends Middleware
             return new Json([
                 'success' => false,
                 'message' => 'Please complete captcha',
-                'data' => []
+                'data' => [],
             ], 422);
         }
 

@@ -2,34 +2,16 @@
 
 namespace App\Controllers\Auth;
 
-use Exception;
-use CQ\Helpers\Str;
-use CQ\Helpers\State;
 use CQ\Config\Config;
+use CQ\Helpers\State;
+use CQ\Helpers\Str;
+use Exception;
 use League\OAuth2\Client\Provider\Github;
 
 class GithubAuthController extends AuthController
 {
     /**
-     * Initialize the OAuth provider
-     *
-     * @param bool $popup
-     *
-     * @return Github
-     */
-    private function provider($popup = false)
-    {
-        $queryString = $popup ? '?popup=1' : '';
-
-        return new Github([
-            'clientId' => Config::get('auth.github.client_id'),
-            'clientSecret' => Config::get('auth.github.client_secret'),
-            'redirectUri' => Config::get('app.url') . '/auth/github/callback' . $queryString
-        ]);
-    }
-
-    /**
-     * Redirect to OAuth
+     * Redirect to OAuth.
      *
      * @param object $request
      *
@@ -52,7 +34,7 @@ class GithubAuthController extends AuthController
     }
 
     /**
-     * Callback for OAuth
+     * Callback for OAuth.
      *
      * @param object $request
      *
@@ -82,5 +64,23 @@ class GithubAuthController extends AuthController
         }
 
         return $this->login(['github' => $id]);
+    }
+
+    /**
+     * Initialize the OAuth provider.
+     *
+     * @param bool $popup
+     *
+     * @return Github
+     */
+    private function provider($popup = false)
+    {
+        $queryString = $popup ? '?popup=1' : '';
+
+        return new Github([
+            'clientId' => Config::get('auth.github.client_id'),
+            'clientSecret' => Config::get('auth.github.client_secret'),
+            'redirectUri' => Config::get('app.url').'/auth/github/callback'.$queryString,
+        ]);
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Controllers\Auth;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Config\Config;
-use CQ\Helpers\JWT;
-use CQ\Helpers\State;
 use App\Helpers\Mail;
 use App\Validators\EmailAuthValidator;
+use CQ\Config\Config;
+use CQ\DB\DB;
+use CQ\Helpers\JWT;
+use CQ\Helpers\State;
+use Exception;
 
 class EmailAuthController extends AuthController
 {
     /**
-     * Request for email
+     * Request for email.
      *
      * @param object $request
      *
@@ -44,7 +44,7 @@ class EmailAuthController extends AuthController
             $jwt = JWT::create([
                 'type' => 'emailLogin',
                 'sub' => $request->data->email,
-                'state' => State::set()
+                'state' => State::set(),
             ], Config::get('jwt.emailLogin'));
 
             Mail::send(
@@ -65,7 +65,7 @@ class EmailAuthController extends AuthController
     }
 
     /**
-     * Callback for email
+     * Callback for email.
      *
      * @param object $request
      *
